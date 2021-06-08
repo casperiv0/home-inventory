@@ -9,7 +9,6 @@
 
 .authForm {
   width: 32rem;
-  background-color: #292929;
   padding: 0.5rem;
 }
 
@@ -19,7 +18,6 @@
   flex-direction: column;
 
   label {
-    color: #ffffff;
     font-size: 1rem;
     margin-bottom: 0.5rem;
   }
@@ -28,6 +26,7 @@
 .formInput {
   font-size: 1rem;
   padding: 0.5rem;
+  background-color: #d3d3d3;
 
   border: none;
   border-radius: 0.3rem;
@@ -40,9 +39,11 @@
 
   border: 1px solid transparent;
   border-radius: 0.5rem;
+  transition: filter 200ms;
+  float: right;
 
   &:hover:enabled {
-    filter: brightness(150%);
+    filter: brightness(90%);
   }
 
   &:disabled {

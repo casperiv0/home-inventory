@@ -19,5 +19,5 @@ A home inventory app to keep track of items in your home (food items, tech, medi
 - [ ] client
 - [ ] api
 - [ ] setup GitHub actions
-  - [ ] Eslint
+  - [x] Eslint
   - [ ] Run `tsc --noEmit` to check types.
