@@ -17,6 +17,7 @@ model User {
   password  String
   createdAt DateTime  @default(now())
   products  Product[]
+  role      UserRole  @default(USER)
 }
 
 model Product {
@@ -29,4 +30,9 @@ model Product {
   expirationDate String
   createdBy      User     @relation(fields: [userId], references: [id])
   userId         String
+}
+
+enum UserRole {
+  ADMIN
+  USER
 }
