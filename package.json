@@ -1,0 +1,17 @@
+{
+  "name": "home-inventory",
+  "version": "0.0.0-alpha",
+  "scripts": {
+    "format:quick": "pretty-quick --staged --pattern \"**/*.{js,jsx,ts,tsx,md,css,json}\"",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,css,json}\" --ignore-path .gitignore",
+    "lint": "eslint . --ext .ts,.js,.tsx,.jsx"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@casper124578/eslint-config": "^0.0.13",
+    "@casper124578/eslint-config-next": "^0.0.2",
+    "@casper124578/eslint-config-react": "^0.0.5",
+    "eslint": "^7.28.0",
+    "prettier": "^2.3.1"
+  }
+}
