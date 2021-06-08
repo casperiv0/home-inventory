@@ -1,0 +1,63 @@
+version: "3.9"
+
+services:
+  postgres-db:
+    container_name: "postgres-db"
+    image: postgres
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5433:5432"
+    networks:
+      - web
+
+  api:
+    container_name: "api"
+
+    image: node:16
+    build: ./api
+    command: "npm run dev:api"
+    ports:
+      - "3030:3030"
+    expose:
+      - 3030
+    environment:
+      DB_HOST: postgres-db
+    volumes:
+      - .:/srv/api
+    env_file:
+      - .env
+    working_dir: /srv/api
+    depends_on:
+      - postgres-db
+    networks:
+      - web
+
+  client:
+    container_name: "client"
+    image: node:16
+    build: ./client
+    command: "npm run dev:client"
+    ports:
+      - "3000:3000"
+    expose:
+      - 3000
+    volumes:
+      - .:/srv/client
+    working_dir: /srv/client
+    depends_on:
+      - api
+    networks:
+      - web
+
+volumes:
+  pgdata: {}
+  pgdata-test: {}
+  redisdata: {}
+
+networks:
+  web:
+    external: true

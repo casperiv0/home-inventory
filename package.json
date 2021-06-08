@@ -4,7 +4,11 @@
   "scripts": {
     "format:quick": "pretty-quick --staged --pattern \"**/*.{js,jsx,ts,tsx,md,css,json}\"",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,css,json}\" --ignore-path .gitignore",
-    "lint": "eslint . --ext .ts,.js,.tsx,.jsx"
+    "lint": "eslint . --ext .ts,.js,.tsx,.jsx",
+    "dev:api": "cd api && npm run dev",
+    "start:api": "cd api && npm run start",
+    "dev:client": "cd client && npm run dev",
+    "start:client": "cd client && npm run start"
   },
   "license": "MIT",
   "devDependencies": {
