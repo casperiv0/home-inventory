@@ -4,23 +4,23 @@ import { prisma } from "../index";
 import { authenticateSchema, newPasswordSchema } from "@schemas/auth.schema";
 import { createYupSchema } from "@utils/createYupSchema";
 import { AuthConstants } from "@lib/constants";
-import { createSessionToken, setCookie } from "../lib/auth.lib";
+import { createSessionToken, setCookie } from "@lib/auth.lib";
 import { withAuth } from "@hooks/withAuth";
 import { IRequest } from "@t/IRequest";
 
-const authRouter = Router();
+const router = Router();
 
 /**
  * no login/register routes
  *
  * - only allow an admin to add other users
  */
-authRouter.post("/authenticate", async (req, res) => {
-  const { email, password } = req.body;
+router.post("/authenticate", async (req, res) => {
+  const { email, name, password } = req.body;
 
   const schema = createYupSchema(authenticateSchema);
   const error = await schema
-    .validate({ email, password })
+    .validate({ email, name, password })
     .then(() => null)
     .catch((e) => e);
 
@@ -41,7 +41,7 @@ authRouter.post("/authenticate", async (req, res) => {
     const hash = hashSync(password, AuthConstants.saltRounds);
 
     user = await prisma.user.create({
-      data: { email, password: hash },
+      data: { name, email, password: hash },
       select: { email: true, id: true },
     });
   } else {
@@ -83,7 +83,7 @@ authRouter.post("/authenticate", async (req, res) => {
  * set a new password for the current authenticated user.
  * @todo add this function
  */
-authRouter.post("/new-password", withAuth, async (req: IRequest, res) => {
+router.post("/new-password", withAuth, async (req: IRequest, res) => {
   const { oldPassword, newPassword, confirmPassword } = req.body;
 
   const schema = createYupSchema(newPasswordSchema);
@@ -121,4 +121,4 @@ authRouter.post("/new-password", withAuth, async (req: IRequest, res) => {
   });
 });
 
-export default authRouter;
+export const authRouter = router;

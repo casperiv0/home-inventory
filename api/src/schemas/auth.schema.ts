@@ -1,12 +1,15 @@
 import * as yup from "yup";
 
+const PASSWORD = yup.string().required().min(8);
+
 export const authenticateSchema = {
   email: yup.string().required().email(),
-  password: yup.string().required(),
+  name: yup.string().required(),
+  password: PASSWORD,
 };
 
 export const newPasswordSchema = {
-  oldPassword: yup.string().required(),
-  newPassword: yup.string().required(),
-  confirmPassword: yup.string().required(),
+  oldPassword: PASSWORD,
+  newPassword: PASSWORD,
+  confirmPassword: PASSWORD,
 };
