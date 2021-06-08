@@ -9,7 +9,7 @@ import cors from "cors";
 import compression from "compression";
 
 import apiRouter from "./routes/api";
-import { logger } from "./utils/logger";
+import { logger } from "@utils/logger";
 
 const server = express();
 

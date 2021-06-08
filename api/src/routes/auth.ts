@@ -1,10 +1,12 @@
 import { Router } from "express";
 import { compareSync, hashSync } from "bcryptjs";
 import { prisma } from "../index";
-import { authenticateSchema } from "../schemas/auth.schema";
-import { createYupSchema } from "../utils/createYupSchema";
-import { AuthConstants } from "../lib/constants";
+import { authenticateSchema, newPasswordSchema } from "@schemas/auth.schema";
+import { createYupSchema } from "@utils/createYupSchema";
+import { AuthConstants } from "@lib/constants";
 import { createSessionToken, setCookie } from "../lib/auth.lib";
+import { withAuth } from "@hooks/withAuth";
+import { IRequest } from "@t/IRequest";
 
 const authRouter = Router();
 
@@ -17,11 +19,12 @@ authRouter.post("/authenticate", async (req, res) => {
   const { email, password } = req.body;
 
   const schema = createYupSchema(authenticateSchema);
-  const isValid = await schema.isValid({ email, password });
+  const error = await schema
+    .validate({ email, password })
+    .then(() => null)
+    .catch((e) => e);
 
-  if (!isValid) {
-    const error = await schema.validate({ email, password }).catch((e) => e);
-
+  if (error) {
     return res.status(400).json({
       error: error.message,
       status: "error",
@@ -80,8 +83,42 @@ authRouter.post("/authenticate", async (req, res) => {
  * set a new password for the current authenticated user.
  * @todo add this function
  */
-// authRouter.post("/new-password", async (req, res) => {
+authRouter.post("/new-password", withAuth, async (req: IRequest, res) => {
+  const { oldPassword, newPassword, confirmPassword } = req.body;
 
-// })
+  const schema = createYupSchema(newPasswordSchema);
+  const error = await schema
+    .validate({ oldPassword, newPassword, confirmPassword })
+    .then(() => null)
+    .catch((e) => e);
+
+  if (error) {
+    return res.status(400).json({
+      error: error.message,
+      status: "error",
+    });
+  }
+
+  if (confirmPassword !== newPassword) {
+    return res.status(400).json({
+      error: "New passwords do not match",
+      status: "error",
+    });
+  }
+  const user = await prisma.user.findUnique({ where: { id: req.userId! } });
+
+  const isOldPasswordCorrect = compareSync(oldPassword, user?.password!);
+
+  if (!isOldPasswordCorrect) {
+    return res.status(400).json({
+      error: "Old password does not match",
+      status: "error",
+    });
+  }
+
+  return res.json({
+    message: "TODO",
+  });
+});
 
 export default authRouter;
