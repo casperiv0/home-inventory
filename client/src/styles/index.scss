@@ -1,0 +1,15 @@
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  // todo: setup Roboto font
+  font-family: sans-serif;
+}
+
+html,
+body {
+  background: #fff;
+  color: #222222;
+}

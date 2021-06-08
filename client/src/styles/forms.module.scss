@@ -1,0 +1,51 @@
+.authContainer {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.authForm {
+  width: 32rem;
+  background-color: #292929;
+  padding: 0.5rem;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+
+  label {
+    color: #ffffff;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.formInput {
+  font-size: 1rem;
+  padding: 0.5rem;
+
+  border: none;
+  border-radius: 0.3rem;
+}
+
+.submitBtn {
+  padding: 0.5rem 0.8rem;
+  font-size: 1rem;
+  cursor: pointer;
+
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+
+  &:hover:enabled {
+    filter: brightness(150%);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
