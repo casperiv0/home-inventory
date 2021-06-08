@@ -9,6 +9,9 @@ A home inventory app to keep track of items in your home (food items, tech, medi
 ## Stack
 
 - Next.js
+- Express.js
+- Prisma
+- Docker
 - Others Soon™
 
 ## Todos
