@@ -9,3 +9,21 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  Product   Product[]
+}
+
+model Product {
+  id        String   @id @default(uuid())
+  quantity  Int
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String   @unique
+  createdBy User     @relation(fields: [userId], references: [id])
+}

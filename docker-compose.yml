@@ -1,14 +1,11 @@
 version: "3.9"
 
 services:
-  postgres-db:
-    container_name: "postgres-db"
+  postgres:
+    container_name: "postgres"
     image: postgres
     env_file:
       - .env
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
     ports:
       - "5433:5432"
     networks:
@@ -24,15 +21,13 @@ services:
       - "3030:3030"
     expose:
       - 3030
-    environment:
-      DB_HOST: postgres-db
     volumes:
       - .:/srv/api
     env_file:
       - .env
     working_dir: /srv/api
     depends_on:
-      - postgres-db
+      - postgres
     networks:
       - web
 
@@ -55,8 +50,6 @@ services:
 
 volumes:
   pgdata: {}
-  pgdata-test: {}
-  redisdata: {}
 
 networks:
   web:
