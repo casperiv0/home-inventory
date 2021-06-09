@@ -8,7 +8,7 @@ export interface SetAuthLoading {
 export interface Authenticate {
   type: "AUTHENTICATE";
   isAuth: boolean;
-  user: User;
+  user: User | null;
 }
 
 export interface UpdateUsers {

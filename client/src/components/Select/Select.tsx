@@ -35,7 +35,6 @@ export const Select: React.FC<Props> = ({
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   return (
-    // @ts-expect-error ignore
     <ReactSelect
       id={id}
       isClearable={isClearable}

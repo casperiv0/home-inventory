@@ -132,4 +132,12 @@ router.post("/new-password", withAuth, async (req: IRequest, res) => {
   });
 });
 
+router.post("/logout", withAuth, async (req: IRequest, res) => {
+  req.userId = "";
+
+  res.clearCookie(AuthConstants.cookieName);
+
+  return res.json({ status: "success" });
+});
+
 export const authRouter = router;

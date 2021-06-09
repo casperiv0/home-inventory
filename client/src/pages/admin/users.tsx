@@ -26,6 +26,8 @@ const UsersAdminPage = ({ isAuth, loading, users, user }: Props) => {
 
   React.useEffect(() => {
     if (!loading && !isAuth) {
+      console.log("here");
+
       router.push("/auth");
     }
   }, [isAuth, loading, router]);

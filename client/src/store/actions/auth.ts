@@ -44,3 +44,19 @@ export const checkAuth =
       return false;
     }
   };
+
+export const logout = () => async (dispatch: Dispatch<Authenticate>) => {
+  try {
+    await handleRequest("/auth/logout", "POST");
+
+    dispatch({
+      type: "AUTHENTICATE",
+      isAuth: false,
+      user: null,
+    });
+
+    return true;
+  } catch (e) {
+    return false;
+  }
+};

@@ -59,6 +59,20 @@ router.post("/", withAuth, async (req: IRequest, res) => {
     });
   }
 
+  let category;
+  if (body.categoryId) {
+    category = await prisma.category.findUnique({
+      where: { id: body.categoryId },
+    });
+
+    if (!category) {
+      return res.status(404).json({
+        error: "That category was not found",
+        status: "error",
+      });
+    }
+  }
+
   const products = await prisma.user.update({
     where: {
       id: req.userId!,
@@ -70,6 +84,7 @@ router.post("/", withAuth, async (req: IRequest, res) => {
           quantity: body.quantity,
           price: body.price,
           expirationDate: body.expirationDate || "N/A",
+          categoryId: category?.id ?? null,
         },
       },
     },
@@ -89,6 +104,7 @@ router.post("/", withAuth, async (req: IRequest, res) => {
           id: true,
           createdAt: true,
           updatedAt: true,
+          categoryId: true,
         },
       },
     },
