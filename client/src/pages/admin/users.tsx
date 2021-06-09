@@ -8,7 +8,8 @@ import { initializeStore } from "src/store/store";
 import { Layout } from "@components/Layout";
 import { getAllUsers } from "@actions/admin/users";
 import { User } from "@t/User";
-import { AddUserModal } from "@components/modals/AddUserModal";
+import { AddUserModal } from "@components/modals/admin/AddUserModal";
+import { ManageUserModal } from "@components/modals/admin/ManageUserModal";
 import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
 
@@ -20,12 +21,19 @@ interface Props {
 
 const UsersAdminPage = ({ isAuth, loading, users }: Props) => {
   const router = useRouter();
+  const [tempUser, setTempUser] = React.useState<User | null>(null);
 
   React.useEffect(() => {
     if (!loading && !isAuth) {
       router.push("/auth");
     }
   }, [isAuth, loading, router]);
+
+  function handleManage(user: User) {
+    setTempUser(user);
+
+    openModal(ModalIds.ManageUser);
+  }
 
   return (
     <Layout>
@@ -55,7 +63,7 @@ const UsersAdminPage = ({ isAuth, loading, users }: Props) => {
                 <td>{user.email}</td>
                 <td>{user.role}</td>
                 <td>
-                  <button onClick={() => alert("Hello world")} className="btn small">
+                  <button onClick={() => handleManage(user)} className="btn small">
                     Manage
                   </button>
                 </td>
@@ -65,6 +73,7 @@ const UsersAdminPage = ({ isAuth, loading, users }: Props) => {
         </table>
       </div>
 
+      <ManageUserModal user={tempUser} />
       <AddUserModal />
     </Layout>
   );
