@@ -1,0 +1,52 @@
+/* mostly copied from my other project :D
+
+https://github.com/Dev-CasperTheGhost/notey.app/blob/main/src/components/modal/styles.ts
+*/
+
+.modalContainer {
+  z-index: 30;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContent {
+  z-index: 35;
+  background: #f2f2f2;
+  width: 600px;
+  max-width: 90%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  overflow: hidden;
+
+  & > div {
+    max-height: 800px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    padding: 0.8rem 1rem;
+  }
+}
+
+.modalHeader {
+  height: 60px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #2f2f2f;
+
+  font-size: 1.5rem;
+  font-weight: 600;
+
+  margin-bottom: 1rem;
+}
+
+.modalBody {
+  max-height: 90%;
+}

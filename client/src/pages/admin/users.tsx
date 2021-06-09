@@ -8,32 +8,64 @@ import { initializeStore } from "src/store/store";
 import { Layout } from "@components/Layout";
 import { getAllUsers } from "@actions/admin/users";
 import { User } from "@t/User";
-import { usersColumns } from "@lib/reactTable";
-import { Table } from "@components/Table/Table";
+import { AddUserModal } from "@components/modals/AddUserModal";
+import { openModal } from "@lib/modal";
+import { ModalIds } from "@t/ModalIds";
 
 interface Props {
   isAuth: boolean;
+  loading: boolean;
   users: User[];
 }
 
-const UsersAdminPage = ({ isAuth, users }: Props) => {
+const UsersAdminPage = ({ isAuth, loading, users }: Props) => {
   const router = useRouter();
-  const columns = React.useMemo(() => usersColumns, []);
-
-  console.log(users);
 
   React.useEffect(() => {
-    if (!isAuth) {
+    if (!loading && !isAuth) {
       router.push("/auth");
     }
-  }, [isAuth, router]);
+  }, [isAuth, loading, router]);
 
   return (
     <Layout>
       <div style={{ marginTop: "1rem" }}>
-        {/* todo: add actions to columns */}
-        <Table columns={columns} data={users} />
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <h1>Users</h1>
+
+          <button onClick={() => openModal(ModalIds.AddUser)} className="btn">
+            Add user
+          </button>
+        </div>
+
+        <table style={{ marginTop: "0.5rem" }} className="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.id}>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.role}</td>
+                <td>
+                  <button onClick={() => alert("Hello world")} className="btn small">
+                    Manage
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
+
+      <AddUserModal />
     </Layout>
   );
 };
@@ -51,6 +83,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 const mapToProps = (state: State) => ({
   isAuth: state.auth.isAuth,
   users: state.admin.users,
+  loading: state.auth.loading,
 });
 
 export default connect(mapToProps)(UsersAdminPage);

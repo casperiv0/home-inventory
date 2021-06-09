@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import "css/nprogress.scss";
+import "css/table.scss";
 import "css/index.scss";
 // import "css/fonts.css";
 

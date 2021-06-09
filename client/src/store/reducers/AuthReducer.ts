@@ -1,11 +1,12 @@
 import { State } from "@t/State";
-import { Authenticate } from "../types";
+import { Authenticate, SetAuthLoading } from "../types";
 
-type Actions = Authenticate;
+type Actions = Authenticate | SetAuthLoading;
 
 const initState: State["auth"] = {
   isAuth: false,
   user: null,
+  loading: false,
 };
 
 export default function AuthReducer(state = initState, action: Actions): State["auth"] {
@@ -15,6 +16,12 @@ export default function AuthReducer(state = initState, action: Actions): State["
         ...state,
         user: action.user,
         isAuth: action.isAuth,
+      };
+    }
+    case "SET_AUTH_LOADING": {
+      return {
+        ...state,
+        loading: action.loading,
       };
     }
     default: {

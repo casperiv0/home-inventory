@@ -7,4 +7,12 @@
   --content-width: 95%;
 
   width: var(--content-width);
+
+  @media (min-width: 768px) {
+    --content-width: 75%;
+  }
+
+  @media (min-width: 1500px) {
+    --content-width: 1200px;
+  }
 }

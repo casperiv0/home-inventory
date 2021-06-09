@@ -1,11 +1,11 @@
 import { Dispatch } from "react";
 import { toast } from "react-toastify";
 import { getErrorFromResponse, handleRequest, RequestData } from "@lib/fetch";
-import { Authenticate } from "../types";
+import { Authenticate, SetAuthLoading } from "../types";
 
 export const authenticate =
   (data: RequestData) =>
-  async (dispatch: Dispatch<Authenticate>): Promise<boolean> => {
+  async (dispatch: Dispatch<Authenticate | SetAuthLoading>): Promise<boolean> => {
     try {
       const res = await handleRequest("/auth/authenticate", "POST", data);
 
@@ -22,20 +22,25 @@ export const authenticate =
     }
   };
 
-export const checkAuth = (cookie?: string) => async (dispatch: Dispatch<Authenticate>) => {
-  try {
-    const res = await handleRequest("/auth/user", "POST", {
-      cookie,
-    });
+export const checkAuth =
+  (cookie?: string) => async (dispatch: Dispatch<Authenticate | SetAuthLoading>) => {
+    dispatch({ type: "SET_AUTH_LOADING", loading: true });
 
-    dispatch({
-      type: "AUTHENTICATE",
-      isAuth: true,
-      user: res.data.user,
-    });
+    try {
+      const res = await handleRequest("/auth/user", "POST", {
+        cookie,
+      });
 
-    return true;
-  } catch (e) {
-    return false;
-  }
-};
+      dispatch({
+        type: "AUTHENTICATE",
+        isAuth: true,
+        user: res.data.user,
+      });
+
+      dispatch({ type: "SET_AUTH_LOADING", loading: false });
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };

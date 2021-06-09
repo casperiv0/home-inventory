@@ -28,11 +28,5 @@ export const handleRequest = (
 };
 
 export const getErrorFromResponse = (e: any) => {
-  // todo:
-  //   if (e?.message?.toLowerCase?.().includes("failed with status code 429")) {
-  //     openModal(ModalIds.AlertTooManyRequests);
-  //     return null;
-  //   }
-
   return e?.response?.data?.errors?.[0] ?? e?.response?.data?.error ?? NO_ERROR;
 };
