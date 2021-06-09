@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import cookie from "cookie";
 import { ALLOWED_METHODS, NO_ERROR } from "./constants";
 
@@ -13,7 +13,7 @@ export const handleRequest = (
         cookie: string;
       },
 ) => {
-  const parsedCookie = cookie.parse((data?.cookie as string) ?? "")?.["notey-session"];
+  const parsedCookie = cookie.parse((data?.cookie as string) ?? "")?.["session-cookie"];
 
   return axios({
     url: `${process.env.NEXT_PUBLIC_PROD_ORIGIN}/api${path}`,
@@ -25,10 +25,6 @@ export const handleRequest = (
       "Content-Type": "application/json",
     },
   });
-};
-
-export const isSuccess = (res: AxiosResponse): boolean => {
-  return res.data.status === "success";
 };
 
 export const getErrorFromResponse = (e: any) => {

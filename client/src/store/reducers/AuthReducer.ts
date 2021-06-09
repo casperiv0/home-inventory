@@ -2,6 +2,7 @@ import { State } from "@t/State";
 import { Authenticate } from "../types";
 
 type Actions = Authenticate;
+
 const initState: State["auth"] = {
   isAuth: false,
   user: null,
@@ -16,7 +17,6 @@ export default function AuthReducer(state = initState, action: Actions): State["
         isAuth: action.isAuth,
       };
     }
-
     default: {
       return {
         ...state,

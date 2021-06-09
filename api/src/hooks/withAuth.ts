@@ -12,7 +12,7 @@ export async function withAuth(
   res: Response,
   next: NextFunction,
 ): Promise<void | Response> {
-  const token = req.cookies[AuthConstants.cookieName];
+  const token = req.cookies[AuthConstants.cookieName] || req.headers.session;
   const secret = process.env["JWT_SECRET"] as string;
 
   if (!token) {
@@ -37,7 +37,9 @@ export async function withAuth(
     req.userId = user.id;
 
     return next();
-  } catch {
+  } catch (e) {
+    console.log(e);
+
     return res.status(401).json({ error: "invalid token", status: "error" });
   }
 }

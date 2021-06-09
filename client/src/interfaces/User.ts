@@ -5,6 +5,7 @@ export interface User {
   createdAt: Date;
   role: UserRole;
 }
+
 export enum UserRole {
   ADMIN = "ADMIN",
   USER = "USER",

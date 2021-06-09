@@ -79,6 +79,21 @@ router.post("/authenticate", async (req, res) => {
   });
 });
 
+router.post("/user", withAuth, async (req: IRequest, res) => {
+  const user = await prisma.user.findUnique({
+    where: { id: req.userId! },
+    select: {
+      id: true,
+      createdAt: true,
+      name: true,
+      email: true,
+      role: true,
+    },
+  });
+
+  return res.json({ user });
+});
+
 /**
  * set a new password for the current authenticated user.
  * @todo add this function

@@ -13,11 +13,16 @@ import { logger } from "@utils/logger";
 
 const server = express();
 
+server.use(cookieParser());
+server.use(
+  cors({
+    origin: [process.env["CORS_ORIGIN_URL"] as string, "http://172.26.114.18:3000"],
+    credentials: true,
+  }),
+);
 server.use(compression());
 server.use(express.json());
 server.use(helmet());
-server.use(cookieParser());
-server.use(cors({ origin: process.env["CORS_ORIGIN_URL"] as string, credentials: true }));
 server.use("/api", apiRouter, csurf({ cookie: true }));
 
 server.use((_, res) => {

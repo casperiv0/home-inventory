@@ -5,4 +5,7 @@ export interface State {
     isAuth: boolean;
     user: User | null;
   };
+  admin: {
+    users: User[];
+  };
 }

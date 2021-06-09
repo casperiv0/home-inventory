@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  --content-width: 95%;
+
+  width: var(--content-width);
+}

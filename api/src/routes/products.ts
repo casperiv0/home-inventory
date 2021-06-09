@@ -59,7 +59,7 @@ router.post("/", withAuth, async (req: IRequest, res) => {
     });
   }
 
-  const product = await prisma.user.update({
+  const products = await prisma.user.update({
     where: {
       id: req.userId!,
     },
@@ -73,12 +73,28 @@ router.post("/", withAuth, async (req: IRequest, res) => {
         },
       },
     },
-    include: {
-      products: true,
+    select: {
+      email: true,
+      id: true,
+      name: true,
+      role: true,
+      createdAt: true,
+      products: {
+        select: {
+          name: true,
+          price: true,
+          quantity: true,
+          expirationDate: true,
+          userId: true,
+          id: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      },
     },
   });
 
-  return res.json({ product });
+  return res.json({ products });
 });
 
 router.put("/:id", withAuth, async (req, res) => {
