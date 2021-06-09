@@ -40,7 +40,7 @@ router.post("/", withAuth, withPermission("ADMIN"), async (req, res) => {
   });
 
   const users = await prisma.user.findMany({
-    select: { name: true, id: true, email: true, role: true },
+    select: { name: true, id: true, email: true, role: true, createdAt: true },
   });
 
   return res.json({ users });
@@ -48,7 +48,7 @@ router.post("/", withAuth, withPermission("ADMIN"), async (req, res) => {
 
 router.get("/", withAuth, withPermission("ADMIN"), async (_, res) => {
   const users = await prisma.user.findMany({
-    select: { name: true, email: true, id: true, role: true },
+    select: { name: true, email: true, id: true, role: true, createdAt: true },
   });
 
   return res.json({ users });
@@ -87,7 +87,7 @@ router.put("/:id", withAuth, withPermission("ADMIN"), async (req, res) => {
   });
 
   const users = await prisma.user.findMany({
-    select: { name: true, id: true, email: true, role: true },
+    select: { name: true, id: true, email: true, role: true, createdAt: true },
   });
 
   return res.json({ users });
@@ -110,7 +110,7 @@ router.delete("/:id", withAuth, withPermission("ADMIN"), async (req, res) => {
   await prisma.user.delete({ where: { id } });
 
   const users = await prisma.user.findMany({
-    select: { name: true, id: true, email: true, role: true },
+    select: { name: true, id: true, email: true, role: true, createdAt: true },
   });
 
   return res.json({ users });

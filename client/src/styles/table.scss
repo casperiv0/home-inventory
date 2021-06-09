@@ -4,15 +4,19 @@
   width: 100%;
 
   thead {
-    tr:nth-child(2) {
-      background-color: #dddddd;
+    tr:nth-child(1) {
+      background-color: var(--gray);
     }
   }
 
   td,
   th {
-    border: 1px solid #dddddd;
+    border: 1.5px solid var(--gray);
     text-align: left;
     padding: 8px;
+  }
+
+  #table-actions button {
+    float: right;
   }
 }

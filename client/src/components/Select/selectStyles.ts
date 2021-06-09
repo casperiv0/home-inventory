@@ -78,7 +78,7 @@ export const SelectStyles: Partial<Styles<any, true, GroupTypeBase<any>>> | unde
     border: state.isFocused ? "2px solid #0a84ff" : "2px solid #bbbbbb",
     boxShadow: "none",
     ":hover": {
-      borderColor: "#0a84ff",
+      borderColor: "none",
       boxShadow: "none",
     },
     ":focus": {

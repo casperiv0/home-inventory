@@ -1,7 +1,7 @@
 import { State } from "@t/State";
-import { GetAllUsers, UpdateUserById } from "../types";
+import { UpdateUsers } from "../types";
 
-type Actions = GetAllUsers | UpdateUserById;
+type Actions = UpdateUsers;
 
 const initState: State["admin"] = {
   users: [],
@@ -9,6 +9,9 @@ const initState: State["admin"] = {
 
 export default function AdminReducer(state = initState, action: Actions): State["admin"] {
   switch (action.type) {
+    case "ADD_USER":
+    case "DELETE_USER_BY_ID":
+    case "UPDATE_USER_BY_ID":
     case "GET_ALL_USERS": {
       return {
         ...state,

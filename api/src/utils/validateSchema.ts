@@ -12,8 +12,6 @@ export async function validateSchema(
 
     return [null];
   } catch (err) {
-    console.log(err);
-
     return [err as yup.ValidationError];
   }
 }

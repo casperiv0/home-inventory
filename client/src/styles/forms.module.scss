@@ -32,7 +32,7 @@
   border-radius: 0.3rem;
 
   &:focus {
-    outline: 2px solid #0a84ff;
+    outline: 2px solid var(--blue);
   }
 }
 
@@ -56,6 +56,6 @@
   }
 
   &:focus:enabled {
-    outline: 2px solid #0a84ff;
+    outline: 2px solid var(--blue);
   }
 }

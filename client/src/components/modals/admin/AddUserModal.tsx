@@ -31,6 +31,11 @@ const AddUserModal = ({ addUser }: Props) => {
 
     if (success) {
       closeModal(ModalIds.AddUser);
+
+      setEmail("");
+      setName("");
+      setRole(null);
+      setPassword("");
     }
 
     setLoading(false);

@@ -1,3 +1,11 @@
+:root {
+  --dark: #222222;
+  --gray: #eeeeee;
+  --white: #ffffff;
+  --red: #dc3545;
+  --blue: #0a84ff;
+}
+
 *,
 *::after,
 *::before {
@@ -6,13 +14,13 @@
   box-sizing: border-box;
   // todo: setup Roboto font
   // todo: setup color variables
-  font-family: sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 html,
 body {
   background: #fff;
-  color: #222222;
+  color: var(--dark);
 }
 
 .btn {
@@ -38,7 +46,7 @@ body {
   }
 
   &:focus:enabled {
-    outline: 2px solid #0a84ff;
+    outline: 2px solid var(--blue);
   }
 
   &.small {
@@ -51,7 +59,7 @@ body {
   }
 
   &.danger {
-    background: #dc3545;
+    background: var(--red);
   }
 }
 

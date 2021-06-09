@@ -6,11 +6,11 @@ import { NextPage } from "next";
 import { Provider as ReduxProvider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 
+import "css/fonts.scss";
 import "react-toastify/dist/ReactToastify.css";
 import "css/nprogress.scss";
 import "css/table.scss";
 import "css/index.scss";
-// import "css/fonts.css";
 
 import { useStore } from "../store/store";
 

@@ -17,9 +17,10 @@ interface Props {
   isAuth: boolean;
   loading: boolean;
   users: User[];
+  user: User | null;
 }
 
-const UsersAdminPage = ({ isAuth, loading, users }: Props) => {
+const UsersAdminPage = ({ isAuth, loading, users, user }: Props) => {
   const router = useRouter();
   const [tempUser, setTempUser] = React.useState<User | null>(null);
 
@@ -29,10 +30,20 @@ const UsersAdminPage = ({ isAuth, loading, users }: Props) => {
     }
   }, [isAuth, loading, router]);
 
+  React.useEffect(() => {
+    if (!loading && user?.role !== "ADMIN") {
+      router.push("/404");
+    }
+  }, [loading, user?.role, router]);
+
   function handleManage(user: User) {
     setTempUser(user);
 
     openModal(ModalIds.ManageUser);
+  }
+
+  function sortByCreatedAt(a: User, b: User) {
+    return new Date(b.createdAt) > new Date(a.createdAt) ? -1 : 1;
   }
 
   return (
@@ -57,18 +68,20 @@ const UsersAdminPage = ({ isAuth, loading, users }: Props) => {
           </thead>
 
           <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{user.role}</td>
-                <td>
-                  <button onClick={() => handleManage(user)} className="btn small">
-                    Manage
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {users
+              .sort((a, b) => sortByCreatedAt(a, b))
+              .map((user) => (
+                <tr key={user.id}>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td>{user.role}</td>
+                  <td id="table-actions">
+                    <button onClick={() => handleManage(user)} className="btn small">
+                      Manage
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
@@ -93,6 +106,7 @@ const mapToProps = (state: State) => ({
   isAuth: state.auth.isAuth,
   users: state.admin.users,
   loading: state.auth.loading,
+  user: state.auth.user,
 });
 
 export default connect(mapToProps)(UsersAdminPage);

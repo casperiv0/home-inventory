@@ -6,7 +6,7 @@
   align-items: center;
   display: flex;
 
-  background: #eeeeee;
+  background: var(--gray);
 }
 
 .navContent {
@@ -40,13 +40,13 @@
 
   a {
     text-decoration: none;
-    color: #222222;
+    color: var(--dark);
 
     border-bottom: 1.5px solid transparent;
     transition: border 200ms;
   }
 
   &:hover a {
-    border-bottom-color: #222222;
+    border-bottom-color: var(--dark);
   }
 }
