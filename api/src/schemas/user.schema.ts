@@ -7,3 +7,9 @@ export const updateUserSchema = {
     .matches(/ADMIN|USER/, "Role must match 'ADMIN' or 'USER'"),
   name: yup.string().required(),
 };
+
+export const createUserSchema = {
+  ...updateUserSchema,
+  password: yup.string().required(),
+  email: yup.string().email().required(),
+};

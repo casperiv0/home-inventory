@@ -2,11 +2,11 @@ import { Router } from "express";
 import { compareSync, hashSync } from "bcryptjs";
 import { prisma } from "../index";
 import { authenticateSchema, newPasswordSchema } from "@schemas/auth.schema";
-import { createYupSchema } from "@utils/createYupSchema";
 import { AuthConstants } from "@lib/constants";
 import { createSessionToken, setCookie } from "@lib/auth.lib";
 import { withAuth } from "@hooks/withAuth";
 import { IRequest } from "@t/IRequest";
+import { validateSchema } from "@utils/validateSchema";
 
 const router = Router();
 
@@ -18,11 +18,7 @@ const router = Router();
 router.post("/authenticate", async (req, res) => {
   const { email, name, password } = req.body;
 
-  const schema = createYupSchema(authenticateSchema);
-  const error = await schema
-    .validate({ email, name, password })
-    .then(() => null)
-    .catch((e) => e);
+  const [error] = await validateSchema(authenticateSchema, { email, name, password });
 
   if (error) {
     return res.status(400).json({
@@ -101,11 +97,11 @@ router.post("/user", withAuth, async (req: IRequest, res) => {
 router.post("/new-password", withAuth, async (req: IRequest, res) => {
   const { oldPassword, newPassword, confirmPassword } = req.body;
 
-  const schema = createYupSchema(newPasswordSchema);
-  const error = await schema
-    .validate({ oldPassword, newPassword, confirmPassword })
-    .then(() => null)
-    .catch((e) => e);
+  const [error] = await validateSchema(newPasswordSchema, {
+    oldPassword,
+    newPassword,
+    confirmPassword,
+  });
 
   if (error) {
     return res.status(400).json({

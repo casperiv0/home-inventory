@@ -19,7 +19,7 @@ Router.events.on("routeChangeComplete", NProgress.done);
 Router.events.on("routeChangeError", NProgress.done);
 
 const App: NextPage<AppProps> = ({ Component, pageProps }) => {
-  const store = useStore(pageProps?.initialReduxState ?? pageProps);
+  const store = useStore(pageProps?.initialReduxState);
 
   return (
     <>
