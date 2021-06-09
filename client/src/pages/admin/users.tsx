@@ -8,8 +8,8 @@ import { initializeStore } from "src/store/store";
 import { Layout } from "@components/Layout";
 import { getAllUsers } from "@actions/admin/users";
 import { User } from "@t/User";
-import { AddUserModal } from "@components/modals/admin/AddUserModal";
-import { ManageUserModal } from "@components/modals/admin/ManageUserModal";
+import AddUserModal from "@components/modals/admin/AddUserModal";
+import ManageUserModal from "@components/modals/admin/ManageUserModal";
 import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
 

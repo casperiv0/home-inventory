@@ -1,5 +1,6 @@
 export const btn: string;
 export const closeAni: string;
+export const danger: string;
 export const linkBtn: string;
 export const modalActive: string;
 export const modalClosed: string;

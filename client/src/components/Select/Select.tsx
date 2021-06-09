@@ -28,7 +28,7 @@ export const Select: React.FC<Props> = ({
   options,
   defaultValue,
   value,
-  isClearable = true,
+  isClearable = false,
   disabled,
   id,
 }) => {

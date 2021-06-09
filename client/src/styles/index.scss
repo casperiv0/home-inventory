@@ -49,6 +49,10 @@ body {
     background: none;
     text-decoration: underline;
   }
+
+  &.danger {
+    background: #dc3545;
+  }
 }
 
 .modal-active {

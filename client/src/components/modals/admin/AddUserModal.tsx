@@ -6,19 +6,34 @@ import { closeModal } from "@lib/modal";
 import useModalEvent from "src/hooks/useModalEvent";
 import { Select, SelectValue } from "@components/Select/Select";
 import { selectRoles } from "@lib/constants";
+import { RequestData } from "@lib/fetch";
+import { connect } from "react-redux";
+import { addUser } from "@actions/admin/users";
 
-export const AddUserModal = () => {
+interface Props {
+  addUser: (data: RequestData) => Promise<boolean>;
+}
+
+const AddUserModal = ({ addUser }: Props) => {
   const [email, setEmail] = React.useState("");
   const [name, setName] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [role, setRole] = React.useState<SelectValue | null>(null);
+  const [loading, setLoading] = React.useState(false);
 
   const ref = useModalEvent(ModalIds.AddUser);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setLoading(true);
 
-    // todo: add API request
+    const success = await addUser({ email, name, password, role: role?.value });
+
+    if (success) {
+      closeModal(ModalIds.AddUser);
+    }
+
+    setLoading(false);
   }
 
   return (
@@ -73,11 +88,13 @@ export const AddUserModal = () => {
             Cancel
           </button>
 
-          <button type="submit" className={styles.submitBtn}>
-            Submit
+          <button disabled={loading} type="submit" className={styles.submitBtn}>
+            {loading ? "loading.." : "Submit"}
           </button>
         </div>
       </form>
     </Modal>
   );
 };
+
+export default connect(null, { addUser })(AddUserModal);

@@ -30,22 +30,20 @@ router.post("/", withAuth, withPermission("ADMIN"), async (req, res) => {
     });
   }
 
-  const user = await prisma.user.create({
+  await prisma.user.create({
     data: {
       password: hashSync(body.password, AuthConstants.saltRounds),
       name: body.name,
       email: body.email,
       role: body.role,
     },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-    },
   });
 
-  return res.json({ user });
+  const users = await prisma.user.findMany({
+    select: { name: true, id: true, email: true, role: true },
+  });
+
+  return res.json({ users });
 });
 
 router.get("/", withAuth, withPermission("ADMIN"), async (_, res) => {
@@ -78,7 +76,7 @@ router.put("/:id", withAuth, withPermission("ADMIN"), async (req, res) => {
     });
   }
 
-  const updated = await prisma.user.update({
+  await prisma.user.update({
     where: {
       id,
     },
@@ -86,15 +84,36 @@ router.put("/:id", withAuth, withPermission("ADMIN"), async (req, res) => {
       role: body.role,
       name: body.name,
     },
-    select: {
-      name: true,
-      email: true,
-      id: true,
-      role: true,
-    },
   });
 
-  return res.json({ user: updated });
+  const users = await prisma.user.findMany({
+    select: { name: true, id: true, email: true, role: true },
+  });
+
+  return res.json({ users });
+});
+
+router.delete("/:id", withAuth, withPermission("ADMIN"), async (req, res) => {
+  const id = req.params.id as string;
+
+  const user = await prisma.user.findUnique({
+    where: { id },
+  });
+
+  if (!user) {
+    return res.status(400).json({
+      error: "User was not found",
+      status: "error",
+    });
+  }
+
+  await prisma.user.delete({ where: { id } });
+
+  const users = await prisma.user.findMany({
+    select: { name: true, id: true, email: true, role: true },
+  });
+
+  return res.json({ users });
 });
 
 export const usersRouter = router;

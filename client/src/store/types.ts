@@ -11,11 +11,7 @@ export interface Authenticate {
   user: User;
 }
 
-export interface GetAllUsers {
-  type: "GET_ALL_USERS";
+export interface UpdateUsers {
+  type: "GET_ALL_USERS" | "UPDATE_USER_BY_ID" | "ADD_USER" | "DELETE_USER_BY_ID";
   users: User[];
-}
-
-export interface UpdateUserById {
-  type: "UPDATE_USER_BY_ID";
 }
