@@ -1,9 +1,10 @@
 import * as React from "react";
+import { connect } from "react-redux";
+import { useRouter } from "next/router";
+import Head from "next/head";
 import { authenticate } from "@actions/auth";
 import styles from "css/forms.module.scss";
 import { RequestData } from "@lib/fetch";
-import { connect } from "react-redux";
-import { useRouter } from "next/dist/client/router";
 
 interface Props {
   authenticate: (data: RequestData) => Promise<boolean>;
@@ -30,9 +31,13 @@ const AuthPage = ({ authenticate }: Props) => {
   }
 
   return (
-    <div className={styles.authContainer!}>
-      <form onSubmit={onSubmit} className={styles.authForm!}>
-        <div className={styles.formGroup!}>
+    <div className={styles.authContainer}>
+      <Head>
+        <title>Authentication - Inventory</title>
+      </Head>
+
+      <form onSubmit={onSubmit} className={styles.authForm}>
+        <div className={styles.formGroup}>
           <label htmlFor="email">Email</label>
           <input
             className={styles.formInput}
@@ -43,7 +48,7 @@ const AuthPage = ({ authenticate }: Props) => {
           />
         </div>
 
-        <div className={styles.formGroup!}>
+        <div className={styles.formGroup}>
           <label htmlFor="password">Password</label>
           <input
             className={styles.formInput}

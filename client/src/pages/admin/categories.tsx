@@ -1,5 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { checkAuth } from "@actions/auth";
@@ -49,6 +50,10 @@ const CategoriesAdminPage = ({ isAuth, loading, categories, user }: Props) => {
 
   return (
     <AdminLayout>
+      <Head>
+        <title>Manage categories - Inventory</title>
+      </Head>
+
       <div style={{ marginTop: "1rem" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <h1>Categories</h1>
