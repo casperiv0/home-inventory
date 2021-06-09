@@ -1,3 +1,4 @@
+import { Category } from "./Category";
 import { User } from "./User";
 
 export interface State {
@@ -8,5 +9,6 @@ export interface State {
   };
   admin: {
     users: User[];
+    categories: Category[];
   };
 }

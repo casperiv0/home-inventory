@@ -17,7 +17,7 @@ export const Nav = () => {
           {/* todo: add other links */}
           <li className={styles.navLink}>
             <Link href="/admin/users">
-              <a>Users</a>
+              <a>Admin</a>
             </Link>
           </li>
         </ul>

@@ -1,0 +1,40 @@
+.adminSidebar {
+  width: 300px;
+  min-width: 300px;
+
+  position: sticky;
+  top: 5rem;
+
+  padding: 0.5rem;
+  border-radius: 0.4rem;
+
+  height: 100%;
+  overflow-y: auto;
+  background: var(--gray);
+}
+
+.adminItems {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebarItem {
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+
+  margin-bottom: 0.5rem;
+
+  text-decoration: none;
+  color: var(--dark);
+
+  transition: background 200ms;
+
+  &:hover {
+    background: #cccccc;
+  }
+}
+
+.sidebarItemActive {
+  background: #cccccc;
+}

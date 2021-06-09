@@ -22,7 +22,7 @@ export const getAllUsers = (cookie?: string) => async (dispatch: Dispatch<Update
 
 export const addUser = (data: RequestData) => async (dispatch: Dispatch<UpdateUsers>) => {
   try {
-    const res = await handleRequest("/admin/users/", "POST", data);
+    const res = await handleRequest("/admin/users", "POST", data);
 
     dispatch({
       type: "ADD_USER",

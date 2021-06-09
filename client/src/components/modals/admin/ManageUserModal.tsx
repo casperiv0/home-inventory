@@ -111,7 +111,7 @@ const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
             Cancel
           </button>
 
-          <button type="submit" className={styles.submitBtn}>
+          <button disabled={loading} type="submit" className={styles.submitBtn}>
             {loading ? "loading.." : "Update user"}
           </button>
         </div>

@@ -1,10 +1,11 @@
 import { State } from "@t/State";
-import { UpdateUsers } from "../types";
+import { UpdateCategories, UpdateUsers } from "../types";
 
-type Actions = UpdateUsers;
+type Actions = UpdateUsers | UpdateCategories;
 
 const initState: State["admin"] = {
   users: [],
+  categories: [],
 };
 
 export default function AdminReducer(state = initState, action: Actions): State["admin"] {
@@ -18,6 +19,17 @@ export default function AdminReducer(state = initState, action: Actions): State[
         users: action.users,
       };
     }
+
+    case "GET_ALL_CATEGORIES":
+    case "DELETE_CATEGORY_BY_ID":
+    case "UPDATE_CATEGORY_BY_ID":
+    case "ADD_CATEGORY": {
+      return {
+        ...state,
+        categories: action.categories,
+      };
+    }
+
     default: {
       return {
         ...state,
