@@ -77,7 +77,7 @@ const CategoriesAdminPage = ({ isAuth, loading, categories, user }: Props) => {
               .map((category) => (
                 <tr key={category.id}>
                   <td>{category.name}</td>
-                  <td id="table-actions">
+                  <td style={{ width: "100px" }} id="table-actions">
                     <button onClick={() => handleManage(category)} className="btn small">
                       Manage
                     </button>
