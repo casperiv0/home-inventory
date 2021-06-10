@@ -12,6 +12,17 @@
   padding: 0.5rem;
 }
 
+.formRow {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+
+  div,
+  input {
+    width: 100%;
+  }
+}
+
 .formGroup {
   margin-bottom: 1.5rem;
   display: flex;

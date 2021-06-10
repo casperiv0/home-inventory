@@ -14,6 +14,12 @@ export const Nav = () => {
             </Link>
           </li>
 
+          <li className={styles.navLink}>
+            <Link href="/products">
+              <a>Products</a>
+            </Link>
+          </li>
+
           {/* todo: add other links */}
           <li className={styles.navLink}>
             <Link href="/admin/users">

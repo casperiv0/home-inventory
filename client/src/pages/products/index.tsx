@@ -1,17 +1,20 @@
 import { connect } from "react-redux";
 import * as React from "react";
+import { useRouter } from "next/router";
+import Head from "next/head";
 import { Layout } from "@components/Layout";
 import { Product } from "@t/Product";
 import { State } from "@t/State";
 import { Select, SelectValue } from "@components/Select/Select";
 import { sortProducts } from "@utils/sortProducts";
-import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { initializeStore } from "src/store/store";
 import { checkAuth } from "@actions/auth";
 import { getAllProducts } from "@actions/products";
 import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
+import AddProductModal from "@components/modals/products/AddProductModal";
+import { getAllCategories } from "@actions/admin/categories";
 
 interface Props {
   products: Product[];
@@ -52,6 +55,10 @@ const ProductsPage = ({ products, isAuth, loading }: Props) => {
 
   return (
     <Layout>
+      <Head>
+        <title>Products - Inventory</title>
+      </Head>
+
       <div
         style={{
           marginTop: "1rem",
@@ -73,6 +80,7 @@ const ProductsPage = ({ products, isAuth, loading }: Props) => {
           <div style={{ width: "200px" }}>
             {/* todo: ability to have custom colors for select background */}
             <Select
+              theme={{ backgroundColor: "#eeeeee" }}
               onChange={setFilter}
               value={filter}
               options={Object.entries(filters).map(([key, value]) => ({
@@ -111,6 +119,8 @@ const ProductsPage = ({ products, isAuth, loading }: Props) => {
           ))}
         </tbody>
       </table>
+
+      <AddProductModal />
     </Layout>
   );
 };
@@ -127,6 +137,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   await checkAuth(cookie)(store.dispatch);
   await getAllProducts(cookie)(store.dispatch);
+  await getAllCategories(cookie)(store.dispatch);
 
   return { props: { initialReduxState: store.getState() } };
 };

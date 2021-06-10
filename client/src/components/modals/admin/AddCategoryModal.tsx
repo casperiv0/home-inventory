@@ -36,10 +36,10 @@ const AddCategoryModal = ({ addCategory }: Props) => {
     <Modal title="Add a new category" id={ModalIds.AddCategory}>
       <form onSubmit={onSubmit}>
         <div className={styles.formGroup}>
-          <label htmlFor="add-user-name">Name</label>
+          <label htmlFor="add-category-name">Name</label>
           <input
             ref={ref}
-            id="add-user-name"
+            id="add-category-name"
             type="text"
             className={styles.formInput}
             value={name}

@@ -1,19 +1,25 @@
 import { Styles, GroupTypeBase } from "react-select";
 
-export const SelectStyles: Partial<Styles<any, true, GroupTypeBase<any>>> | undefined = {
+export interface SelectTheme {
+  backgroundColor?: string;
+}
+
+export const SelectStyles = ({
+  backgroundColor = "#bbbbbb",
+}: SelectTheme): Partial<Styles<any, true, GroupTypeBase<any>>> | undefined => ({
   valueContainer: (base) => ({
     ...base,
-    background: "#bbbbbb",
+    background: backgroundColor,
     color: "#222222",
     ":hover": {
-      borderColor: "#bbbbbb",
+      borderColor: backgroundColor,
     },
   }),
   option: (base) => ({
     ...base,
     padding: "0.5rem",
     width: "100%",
-    backgroundColor: "#bbbbbb",
+    backgroundColor,
     color: "#222222",
     cursor: "pointer",
     transition: "background-color 200ms",
@@ -28,7 +34,7 @@ export const SelectStyles: Partial<Styles<any, true, GroupTypeBase<any>>> | unde
     width: "100%",
     color: "#222222",
     padding: "0.5rem",
-    backgroundColor: "#bbbbbb",
+    backgroundColor,
     boxShadow: "0 8px 16px rgba(0, 0, 0, 0.5)",
   }),
   multiValue: (base) => ({
@@ -59,7 +65,7 @@ export const SelectStyles: Partial<Styles<any, true, GroupTypeBase<any>>> | unde
   }),
   indicatorsContainer: (base) => ({
     ...base,
-    backgroundColor: "#bbbbbb",
+    backgroundColor,
     color: "#222222",
   }),
   clearIndicator: (base, state) => ({
@@ -74,8 +80,8 @@ export const SelectStyles: Partial<Styles<any, true, GroupTypeBase<any>>> | unde
   }),
   control: (base, state) => ({
     ...base,
-    background: "#bbbbbb",
-    border: state.isFocused ? "2px solid #0a84ff" : "2px solid #bbbbbb",
+    background: backgroundColor,
+    border: state.isFocused ? "2px solid #0a84ff" : `2px solid ${backgroundColor}`,
     boxShadow: "none",
     ":hover": {
       borderColor: "none",
@@ -106,4 +112,4 @@ export const SelectStyles: Partial<Styles<any, true, GroupTypeBase<any>>> | unde
       borderColor: "none",
     },
   }),
-};
+});

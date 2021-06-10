@@ -39,7 +39,7 @@ router.post("/", withAuth, withPermission("ADMIN"), async (req, res) => {
   return res.json({ categories });
 });
 
-router.get("/", withAuth, withPermission("ADMIN"), async (_, res) => {
+router.get("/", withAuth, async (_, res) => {
   const categories = await prisma.category.findMany();
 
   return res.json({ categories });

@@ -1,6 +1,6 @@
 import ReactSelect, { Props as SelectProps } from "react-select";
 import React from "react";
-import { SelectStyles } from "./selectStyles";
+import { SelectStyles, SelectTheme } from "./selectStyles";
 
 export interface SelectValue {
   value: string;
@@ -18,6 +18,7 @@ interface Props {
   isClearable?: boolean;
   disabled?: boolean;
   id?: string;
+  theme?: SelectTheme;
 }
 
 export const Select: React.FC<Props> = ({
@@ -31,6 +32,7 @@ export const Select: React.FC<Props> = ({
   isClearable = false,
   disabled,
   id,
+  theme,
 }) => {
   const [menuOpen, setMenuOpen] = React.useState(false);
 
@@ -42,7 +44,7 @@ export const Select: React.FC<Props> = ({
       value={value}
       isSearchable
       isMulti={isMulti !== undefined ? isMulti : true}
-      styles={SelectStyles}
+      styles={SelectStyles(theme ?? {})}
       onChange={onChange}
       options={options}
       defaultValue={defaultValue}

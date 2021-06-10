@@ -73,7 +73,7 @@ router.post("/", withAuth, async (req: IRequest, res) => {
     }
   }
 
-  const products = await prisma.user.update({
+  await prisma.user.update({
     where: {
       id: req.userId!,
     },
@@ -88,27 +88,9 @@ router.post("/", withAuth, async (req: IRequest, res) => {
         },
       },
     },
-    select: {
-      email: true,
-      id: true,
-      name: true,
-      role: true,
-      createdAt: true,
-      products: {
-        select: {
-          name: true,
-          price: true,
-          quantity: true,
-          expirationDate: true,
-          userId: true,
-          id: true,
-          createdAt: true,
-          updatedAt: true,
-          categoryId: true,
-        },
-      },
-    },
   });
+
+  const products = await prisma.product.findMany();
 
   return res.json({ products });
 });
