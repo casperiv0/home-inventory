@@ -112,19 +112,34 @@ const ProductsPage = ({ products, isAuth, loading }: Props) => {
         </thead>
 
         <tbody>
-          {filtered.map((product) => (
-            <tr key={product.id}>
-              <td>{product.name}</td>
-              <td>{product.price}</td>
-              <td>{product.quantity}</td>
-              <td>{product.expirationDate}</td>
-              <td id="table-actions">
-                <button onClick={() => handleManage(product)} className="btn small">
-                  Manage
-                </button>
-              </td>
-            </tr>
-          ))}
+          {filtered.map((product) => {
+            /**
+             * set the current filter to bold
+             */
+            const boldText = (str: string) => {
+              return filter?.value === str;
+            };
+
+            return (
+              <tr key={product.id}>
+                <td className={boldText("name") ? "bold" : ""}>{product.name}</td>
+                <td className={boldText("price") || boldText("priceHigh") ? "bold" : ""}>
+                  {product.price}
+                </td>
+                <td className={boldText("quantity") || boldText("quantityHigh") ? "bold" : ""}>
+                  {product.quantity}
+                </td>
+                <td className={boldText("expirationDate") ? "bold" : ""}>
+                  {product.expirationDate}
+                </td>
+                <td id="table-actions">
+                  <button onClick={() => handleManage(product)} className="btn small">
+                    Manage
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
 

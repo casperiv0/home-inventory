@@ -6,7 +6,7 @@ import styles from "css/forms.module.scss";
 import { closeModal, openModal } from "@lib/modal";
 import useModalEvent from "src/hooks/useModalEvent";
 import { RequestData } from "@lib/fetch";
-import { addProduct } from "@actions/products";
+import { deleteProductById, updateProductById } from "@actions/products";
 import { State } from "@t/State";
 import { Category } from "@t/Category";
 import { Select, SelectValue } from "@components/Select/Select";
@@ -17,10 +17,16 @@ interface Props {
   product: Product | null;
 
   categories: Category[];
-  addProduct: (data: RequestData) => Promise<boolean>;
+  deleteProductById: (id: string) => Promise<boolean>;
+  updateProductById: (id: string, data: RequestData) => Promise<boolean>;
 }
 
-const ManageProductModal = ({ addProduct, categories, product }: Props) => {
+const ManageProductModal = ({
+  updateProductById,
+  deleteProductById,
+  categories,
+  product,
+}: Props) => {
   const [name, setName] = React.useState("");
   const [price, setPrice] = React.useState("");
   const [quantity, setQuantity] = React.useState("");
@@ -48,8 +54,9 @@ const ManageProductModal = ({ addProduct, categories, product }: Props) => {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
+    if (!product) return;
 
-    const success = await addProduct({
+    const success = await updateProductById(product.id, {
       name,
       price: Number(Number(price).toFixed(2)),
       quantity: Number(quantity),
@@ -66,7 +73,9 @@ const ManageProductModal = ({ addProduct, categories, product }: Props) => {
   }
 
   async function handleDeleteProduct() {
-    const success = false;
+    if (!product) return;
+
+    const success = await deleteProductById(product.id);
 
     if (success) {
       closeModal(ModalIds.AlertDeleteProduct);
@@ -115,17 +124,6 @@ const ManageProductModal = ({ addProduct, categories, product }: Props) => {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="add-product-expire-date">Expiration Date</label>
-          <input
-            id="add-product-expire-date"
-            type="date"
-            className={styles.formInput}
-            value={expireDate}
-            onChange={(e) => setExpireDate(e.target.value)}
-          />
-        </div>
-
-        <div className={styles.formGroup}>
           <label htmlFor="add-product-category">Category</label>
 
           <Select
@@ -135,6 +133,17 @@ const ManageProductModal = ({ addProduct, categories, product }: Props) => {
               label: c.name,
               value: c.id,
             }))}
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="add-product-expire-date">Expiration Date</label>
+          <input
+            id="add-product-expire-date"
+            type="date"
+            className={styles.formInput}
+            value={expireDate}
+            onChange={(e) => setExpireDate(e.target.value)}
           />
         </div>
 
@@ -165,7 +174,7 @@ const ManageProductModal = ({ addProduct, categories, product }: Props) => {
 
       <AlertModal
         id={ModalIds.AlertDeleteProduct}
-        title="Delete user"
+        title="Delete product"
         description="Are you sure you want to remove this product?"
         actions={[
           {
@@ -187,4 +196,4 @@ const mapToProps = (state: State) => ({
   categories: state.admin.categories,
 });
 
-export default connect(mapToProps, { addProduct })(ManageProductModal);
+export default connect(mapToProps, { updateProductById, deleteProductById })(ManageProductModal);

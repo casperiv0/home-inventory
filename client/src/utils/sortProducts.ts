@@ -4,7 +4,9 @@ import { filters } from "src/pages/products";
 export function sortProducts(filter: keyof typeof filters, products: Product[]) {
   switch (filter) {
     case "name": {
-      return products.sort();
+      return products.sort((a, b) => {
+        return a.name > b.name ? -1 : 1;
+      });
     }
     case "createdAt": {
       return products.sort((a, b) => {

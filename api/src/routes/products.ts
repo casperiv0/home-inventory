@@ -131,7 +131,7 @@ router.put("/:id", withAuth, async (req, res) => {
       });
     }
 
-    const updated = await prisma.product.update({
+    await prisma.product.update({
       where: { id },
       data: {
         name: body.name,
@@ -141,7 +141,9 @@ router.put("/:id", withAuth, async (req, res) => {
       },
     });
 
-    return res.json({ product: updated });
+    const products = await prisma.product.findMany();
+
+    return res.json({ products });
   } catch (e) {
     console.error(e);
 
@@ -153,11 +155,22 @@ router.put("/:id", withAuth, async (req, res) => {
 });
 
 router.delete("/:id", withAuth, async (req, res) => {
-  const id = req.params.id as string;
+  try {
+    const id = req.params.id as string;
 
-  const product = await prisma.product.delete({ where: { id } });
+    await prisma.product.delete({ where: { id } });
 
-  return res.json({ deleted: !!product });
+    const products = await prisma.product.findMany();
+
+    return res.json({ products });
+  } catch (e) {
+    console.error(e);
+
+    return res.status(500).json({
+      error: "An unexpected error has occurred. Please try again later",
+      status: "error",
+    });
+  }
 });
 
 export const productsRouter = router;

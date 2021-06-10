@@ -1,3 +1,4 @@
+export const bold: string;
 export const btn: string;
 export const closeAni: string;
 export const danger: string;

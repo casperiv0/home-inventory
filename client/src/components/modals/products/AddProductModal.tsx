@@ -88,17 +88,6 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="add-product-expire-date">Expiration Date</label>
-          <input
-            id="add-product-expire-date"
-            type="date"
-            className={styles.formInput}
-            value={expireDate}
-            onChange={(e) => setExpireDate(e.target.value)}
-          />
-        </div>
-
-        <div className={styles.formGroup}>
           <label htmlFor="add-product-category">Category</label>
 
           <Select
@@ -108,6 +97,17 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
               label: c.name,
               value: c.id,
             }))}
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="add-product-expire-date">Expiration Date</label>
+          <input
+            id="add-product-expire-date"
+            type="date"
+            className={styles.formInput}
+            value={expireDate}
+            onChange={(e) => setExpireDate(e.target.value)}
           />
         </div>
 

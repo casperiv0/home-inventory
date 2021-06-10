@@ -75,6 +75,10 @@ body {
   animation: closeAni 150ms linear;
 }
 
+.bold {
+  font-weight: bold;
+}
+
 @keyframes closeAni {
   from {
     opacity: 1;

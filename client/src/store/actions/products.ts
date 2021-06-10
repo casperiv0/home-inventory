@@ -37,3 +37,38 @@ export const addProduct =
       return false;
     }
   };
+
+export const updateProductById =
+  (id: string, data: RequestData) => async (dispatch: Dispatch<UpdateProducts>) => {
+    try {
+      const res = await handleRequest(`/products/${id}`, "PUT", data);
+
+      dispatch({
+        type: "UPDATE_PRODUCT_BY_ID",
+        products: res.data.products,
+      });
+
+      return true;
+    } catch (e) {
+      toast.error(getErrorFromResponse(e));
+      return false;
+    }
+  };
+
+export const deleteProductById = (id: string) => async (dispatch: Dispatch<UpdateProducts>) => {
+  try {
+    const res = await handleRequest(`/products/${id}`, "DELETE");
+
+    console.log(res);
+
+    dispatch({
+      type: "DELETE_PRODUCT_BY_ID",
+      products: res.data.products,
+    });
+
+    return true;
+  } catch (e) {
+    toast.error(getErrorFromResponse(e));
+    return false;
+  }
+};
