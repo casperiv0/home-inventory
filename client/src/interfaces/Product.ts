@@ -5,7 +5,7 @@ export interface Product {
   name: string;
   createdAt: string;
   updatedAt: string;
-  expirationDate: string;
+  expirationDate: string | null;
   userId: string;
   categoryId: string | null;
 }

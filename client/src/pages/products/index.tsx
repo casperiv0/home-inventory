@@ -15,6 +15,7 @@ import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
 import AddProductModal from "@components/modals/products/AddProductModal";
 import { getAllCategories } from "@actions/admin/categories";
+import ManageProductModal from "@components/modals/products/ManageProductModal";
 
 interface Props {
   products: Product[];
@@ -35,6 +36,7 @@ export const filters = {
 };
 
 const ProductsPage = ({ products, isAuth, loading }: Props) => {
+  const [tempProduct, setTempProduct] = React.useState<Product | null>(null);
   const [filter, setFilter] = React.useState<SelectValue | null>({
     label: "Created at",
     value: "createdAt",
@@ -52,6 +54,12 @@ const ProductsPage = ({ products, isAuth, loading }: Props) => {
       router.push("/auth");
     }
   }, [isAuth, loading, router]);
+
+  function handleManage(product: Product) {
+    setTempProduct(product);
+
+    openModal(ModalIds.ManageProduct);
+  }
 
   return (
     <Layout>
@@ -111,7 +119,7 @@ const ProductsPage = ({ products, isAuth, loading }: Props) => {
               <td>{product.quantity}</td>
               <td>{product.expirationDate}</td>
               <td id="table-actions">
-                <button onClick={() => null} className="btn small">
+                <button onClick={() => handleManage(product)} className="btn small">
                   Manage
                 </button>
               </td>
@@ -121,6 +129,7 @@ const ProductsPage = ({ products, isAuth, loading }: Props) => {
       </table>
 
       <AddProductModal />
+      <ManageProductModal product={tempProduct} />
     </Layout>
   );
 };

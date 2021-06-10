@@ -16,7 +16,7 @@ interface Props {
   addProduct: (data: RequestData) => Promise<boolean>;
 }
 
-const AddCategoryModal = ({ addProduct, categories }: Props) => {
+const AddProductModal = ({ addProduct, categories }: Props) => {
   const [name, setName] = React.useState("");
   const [price, setPrice] = React.useState("");
   const [quantity, setQuantity] = React.useState("");
@@ -133,4 +133,4 @@ const mapToProps = (state: State) => ({
   categories: state.admin.categories,
 });
 
-export default connect(mapToProps, { addProduct })(AddCategoryModal);
+export default connect(mapToProps, { addProduct })(AddProductModal);

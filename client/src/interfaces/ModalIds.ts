@@ -4,6 +4,8 @@ export enum ModalIds {
   AlertDeleteUser = "Alert_DeleteUserModal",
 
   AddProduct = "AddProductModal",
+  ManageProduct = "ManageProductModal",
+  AlertDeleteProduct = "Alert_DeleteProductModal",
 
   AddCategory = "AddCategoryModal",
   ManageCategory = "ManageCategoryModal",
