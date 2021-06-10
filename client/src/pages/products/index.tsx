@@ -105,6 +105,7 @@ const ProductsPage = ({ products, isAuth, loading }: Props) => {
           <tr>
             <th>Name</th>
             <th>Price</th>
+            <th>Total amount</th>
             <th>Quantity</th>
             <th>Expiration Date</th>
             <th>Actions</th>
@@ -120,12 +121,17 @@ const ProductsPage = ({ products, isAuth, loading }: Props) => {
               return filter?.value === str;
             };
 
+            const totalPricesAmount = (product.prices ?? [])
+              ?.reduce((ac, curr) => ac + curr, 0)
+              .toFixed(2);
+
             return (
               <tr key={product.id}>
                 <td className={boldText("name") ? "bold" : ""}>{product.name}</td>
                 <td className={boldText("price") || boldText("priceHigh") ? "bold" : ""}>
-                  {product.price}
+                  €{product.price.toFixed(2)}
                 </td>
+                <td>€{totalPricesAmount}</td>
                 <td className={boldText("quantity") || boldText("quantityHigh") ? "bold" : ""}>
                   {product.quantity}
                 </td>

@@ -101,7 +101,7 @@ const ManageProductModal = ({
 
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
-            <label htmlFor="add-product-price">Price</label>
+            <label htmlFor="add-product-price">Price (Euro)</label>
             <input
               id="add-product-price"
               type="text"

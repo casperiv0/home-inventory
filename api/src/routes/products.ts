@@ -53,11 +53,26 @@ router.post("/", withAuth, async (req: IRequest, res) => {
 
     const existing = await prisma.product.findUnique({ where: { name: body.name } });
 
+    /**
+     * if there's already a product with the same name,
+     * update the existing product with the new quantity
+     * and append to price to the prices array
+     */
     if (existing) {
-      return res.status(400).json({
-        error: "Name is already in-use, please update the existing item",
-        status: "error",
+      await prisma.product.update({
+        where: {
+          id: existing.id,
+        },
+        data: {
+          quantity: existing.quantity + body.quantity,
+
+          // body.price = for 1 item, times the quantity -> total amount for the product.
+          prices: [...(existing.prices ?? []), body.price * body.quantity],
+        },
       });
+
+      const products = await prisma.product.findMany();
+      return res.json({ products });
     }
 
     let category;
@@ -84,6 +99,8 @@ router.post("/", withAuth, async (req: IRequest, res) => {
             name: body.name,
             quantity: body.quantity,
             price: body.price,
+            // body.price = for 1 item, times the quantity -> total amount for the product.
+            prices: [body.price * body.quantity],
             expirationDate: body.expirationDate || "N/A",
             categoryId: category?.id ?? null,
           },
