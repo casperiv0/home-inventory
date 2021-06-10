@@ -1,4 +1,5 @@
 import { Category } from "@t/Category";
+import { Product } from "@t/Product";
 import { User } from "@t/User";
 
 export interface SetAuthLoading {
@@ -20,4 +21,9 @@ export interface UpdateUsers {
 export interface UpdateCategories {
   type: "GET_ALL_CATEGORIES" | "UPDATE_CATEGORY_BY_ID" | "ADD_CATEGORY" | "DELETE_CATEGORY_BY_ID";
   categories: Category[];
+}
+
+export interface UpdateProducts {
+  type: "GET_ALL_PRODUCTS" | "UPDATE_PRODUCT_BY_ID" | "ADD_PRODUCT" | "DELETE_PRODUCT_BY_ID";
+  products: Product[];
 }

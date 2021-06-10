@@ -38,7 +38,7 @@ export const Select: React.FC<Props> = ({
     <ReactSelect
       id={id}
       isClearable={isClearable}
-      onFocus={onFocus}
+      onFocus={onFocus ? onFocus : () => setMenuOpen(true)}
       value={value}
       isSearchable
       isMulti={isMulti !== undefined ? isMulti : true}
