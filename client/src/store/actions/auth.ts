@@ -41,6 +41,8 @@ export const checkAuth =
 
       return true;
     } catch (e) {
+      dispatch({ type: "SET_AUTH_LOADING", loading: false });
+
       return false;
     }
   };

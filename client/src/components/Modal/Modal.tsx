@@ -31,7 +31,9 @@ export const Modal: React.FC<Props> = ({ id, title, children, ...rest }) => {
   }, [id]);
 
   const handleOuterClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if ((e.target as HTMLDivElement).classList.contains("modal")) {
+    const target = e.target as HTMLDivElement;
+
+    if (target.id === id) {
       closeModal(id);
     }
   };

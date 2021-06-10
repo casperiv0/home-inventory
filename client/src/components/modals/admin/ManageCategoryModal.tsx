@@ -3,11 +3,12 @@ import { connect } from "react-redux";
 import { Modal } from "@components/Modal/Modal";
 import { ModalIds } from "@t/ModalIds";
 import styles from "css/forms.module.scss";
-import { closeModal } from "@lib/modal";
+import { closeModal, openModal } from "@lib/modal";
 import useModalEvent from "src/hooks/useModalEvent";
 import { updateCategoryById, deleteCategoryById } from "@actions/admin/categories";
 import { RequestData } from "@lib/fetch";
 import { Category } from "@t/Category";
+import { AlertModal } from "../AlertModal";
 
 interface Props {
   category: Category | null;
@@ -46,13 +47,11 @@ const ManageCategoryModal = ({ category, updateCategoryById, deleteCategoryById 
   async function handleCategoryDelete() {
     if (!category) return;
 
-    // todo: add custom alertModal
-    if (confirm("Are ya sure???")) {
-      const success = await deleteCategoryById(category.id);
+    const success = await deleteCategoryById(category.id);
 
-      if (success) {
-        closeModal(ModalIds.ManageCategory);
-      }
+    if (success) {
+      closeModal(ModalIds.ManageCategory);
+      closeModal(ModalIds.AlertDeleteCategory);
     }
   }
 
@@ -72,7 +71,11 @@ const ManageCategoryModal = ({ category, updateCategoryById, deleteCategoryById 
         </div>
 
         <div>
-          <button onClick={handleCategoryDelete} type="button" className="btn danger">
+          <button
+            onClick={() => openModal(ModalIds.AlertDeleteCategory)}
+            type="button"
+            className="btn danger"
+          >
             Delete category
           </button>
         </div>
@@ -91,6 +94,23 @@ const ManageCategoryModal = ({ category, updateCategoryById, deleteCategoryById 
           </button>
         </div>
       </form>
+
+      <AlertModal
+        id={ModalIds.AlertDeleteCategory}
+        title="Delete category"
+        description="Are you sure you want to remove this category?"
+        actions={[
+          {
+            name: "Cancel",
+            onClick: () => closeModal(ModalIds.AlertDeleteCategory),
+          },
+          {
+            name: "Delete",
+            danger: true,
+            onClick: handleCategoryDelete,
+          },
+        ]}
+      />
     </Modal>
   );
 };

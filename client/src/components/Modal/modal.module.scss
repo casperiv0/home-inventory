@@ -50,3 +50,22 @@ https://github.com/Dev-CasperTheGhost/notey.app/blob/main/src/components/modal/s
 .modalBody {
   max-height: 90%;
 }
+
+/**
+  Alert modal styles
+*/
+.alertModalActions {
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    background: #bbbbbb;
+  }
+}
+
+.alertModalDescription {
+  font-size: 1.2rem;
+  color: var(--dark);
+  margin: 1.5rem 0;
+  margin-bottom: 2rem;
+}

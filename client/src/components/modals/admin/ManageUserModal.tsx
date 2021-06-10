@@ -3,13 +3,14 @@ import { connect } from "react-redux";
 import { Modal } from "@components/Modal/Modal";
 import { ModalIds } from "@t/ModalIds";
 import styles from "css/forms.module.scss";
-import { closeModal } from "@lib/modal";
+import { closeModal, openModal } from "@lib/modal";
 import useModalEvent from "src/hooks/useModalEvent";
 import { User } from "@t/User";
 import { Select, SelectValue } from "@components/Select/Select";
 import { updateUserById, deleteUserById } from "@actions/admin/users";
 import { RequestData } from "@lib/fetch";
 import { selectRoles } from "@lib/constants";
+import { AlertModal } from "../AlertModal";
 
 interface Props {
   user: User | null;
@@ -54,13 +55,11 @@ const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
   async function handleUserDelete() {
     if (!user) return;
 
-    // todo: add custom alertModal
-    if (confirm("Are ya sure???")) {
-      const success = await deleteUserById(user.id);
+    const success = await deleteUserById(user.id);
 
-      if (success) {
-        closeModal(ModalIds.ManageUser);
-      }
+    if (success) {
+      closeModal(ModalIds.AlertDeleteUser);
+      closeModal(ModalIds.ManageUser);
     }
   }
 
@@ -97,7 +96,11 @@ const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
         </div>
 
         <div>
-          <button onClick={handleUserDelete} type="button" className="btn danger">
+          <button
+            onClick={() => openModal(ModalIds.AlertDeleteUser)}
+            type="button"
+            className="btn danger"
+          >
             Delete user
           </button>
         </div>
@@ -116,6 +119,23 @@ const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
           </button>
         </div>
       </form>
+
+      <AlertModal
+        id={ModalIds.AlertDeleteUser}
+        title="Delete user"
+        description="Are you sure you want to remove this user?"
+        actions={[
+          {
+            name: "Cancel",
+            onClick: () => closeModal(ModalIds.AlertDeleteUser),
+          },
+          {
+            name: "Delete",
+            danger: true,
+            onClick: handleUserDelete,
+          },
+        ]}
+      />
     </Modal>
   );
 };
