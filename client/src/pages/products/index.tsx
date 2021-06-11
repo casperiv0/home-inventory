@@ -17,6 +17,8 @@ import AddProductModal from "@components/modals/products/AddProductModal";
 import { getAllCategories } from "@actions/admin/categories";
 import ManageProductModal from "@components/modals/products/ManageProductModal";
 
+import formStyles from "css/forms.module.scss";
+
 interface Props {
   products: Product[];
   isAuth: boolean;
@@ -25,6 +27,7 @@ interface Props {
 
 export const filters = {
   name: "Name",
+
   createdAt: "Created at",
   updatedAt: "Updated at",
 
@@ -36,30 +39,47 @@ export const filters = {
 };
 
 const ProductsPage = ({ products, isAuth, loading }: Props) => {
+  const router = useRouter();
+  const searchRef = React.useRef<HTMLInputElement>(null);
+
+  const [searchValue, setSearchValue] = React.useState<string>("");
   const [tempProduct, setTempProduct] = React.useState<Product | null>(null);
-  const [filter, setFilter] = React.useState<SelectValue | null>({
+  const [filter, setFilter] = React.useState<SelectValue<keyof typeof filters> | null>({
     label: "Created at",
     value: "createdAt",
   });
-  const router = useRouter();
-
-  const filtered = React.useMemo(() => {
-    if (!filter?.value) return products;
-
-    return sortProducts(filter.value as any, products);
-  }, [products, filter]);
-
-  React.useEffect(() => {
-    if (!loading && !isAuth) {
-      router.push("/auth");
-    }
-  }, [isAuth, loading, router]);
 
   function handleManage(product: Product) {
     setTempProduct(product);
 
     openModal(ModalIds.ManageProduct);
   }
+
+  function onSearchSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    searchRef.current?.focus();
+  }
+
+  const filtered = React.useMemo(() => {
+    if (!filter) return products;
+
+    let items = products;
+
+    if (searchValue) {
+      items = items.filter((v) => v.name.toLowerCase().includes(searchValue.toLowerCase()));
+    } else {
+      items = products;
+    }
+
+    return sortProducts(filter.value, items);
+  }, [products, searchValue, filter]);
+
+  React.useEffect(() => {
+    if (!loading && !isAuth) {
+      router.push("/auth");
+    }
+  }, [isAuth, loading, router]);
 
   return (
     <Layout>
@@ -86,8 +106,8 @@ const ProductsPage = ({ products, isAuth, loading }: Props) => {
             Add product
           </button>
           <div style={{ width: "200px" }}>
-            {/* todo: ability to have custom colors for select background */}
             <Select
+              isClearable
               theme={{ backgroundColor: "#eeeeee" }}
               onChange={setFilter}
               value={filter}
@@ -99,6 +119,21 @@ const ProductsPage = ({ products, isAuth, loading }: Props) => {
           </div>
         </div>
       </div>
+
+      <form onSubmit={onSearchSubmit} style={{ display: "flex", marginTop: "2rem" }}>
+        <input
+          ref={searchRef}
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          className={formStyles.formInput}
+          style={{ background: "#eeeeee", width: "100%" }}
+          placeholder="Find a product by its name"
+        />
+
+        <button style={{ marginLeft: "0.5rem" }} type="submit" className="btn">
+          Search
+        </button>
+      </form>
 
       <table style={{ marginTop: "1rem" }} className="table">
         <thead>

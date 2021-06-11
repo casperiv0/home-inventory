@@ -2,13 +2,13 @@ import ReactSelect, { Props as SelectProps } from "react-select";
 import React from "react";
 import { SelectStyles, SelectTheme } from "./selectStyles";
 
-export interface SelectValue {
-  value: string;
+export interface SelectValue<TValue = string> {
+  value: TValue;
   label: string;
 }
 
 interface Props {
-  onChange: (v: SelectValue) => void;
+  onChange: (v: SelectValue<any>) => void;
   options: SelectProps["options"];
   defaultValue?: SelectProps["defaultValue"];
   value?: SelectProps["value"];
