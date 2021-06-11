@@ -5,23 +5,28 @@ import isThisMonth from "date-fns/isThisMonth";
 import { withAuth } from "@hooks/withAuth";
 import { createProductSchema } from "@schemas/products.schema";
 import { IRequest } from "@t/IRequest";
-import { createYupSchema } from "@utils/createYupSchema";
 import { prisma } from "src/index";
+import { validateSchema } from "@utils/validateSchema";
+import { withValidHouseId } from "@hooks/withValidHouseId";
 
 const router = Router();
 
+async function getProducts(houseId: string | undefined) {
+  return prisma.product.findMany({ where: { houseId } });
+}
+
 /**
- * return all the projects inside the database
+ * return all the projects from the houseId
  */
-router.get("/", withAuth, async (_, res) => {
-  const products = await prisma.product.findMany();
+router.get("/:houseId", withAuth, withValidHouseId, async (req, res) => {
+  const products = await getProducts(req.params.houseId);
 
   return res.json({ products });
 });
 
-router.get("/stats", withAuth, async (_, res) => {
+router.get("/:houseId/stats", withAuth, withValidHouseId, async (req, res) => {
   try {
-    const products = await prisma.product.findMany();
+    const products = await getProducts(req.params.houseId);
 
     /**
      * the total amount spent this month
@@ -54,7 +59,8 @@ router.get("/stats", withAuth, async (_, res) => {
 
       const today = format(Date.now(), "yyyy-MM-dd");
       const expirationDate =
-        `${expirationDate2Days}` !== "Invalid Date" && format(expirationDate2Days, "yyyy-MM-dd");
+        `${expirationDate2Days}` !== "Invalid Date" &&
+        format(expirationDate2Days, "yyyy-MM-dd");
 
       return today === expirationDate;
     });
@@ -74,7 +80,7 @@ router.get("/stats", withAuth, async (_, res) => {
   }
 });
 
-router.get("/:id", withAuth, async (req, res) => {
+router.get("/:houseId/:id", withAuth, withValidHouseId, async (req, res) => {
   try {
     const id = req.params.id as string;
 
@@ -101,103 +107,98 @@ router.get("/:id", withAuth, async (req, res) => {
 /**
  * create a new product
  */
-router.post("/", withAuth, async (req: IRequest, res) => {
-  try {
-    const body = req.body;
+router.post(
+  "/:houseId",
+  withAuth,
+  withValidHouseId,
+  async (req: IRequest, res) => {
+    try {
+      const houseId = req.params.houseId as string;
+      const body = req.body;
 
-    const schema = createYupSchema(createProductSchema);
-    const error = await schema
-      .validate(body)
-      .then(() => null)
-      .catch((e) => e);
+      const [error] = await validateSchema(createProductSchema, body);
 
-    if (error) {
-      return res.status(400).json({
-        error: error.message,
-        status: "error",
-      });
-    }
-
-    const existing = await prisma.product.findUnique({ where: { name: body.name } });
-
-    /**
-     * if there's already a product with the same name,
-     * update the existing product with the new quantity
-     * and append to price to the prices array
-     */
-    if (existing) {
-      await prisma.product.update({
-        where: {
-          id: existing.id,
-        },
-        data: {
-          quantity: existing.quantity + body.quantity,
-
-          // body.price = for 1 item, times the quantity -> total amount for the product.
-          prices: [...(existing.prices ?? []), body.price * body.quantity],
-        },
-      });
-
-      const products = await prisma.product.findMany();
-      return res.json({ products });
-    }
-
-    let category;
-    if (body.categoryId) {
-      category = await prisma.category.findUnique({
-        where: { id: body.categoryId },
-      });
-
-      if (!category) {
-        return res.status(404).json({
-          error: "That category was not found",
+      if (error) {
+        return res.status(400).json({
+          error: error.message,
           status: "error",
         });
       }
-    }
 
-    await prisma.user.update({
-      where: {
-        id: req.userId!,
-      },
-      data: {
-        products: {
-          create: {
-            name: body.name,
-            quantity: body.quantity,
-            price: body.price,
-            // body.price = for 1 item, times the quantity -> total amount for the product.
-            prices: [body.price * body.quantity],
-            expirationDate: body.expirationDate ?? null,
-            categoryId: category?.id ?? null,
+      const existing = await prisma.product.findFirst({
+        where: { name: body.name, houseId },
+      });
+
+      /**
+       * if there's already a product with the same name,
+       * update the existing product with the new quantity
+       * and append to price to the prices array
+       */
+      if (existing) {
+        await prisma.product.update({
+          where: {
+            id: existing.id,
           },
+          data: {
+            quantity: existing.quantity + body.quantity,
+
+            // body.price = for 1 item, times the quantity -> total amount for the product.
+            prices: [...(existing.prices ?? []), body.price * body.quantity],
+          },
+        });
+
+        const products = await getProducts(req.params.houseId);
+        return res.json({ products });
+      }
+
+      let category;
+      if (body.categoryId) {
+        category = await prisma.category.findUnique({
+          where: { id: body.categoryId },
+        });
+
+        if (!category) {
+          return res.status(404).json({
+            error: "That category was not found",
+            status: "error",
+          });
+        }
+      }
+
+      await prisma.product.create({
+        data: {
+          name: body.name,
+          price: body.price,
+          quantity: body.quantity,
+          prices: [body.price * body.quantity],
+          categoryId: category?.id ?? null,
+          expirationDate: body.expirationDate ?? null,
+          warnOnQuantity: body.warnOnQuantity,
+          userId: req.userId!,
+          houseId,
         },
-      },
-    });
+      });
 
-    const products = await prisma.product.findMany();
+      const products = await getProducts(req.params.houseId);
+      return res.json({ products });
+    } catch (e) {
+      console.error(e);
 
-    return res.json({ products });
-  } catch (e) {
-    console.error(e);
-
-    return res.status(500).json({
-      error: "An unexpected error has occurred. Please try again later",
-      status: "error",
-    });
+      return res.status(500).json({
+        error: "An unexpected error has occurred. Please try again later",
+        status: "error",
+      });
+    }
   }
-});
+);
 
-router.put("/:id", withAuth, async (req, res) => {
+router.put("/:houseId/:id", withAuth, withValidHouseId, async (req, res) => {
   try {
     const id = req.params.id as string;
+    const houseId = req.params.houseId as string;
     const body = req.body;
 
-    const schema = createYupSchema(createProductSchema);
-    const error = await schema
-      .validate(body)
-      .then(() => null)
-      .catch((e) => e);
+    const [error] = await validateSchema(createProductSchema, body);
 
     if (error) {
       return res.status(400).json({
@@ -206,7 +207,12 @@ router.put("/:id", withAuth, async (req, res) => {
       });
     }
 
-    const product = await prisma.product.findUnique({ where: { id } });
+    const product = await prisma.product.findFirst({
+      where: {
+        id,
+        houseId,
+      },
+    });
 
     if (!product) {
       return res.status(404).json({
@@ -228,8 +234,7 @@ router.put("/:id", withAuth, async (req, res) => {
       },
     });
 
-    const products = await prisma.product.findMany();
-
+    const products = await getProducts(req.params.houseId);
     return res.json({ products });
   } catch (e) {
     console.error(e);
@@ -241,14 +246,28 @@ router.put("/:id", withAuth, async (req, res) => {
   }
 });
 
-router.delete("/:id", withAuth, async (req, res) => {
+router.delete("/:houseId/:id", withAuth, withValidHouseId, async (req, res) => {
   try {
     const id = req.params.id as string;
+    const houseId = req.params.houseId as string;
+
+    const product = await prisma.product.findFirst({
+      where: {
+        id,
+        houseId,
+      },
+    });
+
+    if (!product) {
+      return res.status(404).json({
+        error: "Product was not found",
+        status: "error",
+      });
+    }
 
     await prisma.product.delete({ where: { id } });
 
-    const products = await prisma.product.findMany();
-
+    const products = await getProducts(req.params.houseId);
     return res.json({ products });
   } catch (e) {
     console.error(e);

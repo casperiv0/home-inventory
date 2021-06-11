@@ -18,7 +18,11 @@ const router = Router();
 router.post("/authenticate", async (req, res) => {
   const { email, name, password } = req.body;
 
-  const [error] = await validateSchema(authenticateSchema, { email, name, password });
+  const [error] = await validateSchema(authenticateSchema, {
+    email,
+    name,
+    password,
+  });
 
   if (error) {
     return res.status(400).json({
@@ -36,10 +40,54 @@ router.post("/authenticate", async (req, res) => {
   if (usersLength === 0) {
     const hash = hashSync(password, AuthConstants.saltRounds);
 
-    user = await prisma.user.create({
-      data: { name, email, password: hash, role: "OWNER" },
-      select: { email: true, id: true },
+    /**
+     * first create the user account
+     */
+    const createdUser = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hash,
+        role: "OWNER",
+      },
     });
+
+    /**
+     * once the user account is created
+     *
+     * - create a house with a default name "First home"
+     * - connect the user account to the house
+     */
+    const house = await prisma.house.create({
+      data: {
+        name: "First home",
+        userId: createdUser.id,
+        users: {
+          connect: {
+            id: createdUser.id,
+          },
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        users: { select: { email: true, id: true } },
+      },
+    });
+
+    /**
+     * update the user with the new houseId
+     */
+    await prisma.user.update({
+      where: {
+        id: createdUser.id,
+      },
+      data: {
+        houseId: house.id,
+      },
+    });
+
+    [user] = house.users;
   } else {
     user = await prisma.user.findUnique({ where: { email } });
 
@@ -84,6 +132,7 @@ router.post("/user", withAuth, async (req: IRequest, res) => {
       name: true,
       email: true,
       role: true,
+      houses: { select: { name: true, id: true } },
     },
   });
 

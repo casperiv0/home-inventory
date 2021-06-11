@@ -7,150 +7,182 @@ import { createUserSchema, updateUserSchema } from "@schemas/user.schema";
 import { AuthConstants } from "@lib/constants";
 import { validateSchema } from "@utils/validateSchema";
 import { UserRole } from "@prisma/client";
+import { withValidHouseId } from "@hooks/withValidHouseId";
 
 const router = Router();
 
-router.post("/", withAuth, withPermission("ADMIN"), async (req, res) => {
-  try {
-    const body = req.body;
-
-    const [error] = await validateSchema(createUserSchema, body);
-
-    if (error) {
-      return res.status(400).json({
-        error: error.message,
-        status: "error",
-      });
-    }
-
-    const existing = await prisma.user.findUnique({ where: { email: body.email } });
-
-    if (existing) {
-      return res.status(400).json({
-        error: "A user with that email already exists.",
-        status: "error",
-      });
-    }
-
-    await prisma.user.create({
-      data: {
-        password: hashSync(body.password, AuthConstants.saltRounds),
-        name: body.name,
-        email: body.email,
-        role: body.role,
-      },
-    });
-
-    const users = await prisma.user.findMany({
-      select: { name: true, id: true, email: true, role: true, createdAt: true },
-    });
-
-    return res.json({ users });
-  } catch (e) {
-    console.error(e);
-
-    return res.status(500).json({
-      error: "An unexpected error has occurred. Please try again later",
-      status: "error",
-    });
-  }
-});
-
-router.get("/", withAuth, withPermission("ADMIN"), async (_, res) => {
-  const users = await prisma.user.findMany({
-    select: { name: true, email: true, id: true, role: true, createdAt: true },
+async function getUsers(houseId: string | undefined) {
+  return prisma.user.findMany({
+    where: { houseId },
+    select: {
+      name: true,
+      id: true,
+      email: true,
+      role: true,
+      createdAt: true,
+    },
   });
+}
 
-  return res.json({ users });
-});
+router.post(
+  "/:houseId",
+  withAuth,
+  withValidHouseId,
+  withPermission("ADMIN"),
+  async (req, res) => {
+    try {
+      const body = req.body;
+      const houseId = req.params.houseId as string;
 
-router.put("/:id", withAuth, withPermission("ADMIN"), async (req, res) => {
-  try {
-    const id = req.params.id as string;
-    const body = req.body;
+      const [error] = await validateSchema(createUserSchema, body);
 
-    const [error] = await validateSchema(updateUserSchema, body);
+      if (error) {
+        return res.status(400).json({
+          error: error.message,
+          status: "error",
+        });
+      }
 
-    if (error) {
-      return res.status(400).json({
-        error: error.message,
+      const existing = await prisma.user.findFirst({
+        where: { email: body.email, houseId },
+      });
+
+      if (existing) {
+        return res.status(400).json({
+          error: "A user with that email already exists.",
+          status: "error",
+        });
+      }
+
+      await prisma.user.create({
+        data: {
+          password: hashSync(body.password, AuthConstants.saltRounds),
+          name: body.name,
+          email: body.email,
+          role: body.role,
+        },
+      });
+
+      const users = await getUsers(houseId);
+      return res.json({ users });
+    } catch (e) {
+      console.error(e);
+
+      return res.status(500).json({
+        error: "An unexpected error has occurred. Please try again later",
         status: "error",
       });
     }
-
-    const user = await prisma.user.findUnique({ where: { id } });
-
-    if (!user) {
-      return res.status(404).json({
-        error: "User was not found",
-        status: "error",
-      });
-    }
-
-    await prisma.user.update({
-      where: {
-        id,
-      },
-      data: {
-        role: body.role,
-        name: body.name,
-      },
-    });
-
-    const users = await prisma.user.findMany({
-      select: { name: true, id: true, email: true, role: true, createdAt: true },
-    });
-
-    return res.json({ users });
-  } catch (e) {
-    console.error(e);
-
-    return res.status(500).json({
-      error: "An unexpected error has occurred. Please try again later",
-      status: "error",
-    });
   }
-});
+);
 
-router.delete("/:id", withAuth, withPermission("ADMIN"), async (req, res) => {
-  try {
-    const id = req.params.id as string;
-
-    const user = await prisma.user.findUnique({
-      where: { id },
-    });
-
-    if (!user) {
-      return res.status(400).json({
-        error: "User was not found",
-        status: "error",
-      });
-    }
-
-    if (user.role === UserRole.OWNER) {
-      return res.status(403).json({
-        error: "Cannot delete the owner's account",
-        status: "error",
-      });
-    }
-
-    await prisma.product.deleteMany({ where: { userId: id } });
-
-    await prisma.user.deleteMany({ where: { id } });
-
-    const users = await prisma.user.findMany({
-      select: { name: true, id: true, email: true, role: true, createdAt: true },
-    });
-
+router.get(
+  "/:houseId",
+  withAuth,
+  withValidHouseId,
+  withPermission("ADMIN"),
+  async (req, res) => {
+    const users = await getUsers(req.params.houseId);
     return res.json({ users });
-  } catch (e) {
-    console.error(e);
-
-    return res.status(500).json({
-      error: "An unexpected error has occurred. Please try again later",
-      status: "error",
-    });
   }
-});
+);
+
+router.put(
+  "/:houseId/:id",
+  withAuth,
+  withValidHouseId,
+  withPermission("ADMIN"),
+  async (req, res) => {
+    try {
+      const id = req.params.id as string;
+      const houseId = req.params.houseId as string;
+      const body = req.body;
+
+      const [error] = await validateSchema(updateUserSchema, body);
+
+      if (error) {
+        return res.status(400).json({
+          error: error.message,
+          status: "error",
+        });
+      }
+
+      const user = await prisma.user.findFirst({ where: { id, houseId } });
+
+      if (!user) {
+        return res.status(404).json({
+          error: "User was not found",
+          status: "error",
+        });
+      }
+
+      await prisma.user.update({
+        where: {
+          id,
+        },
+        data: {
+          role: body.role,
+          name: body.name,
+        },
+      });
+
+      const users = await getUsers(houseId);
+      return res.json({ users });
+    } catch (e) {
+      console.error(e);
+
+      return res.status(500).json({
+        error: "An unexpected error has occurred. Please try again later",
+        status: "error",
+      });
+    }
+  }
+);
+
+router.delete(
+  "/:houseId/:id",
+  withAuth,
+  withValidHouseId,
+  withPermission("ADMIN"),
+  async (req, res) => {
+    try {
+      const id = req.params.id as string;
+      const houseId = req.params.houseId as string;
+
+      const user = await prisma.user.findFirst({
+        where: { id, houseId },
+      });
+
+      if (!user) {
+        return res.status(400).json({
+          error: "User was not found",
+          status: "error",
+        });
+      }
+
+      if (user.role === UserRole.OWNER) {
+        return res.status(403).json({
+          error: "Cannot delete the owner's account",
+          status: "error",
+        });
+      }
+
+      await prisma.house.deleteMany({ where: { userId: id } });
+      await prisma.product.deleteMany({ where: { userId: id } });
+
+      await prisma.user.deleteMany({ where: { id } });
+
+      const users = await getUsers(houseId);
+      return res.json({ users });
+    } catch (e) {
+      console.error(e);
+
+      return res.status(500).json({
+        error: "An unexpected error has occurred. Please try again later",
+        status: "error",
+      });
+    }
+  }
+);
 
 export const usersRouter = router;

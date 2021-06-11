@@ -18,6 +18,8 @@ model User {
   createdAt DateTime  @default(now())
   products  Product[]
   role      UserRole  @default(USER)
+  houses    House[]   @relation(fields: [houseId], references: [id])
+  houseId   String?
 }
 
 model Product {
@@ -33,6 +35,17 @@ model Product {
   createdBy      User     @relation(fields: [userId], references: [id])
   userId         String
   categoryId     String?
+  house          House    @relation(fields: [houseId], references: [id])
+  houseId        String
+}
+
+model House {
+  id         String     @id @default(uuid())
+  name       String     @unique
+  users      User[]     @relation(fields: [userId], references: [id])
+  userId     String
+  products   Product[]
+  categories Category[]
 }
 
 model Category {
@@ -40,6 +53,8 @@ model Category {
   name      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  house     House    @relation(fields: [houseId], references: [id])
+  houseId   String
 }
 
 enum UserRole {
