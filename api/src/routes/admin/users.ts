@@ -12,16 +12,24 @@ import { withValidHouseId } from "@hooks/withValidHouseId";
 const router = Router();
 
 async function getUsers(houseId: string | undefined) {
-  return prisma.user.findMany({
-    where: { houseId },
+  const data = await prisma.house.findUnique({
+    where: {
+      id: houseId,
+    },
     select: {
-      name: true,
-      id: true,
-      email: true,
-      role: true,
-      createdAt: true,
+      users: {
+        select: {
+          name: true,
+          id: true,
+          email: true,
+          role: true,
+          createdAt: true,
+        },
+      },
     },
   });
+
+  return data?.users ?? [];
 }
 
 router.post("/:houseId", withAuth, withValidHouseId, withPermission("ADMIN"), async (req, res) => {
@@ -38,33 +46,45 @@ router.post("/:houseId", withAuth, withValidHouseId, withPermission("ADMIN"), as
       });
     }
 
-    const existing = await prisma.user.findFirst({
-      where: { email: body.email, houseId },
+    const existing = await prisma.user.findUnique({
+      where: { email: body.email },
     });
 
+    /**
+     * if there's already a user with the same email, update the user's houses
+     * otherwise create a new user in the house.
+     */
     if (existing) {
-      return res.status(400).json({
-        error: "A user with that email already exists.",
-        status: "error",
-      });
-    }
-
-    await prisma.house.update({
-      where: {
-        id: houseId,
-      },
-      data: {
-        users: {
-          create: {
-            password: hashSync(body.password, AuthConstants.saltRounds),
-            name: body.name,
-            email: body.email,
-            role: body.role,
-            houseId,
+      await prisma.house.update({
+        where: {
+          id: houseId,
+        },
+        data: {
+          users: {
+            connect: {
+              id: existing.id,
+            },
           },
         },
-      },
-    });
+      });
+    } else {
+      await prisma.house.update({
+        where: {
+          id: houseId,
+        },
+        data: {
+          users: {
+            create: {
+              password: hashSync(body.password, AuthConstants.saltRounds),
+              name: body.name,
+              email: body.email,
+              role: body.role,
+              houseId,
+            },
+          },
+        },
+      });
+    }
 
     const users = await getUsers(houseId);
     return res.json({ users });

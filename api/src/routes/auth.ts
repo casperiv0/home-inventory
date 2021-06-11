@@ -7,6 +7,7 @@ import { createSessionToken, setCookie } from "@lib/auth.lib";
 import { withAuth } from "@hooks/withAuth";
 import { IRequest } from "@t/IRequest";
 import { validateSchema } from "@utils/validateSchema";
+import { UserRole } from "@prisma/client";
 
 const router = Router();
 
@@ -35,7 +36,7 @@ router.post("/authenticate", async (req, res) => {
   let user;
 
   /**
-   * no users created yet? Create the first user as admin
+   * no users created yet? Create the first user as owner
    */
   if (usersLength === 0) {
     const hash = hashSync(password, AuthConstants.saltRounds);
@@ -48,7 +49,7 @@ router.post("/authenticate", async (req, res) => {
         name,
         email,
         password: hash,
-        role: "OWNER",
+        role: UserRole.OWNER,
       },
     });
 

@@ -72,15 +72,21 @@ router.post("/", withAuth, async (req: IRequest, res) => {
       });
     }
 
+    const house = await prisma.house.create({
+      data: {
+        name: body.name,
+        userId: req.userId!,
+      },
+    });
+
     await prisma.user.update({
       where: {
         id: req.userId!,
       },
       data: {
         houses: {
-          create: {
-            name: body.name,
-            userId: req.userId!,
+          connect: {
+            id: house.id,
           },
         },
       },

@@ -77,8 +77,8 @@ const UsersAdminPage = ({ isAuth, users }: Props) => {
         <table style={{ marginTop: "0.5rem" }} className="table">
           <thead>
             <tr>
-              <th>Name</th>
               <th>Email</th>
+              <th>Name</th>
               <th>Role</th>
               <th>Actions</th>
             </tr>
@@ -89,8 +89,8 @@ const UsersAdminPage = ({ isAuth, users }: Props) => {
               .sort((a, b) => sortByCreatedAt(a, b))
               .map((user) => (
                 <tr key={user.id}>
-                  <td>{user.name}</td>
                   <td>{user.email}</td>
+                  <td>{user.name}</td>
                   <td>{user.role}</td>
                   <td id="table-actions">
                     <button onClick={() => handleManage(user)} className="btn small">
