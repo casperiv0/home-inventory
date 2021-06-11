@@ -42,6 +42,7 @@ model Category {
 }
 
 enum UserRole {
+  OWNER
   ADMIN
   USER
 }

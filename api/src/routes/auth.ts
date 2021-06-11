@@ -37,7 +37,7 @@ router.post("/authenticate", async (req, res) => {
     const hash = hashSync(password, AuthConstants.saltRounds);
 
     user = await prisma.user.create({
-      data: { name, email, password: hash, role: "ADMIN" },
+      data: { name, email, password: hash, role: "OWNER" },
       select: { email: true, id: true },
     });
   } else {

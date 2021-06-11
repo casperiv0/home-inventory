@@ -8,11 +8,12 @@ import { State } from "@t/State";
 import { initializeStore } from "src/store/store";
 import { AdminLayout } from "@components/AdminLayout";
 import { getAllUsers } from "@actions/admin/users";
-import { User } from "@t/User";
+import { User, UserRole } from "@t/User";
 import AddUserModal from "@components/modals/admin/AddUserModal";
 import ManageUserModal from "@components/modals/admin/ManageUserModal";
 import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
+import { useHasAccess } from "@hooks/useHasAccess";
 
 interface Props {
   isAuth: boolean;
@@ -21,26 +22,22 @@ interface Props {
   user: User | null;
 }
 
-const UsersAdminPage = ({ isAuth, loading, users, user }: Props) => {
+const UsersAdminPage = ({ isAuth, users }: Props) => {
   const router = useRouter();
+  const { loading, hasAccess } = useHasAccess(UserRole.ADMIN);
   const [tempUser, setTempUser] = React.useState<User | null>(null);
 
   React.useEffect(() => {
-    console.log(isAuth);
-    console.log(loading);
-
     if (!loading && !isAuth) {
-      console.log("here");
-
       router.push("/auth");
     }
   }, [isAuth, loading, router]);
 
   React.useEffect(() => {
-    if (!loading && user?.role !== "ADMIN") {
+    if (!loading && !hasAccess) {
       router.push("/404");
     }
-  }, [loading, user?.role, router]);
+  }, [loading, hasAccess, router]);
 
   function handleManage(user: User) {
     setTempUser(user);

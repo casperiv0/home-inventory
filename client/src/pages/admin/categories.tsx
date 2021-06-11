@@ -8,22 +8,22 @@ import { State } from "@t/State";
 import { initializeStore } from "src/store/store";
 import { AdminLayout } from "@components/AdminLayout";
 import { getAllCategories } from "@actions/admin/categories";
-import { User } from "@t/User";
+import { UserRole } from "@t/User";
 import AddCategoryModal from "@components/modals/admin/AddCategoryModal";
 import ManageCategoryModal from "@components/modals/admin/ManageCategoryModal";
 import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
 import { Category } from "@t/Category";
+import { useHasAccess } from "@hooks/useHasAccess";
 
 interface Props {
   isAuth: boolean;
-  loading: boolean;
   categories: Category[];
-  user: User | null;
 }
 
-const CategoriesAdminPage = ({ isAuth, loading, categories, user }: Props) => {
+const CategoriesAdminPage = ({ isAuth, categories }: Props) => {
   const router = useRouter();
+  const { loading, hasAccess } = useHasAccess(UserRole.ADMIN);
   const [tempCategory, setTempCategory] = React.useState<Category | null>(null);
 
   React.useEffect(() => {
@@ -33,10 +33,10 @@ const CategoriesAdminPage = ({ isAuth, loading, categories, user }: Props) => {
   }, [isAuth, loading, router]);
 
   React.useEffect(() => {
-    if (!loading && user?.role !== "ADMIN") {
+    if (!loading && !hasAccess) {
       router.push("/404");
     }
-  }, [loading, user?.role, router]);
+  }, [loading, hasAccess, router]);
 
   function handleManage(category: Category) {
     setTempCategory(category);
@@ -107,8 +107,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 const mapToProps = (state: State) => ({
   isAuth: state.auth.isAuth,
   categories: state.admin.categories,
-  loading: state.auth.loading,
-  user: state.auth.user,
 });
 
 export default connect(mapToProps)(CategoriesAdminPage);

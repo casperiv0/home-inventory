@@ -5,7 +5,7 @@ import { ModalIds } from "@t/ModalIds";
 import styles from "css/forms.module.scss";
 import { closeModal, openModal } from "@lib/modal";
 import useModalEvent from "src/hooks/useModalEvent";
-import { User } from "@t/User";
+import { User, UserRole } from "@t/User";
 import { Select, SelectValue } from "@components/Select/Select";
 import { updateUserById, deleteUserById } from "@actions/admin/users";
 import { RequestData } from "@lib/fetch";
@@ -95,15 +95,17 @@ const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
           <Select onChange={setRole} value={role} options={selectRoles} />
         </div>
 
-        <div>
-          <button
-            onClick={() => openModal(ModalIds.AlertDeleteUser)}
-            type="button"
-            className="btn danger"
-          >
-            Delete user
-          </button>
-        </div>
+        {user?.role !== UserRole.OWNER ? (
+          <div>
+            <button
+              onClick={() => openModal(ModalIds.AlertDeleteUser)}
+              type="button"
+              className="btn danger"
+            >
+              Delete user
+            </button>
+          </div>
+        ) : null}
 
         <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
           <button
@@ -120,22 +122,24 @@ const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
         </div>
       </form>
 
-      <AlertModal
-        id={ModalIds.AlertDeleteUser}
-        title="Delete user"
-        description="Are you sure you want to remove this user?"
-        actions={[
-          {
-            name: "Cancel",
-            onClick: () => closeModal(ModalIds.AlertDeleteUser),
-          },
-          {
-            name: "Delete",
-            danger: true,
-            onClick: handleUserDelete,
-          },
-        ]}
-      />
+      {user?.role !== UserRole.OWNER ? (
+        <AlertModal
+          id={ModalIds.AlertDeleteUser}
+          title="Delete user"
+          description="Are you sure you want to remove this user?"
+          actions={[
+            {
+              name: "Cancel",
+              onClick: () => closeModal(ModalIds.AlertDeleteUser),
+            },
+            {
+              name: "Delete",
+              danger: true,
+              onClick: handleUserDelete,
+            },
+          ]}
+        />
+      ) : null}
     </Modal>
   );
 };

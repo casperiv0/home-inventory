@@ -17,18 +17,27 @@ router.get("/", withAuth, async (_, res) => {
 });
 
 router.get("/:id", withAuth, async (req, res) => {
-  const id = req.params.id as string;
+  try {
+    const id = req.params.id as string;
 
-  const product = await prisma.product.findUnique({ where: { id } });
+    const product = await prisma.product.findUnique({ where: { id } });
 
-  if (!product) {
-    return res.status(404).json({
-      error: "Product was not found",
+    if (!product) {
+      return res.status(404).json({
+        error: "Product was not found",
+        status: "error",
+      });
+    }
+
+    return res.json({ product });
+  } catch (e) {
+    console.error(e);
+
+    return res.status(500).json({
+      error: "An unexpected error has occurred. Please try again later",
       status: "error",
     });
   }
-
-  return res.json({ product });
 });
 
 /**

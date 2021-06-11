@@ -6,44 +6,54 @@ import { prisma } from "src/index";
 import { createUserSchema, updateUserSchema } from "@schemas/user.schema";
 import { AuthConstants } from "@lib/constants";
 import { validateSchema } from "@utils/validateSchema";
+import { UserRole } from "@prisma/client";
 
 const router = Router();
 
 router.post("/", withAuth, withPermission("ADMIN"), async (req, res) => {
-  const body = req.body;
+  try {
+    const body = req.body;
 
-  const [error] = await validateSchema(createUserSchema, body);
+    const [error] = await validateSchema(createUserSchema, body);
 
-  if (error) {
-    return res.status(400).json({
-      error: error.message,
+    if (error) {
+      return res.status(400).json({
+        error: error.message,
+        status: "error",
+      });
+    }
+
+    const existing = await prisma.user.findUnique({ where: { email: body.email } });
+
+    if (existing) {
+      return res.status(400).json({
+        error: "A user with that email already exists.",
+        status: "error",
+      });
+    }
+
+    await prisma.user.create({
+      data: {
+        password: hashSync(body.password, AuthConstants.saltRounds),
+        name: body.name,
+        email: body.email,
+        role: body.role,
+      },
+    });
+
+    const users = await prisma.user.findMany({
+      select: { name: true, id: true, email: true, role: true, createdAt: true },
+    });
+
+    return res.json({ users });
+  } catch (e) {
+    console.error(e);
+
+    return res.status(500).json({
+      error: "An unexpected error has occurred. Please try again later",
       status: "error",
     });
   }
-
-  const existing = await prisma.user.findUnique({ where: { email: body.email } });
-
-  if (existing) {
-    return res.status(400).json({
-      error: "A user with that email already exists.",
-      status: "error",
-    });
-  }
-
-  await prisma.user.create({
-    data: {
-      password: hashSync(body.password, AuthConstants.saltRounds),
-      name: body.name,
-      email: body.email,
-      role: body.role,
-    },
-  });
-
-  const users = await prisma.user.findMany({
-    select: { name: true, id: true, email: true, role: true, createdAt: true },
-  });
-
-  return res.json({ users });
 });
 
 router.get("/", withAuth, withPermission("ADMIN"), async (_, res) => {
@@ -55,65 +65,92 @@ router.get("/", withAuth, withPermission("ADMIN"), async (_, res) => {
 });
 
 router.put("/:id", withAuth, withPermission("ADMIN"), async (req, res) => {
-  const id = req.params.id as string;
-  const body = req.body;
+  try {
+    const id = req.params.id as string;
+    const body = req.body;
 
-  const [error] = await validateSchema(updateUserSchema, body);
+    const [error] = await validateSchema(updateUserSchema, body);
 
-  if (error) {
-    return res.status(400).json({
-      error: error.message,
+    if (error) {
+      return res.status(400).json({
+        error: error.message,
+        status: "error",
+      });
+    }
+
+    const user = await prisma.user.findUnique({ where: { id } });
+
+    if (!user) {
+      return res.status(404).json({
+        error: "User was not found",
+        status: "error",
+      });
+    }
+
+    await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        role: body.role,
+        name: body.name,
+      },
+    });
+
+    const users = await prisma.user.findMany({
+      select: { name: true, id: true, email: true, role: true, createdAt: true },
+    });
+
+    return res.json({ users });
+  } catch (e) {
+    console.error(e);
+
+    return res.status(500).json({
+      error: "An unexpected error has occurred. Please try again later",
       status: "error",
     });
   }
-
-  const user = await prisma.user.findUnique({ where: { id } });
-
-  if (!user) {
-    return res.status(404).json({
-      error: "User was not found",
-      status: "error",
-    });
-  }
-
-  await prisma.user.update({
-    where: {
-      id,
-    },
-    data: {
-      role: body.role,
-      name: body.name,
-    },
-  });
-
-  const users = await prisma.user.findMany({
-    select: { name: true, id: true, email: true, role: true, createdAt: true },
-  });
-
-  return res.json({ users });
 });
 
 router.delete("/:id", withAuth, withPermission("ADMIN"), async (req, res) => {
-  const id = req.params.id as string;
+  try {
+    const id = req.params.id as string;
 
-  const user = await prisma.user.findUnique({
-    where: { id },
-  });
+    const user = await prisma.user.findUnique({
+      where: { id },
+    });
 
-  if (!user) {
-    return res.status(400).json({
-      error: "User was not found",
+    if (!user) {
+      return res.status(400).json({
+        error: "User was not found",
+        status: "error",
+      });
+    }
+
+    if (user.role === UserRole.OWNER) {
+      return res.status(403).json({
+        error: "Cannot delete the owner's account",
+        status: "error",
+      });
+    }
+
+    await prisma.product.deleteMany({ where: { userId: id } });
+
+    await prisma.user.deleteMany({ where: { id } });
+
+    const users = await prisma.user.findMany({
+      select: { name: true, id: true, email: true, role: true, createdAt: true },
+    });
+
+    return res.json({ users });
+  } catch (e) {
+    console.error(e);
+
+    return res.status(500).json({
+      error: "An unexpected error has occurred. Please try again later",
       status: "error",
     });
   }
-
-  await prisma.user.delete({ where: { id } });
-
-  const users = await prisma.user.findMany({
-    select: { name: true, id: true, email: true, role: true, createdAt: true },
-  });
-
-  return res.json({ users });
 });
 
 export const usersRouter = router;

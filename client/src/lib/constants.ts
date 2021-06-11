@@ -4,3 +4,9 @@ export type ALLOWED_METHODS = "PATCH" | "PUT" | "DELETE" | "OPTIONS" | "GET" | "
 
 export const roles = ["admin", "user"];
 export const selectRoles = roles.map((r) => ({ label: r, value: r.toUpperCase() }));
+
+export const userRoles = {
+  OWNER: 3,
+  ADMIN: 2,
+  USER: 1,
+};
