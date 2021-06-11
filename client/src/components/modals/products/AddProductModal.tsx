@@ -10,10 +10,11 @@ import { addProduct } from "@actions/products";
 import { State } from "@t/State";
 import { Category } from "@t/Category";
 import { Select, SelectValue } from "@components/Select/Select";
+import { useHouseId } from "@hooks/useHouseId";
 
 interface Props {
   categories: Category[];
-  addProduct: (data: RequestData) => Promise<boolean>;
+  addProduct: (houseId: string, data: RequestData) => Promise<boolean>;
 }
 
 const AddProductModal = ({ addProduct, categories }: Props) => {
@@ -22,16 +23,16 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
   const [quantity, setQuantity] = React.useState("");
   const [expireDate, setExpireDate] = React.useState("");
   const [category, setCategory] = React.useState<SelectValue | null>(null);
-
   const [loading, setLoading] = React.useState(false);
 
+  const houseId = useHouseId();
   const ref = useModalEvent(ModalIds.AddProduct);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
 
-    const success = await addProduct({
+    const success = await addProduct(houseId, {
       name,
       price: Number(Number(price).toFixed(2)),
       quantity: Number(quantity),

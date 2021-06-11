@@ -9,17 +9,19 @@ import { updateCategoryById, deleteCategoryById } from "@actions/admin/categorie
 import { RequestData } from "@lib/fetch";
 import { Category } from "@t/Category";
 import { AlertModal } from "../AlertModal";
+import { useHouseId } from "@hooks/useHouseId";
 
 interface Props {
   category: Category | null;
-  updateCategoryById: (id: string, data: RequestData) => Promise<boolean>;
-  deleteCategoryById: (id: string) => Promise<boolean>;
+  updateCategoryById: (houseId: string, id: string, data: RequestData) => Promise<boolean>;
+  deleteCategoryById: (houseId: string, id: string) => Promise<boolean>;
 }
 
 const ManageCategoryModal = ({ category, updateCategoryById, deleteCategoryById }: Props) => {
   const [name, setName] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
+  const houseId = useHouseId();
   const ref = useModalEvent(ModalIds.ManageCategory);
 
   React.useEffect(() => {
@@ -33,7 +35,7 @@ const ManageCategoryModal = ({ category, updateCategoryById, deleteCategoryById 
     if (!category) return;
     setLoading(true);
 
-    const success = await updateCategoryById(category.id, {
+    const success = await updateCategoryById(houseId, category.id, {
       name,
     });
 
@@ -47,7 +49,7 @@ const ManageCategoryModal = ({ category, updateCategoryById, deleteCategoryById 
   async function handleCategoryDelete() {
     if (!category) return;
 
-    const success = await deleteCategoryById(category.id);
+    const success = await deleteCategoryById(houseId, category.id);
 
     if (success) {
       closeModal(ModalIds.ManageCategory);

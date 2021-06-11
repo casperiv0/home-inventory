@@ -14,6 +14,7 @@ async function returnHouseByUserId(userId: string | undefined) {
       name: true,
       id: true,
       users: { select: { name: true, email: true, id: true, role: true } },
+      products: { select: { name: true, id: true } },
     },
   });
 }

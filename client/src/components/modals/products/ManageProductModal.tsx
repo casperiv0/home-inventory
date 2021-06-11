@@ -12,13 +12,14 @@ import { Category } from "@t/Category";
 import { Select, SelectValue } from "@components/Select/Select";
 import { Product } from "@t/Product";
 import { AlertModal } from "@components/modals/AlertModal";
+import { useHouseId } from "@hooks/useHouseId";
 
 interface Props {
   product: Product | null;
 
   categories: Category[];
-  deleteProductById: (id: string) => Promise<boolean>;
-  updateProductById: (id: string, data: RequestData) => Promise<boolean>;
+  deleteProductById: (houseId: string, id: string) => Promise<boolean>;
+  updateProductById: (houseId: string, id: string, data: RequestData) => Promise<boolean>;
 }
 
 const ManageProductModal = ({
@@ -32,8 +33,9 @@ const ManageProductModal = ({
   const [quantity, setQuantity] = React.useState("");
   const [expireDate, setExpireDate] = React.useState("");
   const [category, setCategory] = React.useState<SelectValue | null>(null);
-
   const [loading, setLoading] = React.useState(false);
+
+  const houseId = useHouseId();
   const ref = useModalEvent(ModalIds.ManageProduct);
 
   React.useEffect(() => {
@@ -56,7 +58,7 @@ const ManageProductModal = ({
     setLoading(true);
     if (!product) return;
 
-    const success = await updateProductById(product.id, {
+    const success = await updateProductById(houseId, product.id, {
       name,
       price: Number(Number(price).toFixed(2)),
       quantity: Number(quantity),
@@ -75,7 +77,7 @@ const ManageProductModal = ({
   async function handleDeleteProduct() {
     if (!product) return;
 
-    const success = await deleteProductById(product.id);
+    const success = await deleteProductById(houseId, product.id);
 
     if (success) {
       closeModal(ModalIds.AlertDeleteProduct);

@@ -67,23 +67,35 @@ const StatsCards = ({ stats }: Props) => {
       <div className={styles.item} id="soon-to-expire">
         <h1>Soon to expire</h1>
 
-        <p>
-          These items are going to expire soon. Make sure to double check these items before eating
-          them!
-        </p>
+        {(soonToExpire?.length ?? 0) <= 0 ? (
+          <p>There are no products that are expiring soon yet.</p>
+        ) : (
+          <>
+            <p>
+              These items are going to expire soon. Make sure to double check these items before
+              eating them!
+            </p>
 
-        <ProductsTable currentFilter="expirationDate" products={soonToExpire ?? []} />
+            <ProductsTable currentFilter="expirationDate" products={soonToExpire ?? []} />
+          </>
+        )}
       </div>
 
       <div className={styles.item} id="low-on-quantity">
         <h1>Low on quantity</h1>
 
-        <p>
-          These products are low on quantity, do not forget to re-stock them next time going to the
-          shop.
-        </p>
+        {(lowOnQuantity?.length ?? 0) <= 0 ? (
+          <p>There are no items that are low on quantity yet.</p>
+        ) : (
+          <>
+            <p>
+              These products are low on quantity, do not forget to re-stock them next time going to
+              the shop.
+            </p>
 
-        <ProductsTable currentFilter="quantity" products={soonToExpire ?? []} />
+            <ProductsTable currentFilter="quantity" products={soonToExpire ?? []} />
+          </>
+        )}
       </div>
     </div>
   );

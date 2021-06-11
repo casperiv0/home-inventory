@@ -4,10 +4,10 @@ import { toast } from "react-toastify";
 import { GetStats, UpdateProducts } from "../types";
 
 export const getAllProducts =
-  (cookie?: string) =>
+  (houseId: string, cookie?: string) =>
   async (dispatch: Dispatch<UpdateProducts>): Promise<boolean> => {
     try {
-      const res = await handleRequest("/products", "GET", { cookie });
+      const res = await handleRequest(`/products/${houseId}`, "GET", { cookie });
 
       dispatch({
         type: "GET_ALL_PRODUCTS",
@@ -21,10 +21,10 @@ export const getAllProducts =
   };
 
 export const addProduct =
-  (data: RequestData) =>
+  (houseId: string, data: RequestData) =>
   async (dispatch: Dispatch<UpdateProducts>): Promise<boolean> => {
     try {
-      const res = await handleRequest("/products", "POST", data);
+      const res = await handleRequest(`/products/${houseId}`, "POST", data);
 
       dispatch({
         type: "ADD_PRODUCT",
@@ -39,9 +39,10 @@ export const addProduct =
   };
 
 export const updateProductById =
-  (id: string, data: RequestData) => async (dispatch: Dispatch<UpdateProducts>) => {
+  (houseId: string, id: string, data: RequestData) =>
+  async (dispatch: Dispatch<UpdateProducts>) => {
     try {
-      const res = await handleRequest(`/products/${id}`, "PUT", data);
+      const res = await handleRequest(`/products/${houseId}/${id}`, "PUT", data);
 
       dispatch({
         type: "UPDATE_PRODUCT_BY_ID",
@@ -55,37 +56,39 @@ export const updateProductById =
     }
   };
 
-export const deleteProductById = (id: string) => async (dispatch: Dispatch<UpdateProducts>) => {
-  try {
-    const res = await handleRequest(`/products/${id}`, "DELETE");
+export const deleteProductById =
+  (houseId: string, id: string) => async (dispatch: Dispatch<UpdateProducts>) => {
+    try {
+      const res = await handleRequest(`/products/${houseId}/${id}`, "DELETE");
 
-    dispatch({
-      type: "DELETE_PRODUCT_BY_ID",
-      products: res.data.products,
-    });
+      dispatch({
+        type: "DELETE_PRODUCT_BY_ID",
+        products: res.data.products,
+      });
 
-    return true;
-  } catch (e) {
-    toast.error(getErrorFromResponse(e));
-    return false;
-  }
-};
+      return true;
+    } catch (e) {
+      toast.error(getErrorFromResponse(e));
+      return false;
+    }
+  };
 
-export const getStats = (cookie?: string) => async (dispatch: Dispatch<GetStats>) => {
-  try {
-    const res = await handleRequest("/products/stats", "GET", { cookie });
+export const getStats =
+  (houseId: string, cookie?: string) => async (dispatch: Dispatch<GetStats>) => {
+    try {
+      const res = await handleRequest(`/products/${houseId}/stats`, "GET", { cookie });
 
-    dispatch({
-      type: "GET_STATS",
-      stats: {
-        totalSpent: res.data.totalSpent,
-        lowOnQuantity: res.data.lowOnQuantity,
-        soonToExpire: res.data.soonToExpire,
-      },
-    });
+      dispatch({
+        type: "GET_STATS",
+        stats: {
+          totalSpent: res.data.totalSpent,
+          lowOnQuantity: res.data.lowOnQuantity,
+          soonToExpire: res.data.soonToExpire,
+        },
+      });
 
-    return true;
-  } catch (e) {
-    return false;
-  }
-};
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };

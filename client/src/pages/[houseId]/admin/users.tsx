@@ -9,25 +9,26 @@ import { checkAuth } from "@actions/auth";
 import { State } from "@t/State";
 import { initializeStore } from "src/store/store";
 import { AdminLayout } from "@components/AdminLayout";
-import { getAllCategories } from "@actions/admin/categories";
-import { UserRole } from "@t/User";
+import { getAllUsers } from "@actions/admin/users";
+import { User, UserRole } from "@t/User";
 import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
-import { Category } from "@t/Category";
 import { useHasAccess } from "@hooks/useHasAccess";
 
-const AddCategoryModal = dynamic(() => import("@components/modals/admin/AddCategoryModal"));
-const ManageCategoryModal = dynamic(() => import("@components/modals/admin/ManageCategoryModal"));
+const AddUserModal = dynamic(() => import("@components/modals/admin/AddUserModal"));
+const ManageUserModal = dynamic(() => import("@components/modals/admin/ManageUserModal"));
 
 interface Props {
   isAuth: boolean;
-  categories: Category[];
+  loading: boolean;
+  users: User[];
+  user: User | null;
 }
 
-const CategoriesAdminPage = ({ isAuth, categories }: Props) => {
+const UsersAdminPage = ({ isAuth, users }: Props) => {
   const router = useRouter();
   const { loading, hasAccess } = useHasAccess(UserRole.ADMIN);
-  const [tempCategory, setTempCategory] = React.useState<Category | null>(null);
+  const [tempUser, setTempUser] = React.useState<User | null>(null);
 
   React.useEffect(() => {
     if (!loading && !isAuth) {
@@ -41,20 +42,20 @@ const CategoriesAdminPage = ({ isAuth, categories }: Props) => {
     }
   }, [loading, hasAccess, router]);
 
-  function handleManage(category: Category) {
-    setTempCategory(category);
+  function handleManage(user: User) {
+    setTempUser(user);
 
-    openModal(ModalIds.ManageCategory);
+    openModal(ModalIds.ManageUser);
   }
 
-  function sortByCreatedAt(a: Category, b: Category) {
+  function sortByCreatedAt(a: User, b: User) {
     return new Date(b.createdAt) > new Date(a.createdAt) ? -1 : 1;
   }
 
   return (
     <AdminLayout>
       <Head>
-        <title>Manage categories - Inventory</title>
+        <title>Manage users - Inventory</title>
       </Head>
 
       <div style={{ marginTop: "1rem" }}>
@@ -65,10 +66,10 @@ const CategoriesAdminPage = ({ isAuth, categories }: Props) => {
             justifyContent: "space-between",
           }}
         >
-          <h1>Categories</h1>
+          <h1>Users</h1>
 
-          <button onClick={() => openModal(ModalIds.AddCategory)} className="btn">
-            Add category
+          <button onClick={() => openModal(ModalIds.AddUser)} className="btn">
+            Add user
           </button>
         </div>
 
@@ -76,18 +77,22 @@ const CategoriesAdminPage = ({ isAuth, categories }: Props) => {
           <thead>
             <tr>
               <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
               <th>Actions</th>
             </tr>
           </thead>
 
           <tbody>
-            {categories
+            {users
               .sort((a, b) => sortByCreatedAt(a, b))
-              .map((category) => (
-                <tr key={category.id}>
-                  <td>{category.name}</td>
-                  <td style={{ width: "100px" }} id="table-actions">
-                    <button onClick={() => handleManage(category)} className="btn small">
+              .map((user) => (
+                <tr key={user.id}>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td>{user.role}</td>
+                  <td id="table-actions">
+                    <button onClick={() => handleManage(user)} className="btn small">
                       Manage
                     </button>
                   </td>
@@ -97,8 +102,8 @@ const CategoriesAdminPage = ({ isAuth, categories }: Props) => {
         </table>
       </div>
 
-      <ManageCategoryModal category={tempCategory} />
-      <AddCategoryModal />
+      <ManageUserModal user={tempUser} />
+      <AddUserModal />
     </AdminLayout>
   );
 };
@@ -106,16 +111,19 @@ const CategoriesAdminPage = ({ isAuth, categories }: Props) => {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const store = initializeStore();
   const cookie = ctx.req.headers.cookie;
+  const houseId = ctx.query.houseId as string;
 
   await checkAuth(cookie)(store.dispatch);
-  await getAllCategories(cookie)(store.dispatch);
+  await getAllUsers(houseId, cookie)(store.dispatch);
 
   return { props: { initialReduxState: store.getState() } };
 };
 
 const mapToProps = (state: State): Props => ({
   isAuth: state.auth.isAuth,
-  categories: state.admin.categories,
+  users: state.admin.users,
+  loading: state.auth.loading,
+  user: state.auth.user,
 });
 
-export default connect(mapToProps)(CategoriesAdminPage);
+export default connect(mapToProps)(UsersAdminPage);

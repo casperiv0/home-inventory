@@ -1,4 +1,5 @@
 import { Category } from "@t/Category";
+import { House } from "@t/House";
 import { Product } from "@t/Product";
 import { Statistics } from "@t/Statistics";
 import { User } from "@t/User";
@@ -33,3 +34,14 @@ export interface GetStats {
   type: "GET_STATS";
   stats: Statistics;
 }
+
+export interface UpdateHouses {
+  type: "GET_ALL_HOUSES" | "UPDATE_HOUSE_BY_ID" | "ADD_HOUSE" | "DELETE_HOUSE_BY_ID";
+  houses: House[];
+}
+
+// todo: this may not be needed.
+// export interface GetHouseById {
+//   type: "GET_HOUSE_BY_ID";
+//   house: House;
+// }

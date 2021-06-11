@@ -1,5 +1,5 @@
 import { Product } from "@t/Product";
-import { filters } from "src/pages/products";
+import { filters } from "src/pages/[houseId]/products";
 
 interface Props {
   products: Product[];

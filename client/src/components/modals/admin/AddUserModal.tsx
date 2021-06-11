@@ -9,9 +9,10 @@ import { selectRoles } from "@lib/constants";
 import { RequestData } from "@lib/fetch";
 import { connect } from "react-redux";
 import { addUser } from "@actions/admin/users";
+import { useHouseId } from "@hooks/useHouseId";
 
 interface Props {
-  addUser: (data: RequestData) => Promise<boolean>;
+  addUser: (houseId: string, data: RequestData) => Promise<boolean>;
 }
 
 const AddUserModal = ({ addUser }: Props) => {
@@ -21,13 +22,14 @@ const AddUserModal = ({ addUser }: Props) => {
   const [role, setRole] = React.useState<SelectValue | null>(null);
   const [loading, setLoading] = React.useState(false);
 
+  const houseId = useHouseId();
   const ref = useModalEvent(ModalIds.AddUser);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
 
-    const success = await addUser({ email, name, password, role: role?.value });
+    const success = await addUser(houseId, { email, name, password, role: role?.value });
 
     if (success) {
       closeModal(ModalIds.AddUser);

@@ -160,10 +160,11 @@ const mapToProps = (state: State): Props => ({
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const store = initializeStore();
   const cookie = ctx.req.headers.cookie;
+  const houseId = ctx.query.houseId as string;
 
   await checkAuth(cookie)(store.dispatch);
-  await getAllProducts(cookie)(store.dispatch);
-  await getAllCategories(cookie)(store.dispatch);
+  await getAllProducts(houseId, cookie)(store.dispatch);
+  await getAllCategories(houseId, cookie)(store.dispatch);
 
   return { props: { initialReduxState: store.getState() } };
 };

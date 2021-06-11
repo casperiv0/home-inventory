@@ -7,22 +7,24 @@ import { closeModal } from "@lib/modal";
 import useModalEvent from "src/hooks/useModalEvent";
 import { RequestData } from "@lib/fetch";
 import { addCategory } from "@actions/admin/categories";
+import { useHouseId } from "@hooks/useHouseId";
 
 interface Props {
-  addCategory: (data: RequestData) => Promise<boolean>;
+  addCategory: (houseId: string, data: RequestData) => Promise<boolean>;
 }
 
 const AddCategoryModal = ({ addCategory }: Props) => {
   const [name, setName] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
+  const houseId = useHouseId();
   const ref = useModalEvent(ModalIds.AddCategory);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
 
-    const success = await addCategory({ name });
+    const success = await addCategory(houseId, { name });
 
     if (success) {
       closeModal(ModalIds.AddCategory);

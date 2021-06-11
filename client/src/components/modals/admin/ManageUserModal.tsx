@@ -11,11 +11,12 @@ import { updateUserById, deleteUserById } from "@actions/admin/users";
 import { RequestData } from "@lib/fetch";
 import { selectRoles } from "@lib/constants";
 import { AlertModal } from "../AlertModal";
+import { useHouseId } from "@hooks/useHouseId";
 
 interface Props {
   user: User | null;
-  updateUserById: (id: string, data: RequestData) => Promise<boolean>;
-  deleteUserById: (id: string) => Promise<boolean>;
+  updateUserById: (houseId: string, id: string, data: RequestData) => Promise<boolean>;
+  deleteUserById: (houseId: string, id: string) => Promise<boolean>;
 }
 
 const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
@@ -24,6 +25,7 @@ const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
   const [role, setRole] = React.useState<SelectValue | null>(null);
   const [loading, setLoading] = React.useState(false);
 
+  const houseId = useHouseId();
   const ref = useModalEvent(ModalIds.ManageUser);
 
   React.useEffect(() => {
@@ -39,7 +41,7 @@ const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
     if (!user) return;
     setLoading(true);
 
-    const success = await updateUserById(user.id, {
+    const success = await updateUserById(houseId, user.id, {
       email,
       role: role?.value,
       name,
@@ -55,7 +57,7 @@ const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
   async function handleUserDelete() {
     if (!user) return;
 
-    const success = await deleteUserById(user.id);
+    const success = await deleteUserById(houseId, user.id);
 
     if (success) {
       closeModal(ModalIds.AlertDeleteUser);

@@ -1,5 +1,5 @@
 import { Product } from "@t/Product";
-import { filters } from "src/pages/products";
+import { filters } from "src/pages/[houseId]/products";
 
 export function sortProducts(filter: keyof typeof filters, products: Product[]) {
   switch (filter) {

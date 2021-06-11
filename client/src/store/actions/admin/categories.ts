@@ -4,9 +4,9 @@ import { getErrorFromResponse, handleRequest, RequestData } from "@lib/fetch";
 import { UpdateCategories } from "src/store/types";
 
 export const getAllCategories =
-  (cookie?: string) => async (dispatch: Dispatch<UpdateCategories>) => {
+  (houseId: string, cookie?: string) => async (dispatch: Dispatch<UpdateCategories>) => {
     try {
-      const res = await handleRequest("/admin/categories", "GET", {
+      const res = await handleRequest(`/admin/categories/${houseId}`, "GET", {
         cookie,
       });
 
@@ -21,26 +21,28 @@ export const getAllCategories =
     }
   };
 
-export const addCategory = (data: RequestData) => async (dispatch: Dispatch<UpdateCategories>) => {
-  try {
-    const res = await handleRequest("/admin/categories", "POST", data);
+export const addCategory =
+  (houseId: string, data: RequestData) => async (dispatch: Dispatch<UpdateCategories>) => {
+    try {
+      const res = await handleRequest(`/admin/categories/${houseId}`, "POST", data);
 
-    dispatch({
-      type: "ADD_CATEGORY",
-      categories: res.data.categories,
-    });
+      dispatch({
+        type: "ADD_CATEGORY",
+        categories: res.data.categories,
+      });
 
-    return true;
-  } catch (e) {
-    toast.error(getErrorFromResponse(e));
-    return false;
-  }
-};
+      return true;
+    } catch (e) {
+      toast.error(getErrorFromResponse(e));
+      return false;
+    }
+  };
 
 export const updateCategoryById =
-  (id: string, data: RequestData) => async (dispatch: Dispatch<UpdateCategories>) => {
+  (houseId: string, id: string, data: RequestData) =>
+  async (dispatch: Dispatch<UpdateCategories>) => {
     try {
-      const res = await handleRequest(`/admin/categories/${id}`, "PUT", data);
+      const res = await handleRequest(`/admin/categories/${houseId}/${id}`, "PUT", data);
 
       dispatch({
         type: "UPDATE_CATEGORY_BY_ID",
@@ -54,18 +56,19 @@ export const updateCategoryById =
     }
   };
 
-export const deleteCategoryById = (id: string) => async (dispatch: Dispatch<UpdateCategories>) => {
-  try {
-    const res = await handleRequest(`/admin/categories/${id}`, "DELETE");
+export const deleteCategoryById =
+  (houseId: string, id: string) => async (dispatch: Dispatch<UpdateCategories>) => {
+    try {
+      const res = await handleRequest(`/admin/categories/${houseId}/${id}`, "DELETE");
 
-    dispatch({
-      type: "DELETE_CATEGORY_BY_ID",
-      categories: res.data.categories,
-    });
+      dispatch({
+        type: "DELETE_CATEGORY_BY_ID",
+        categories: res.data.categories,
+      });
 
-    return true;
-  } catch (e) {
-    toast.error(getErrorFromResponse(e));
-    return false;
-  }
-};
+      return true;
+    } catch (e) {
+      toast.error(getErrorFromResponse(e));
+      return false;
+    }
+  };
