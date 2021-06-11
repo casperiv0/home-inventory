@@ -46,7 +46,9 @@ export const ProductsTable = ({ products, currentFilter, showActions, onManageCl
               <td className={boldText("quantity") || boldText("quantityHigh") ? "bold" : ""}>
                 {product.quantity}
               </td>
-              <td className={boldText("expirationDate") ? "bold" : ""}>{product.expirationDate}</td>
+              <td className={boldText("expirationDate") ? "bold" : ""}>
+                {product.expirationDate ?? "N/A"}
+              </td>
 
               {showActions ? (
                 <td id="table-actions">

@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { hashSync } from "bcryptjs";
+import { UserRole } from "@prisma/client";
 import { withAuth } from "@hooks/withAuth";
 import { withPermission } from "@hooks/withPermission";
 import { prisma } from "src/index";
 import { createUserSchema, updateUserSchema } from "@schemas/user.schema";
 import { AuthConstants } from "@lib/constants";
 import { validateSchema } from "@utils/validateSchema";
-import { UserRole } from "@prisma/client";
 import { withValidHouseId } from "@hooks/withValidHouseId";
 
 const router = Router();
@@ -49,12 +49,20 @@ router.post("/:houseId", withAuth, withValidHouseId, withPermission("ADMIN"), as
       });
     }
 
-    await prisma.user.create({
+    await prisma.house.update({
+      where: {
+        id: houseId,
+      },
       data: {
-        password: hashSync(body.password, AuthConstants.saltRounds),
-        name: body.name,
-        email: body.email,
-        role: body.role,
+        users: {
+          create: {
+            password: hashSync(body.password, AuthConstants.saltRounds),
+            name: body.name,
+            email: body.email,
+            role: body.role,
+            houseId,
+          },
+        },
       },
     });
 
