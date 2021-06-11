@@ -1,7 +1,7 @@
 import { getErrorFromResponse, handleRequest, RequestData } from "@lib/fetch";
 import { Dispatch } from "react";
 import { toast } from "react-toastify";
-import { UpdateProducts } from "../types";
+import { GetStats, UpdateProducts } from "../types";
 
 export const getAllProducts =
   (cookie?: string) =>
@@ -67,6 +67,25 @@ export const deleteProductById = (id: string) => async (dispatch: Dispatch<Updat
     return true;
   } catch (e) {
     toast.error(getErrorFromResponse(e));
+    return false;
+  }
+};
+
+export const getStats = (cookie?: string) => async (dispatch: Dispatch<GetStats>) => {
+  try {
+    const res = await handleRequest("/products/stats", "GET", { cookie });
+
+    dispatch({
+      type: "GET_STATS",
+      stats: {
+        totalSpent: res.data.totalSpent,
+        lowOnQuantity: res.data.lowOnQuantity,
+        soonToExpire: res.data.soonToExpire,
+      },
+    });
+
+    return true;
+  } catch (e) {
     return false;
   }
 };

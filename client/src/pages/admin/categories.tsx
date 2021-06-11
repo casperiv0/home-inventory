@@ -2,19 +2,22 @@ import * as React from "react";
 import { connect } from "react-redux";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
 import { GetServerSideProps } from "next";
+
 import { checkAuth } from "@actions/auth";
 import { State } from "@t/State";
 import { initializeStore } from "src/store/store";
 import { AdminLayout } from "@components/AdminLayout";
 import { getAllCategories } from "@actions/admin/categories";
 import { UserRole } from "@t/User";
-import AddCategoryModal from "@components/modals/admin/AddCategoryModal";
-import ManageCategoryModal from "@components/modals/admin/ManageCategoryModal";
 import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
 import { Category } from "@t/Category";
 import { useHasAccess } from "@hooks/useHasAccess";
+
+const AddCategoryModal = dynamic(() => import("@components/modals/admin/AddCategoryModal"));
+const ManageCategoryModal = dynamic(() => import("@components/modals/admin/ManageCategoryModal"));
 
 interface Props {
   isAuth: boolean;
@@ -104,7 +107,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return { props: { initialReduxState: store.getState() } };
 };
 
-const mapToProps = (state: State) => ({
+const mapToProps = (state: State): Props => ({
   isAuth: state.auth.isAuth,
   categories: state.admin.categories,
 });

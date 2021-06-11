@@ -23,6 +23,7 @@ model User {
 model Product {
   id             String   @id @default(uuid())
   quantity       Int
+  warnOnQuantity Int      @default(2)
   price          Float
   prices         Float[]
   name           String   @unique

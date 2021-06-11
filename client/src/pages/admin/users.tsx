@@ -2,18 +2,21 @@ import * as React from "react";
 import { connect } from "react-redux";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
 import { GetServerSideProps } from "next";
+
 import { checkAuth } from "@actions/auth";
 import { State } from "@t/State";
 import { initializeStore } from "src/store/store";
 import { AdminLayout } from "@components/AdminLayout";
 import { getAllUsers } from "@actions/admin/users";
 import { User, UserRole } from "@t/User";
-import AddUserModal from "@components/modals/admin/AddUserModal";
-import ManageUserModal from "@components/modals/admin/ManageUserModal";
 import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
 import { useHasAccess } from "@hooks/useHasAccess";
+
+const AddUserModal = dynamic(() => import("@components/modals/admin/AddUserModal"));
+const ManageUserModal = dynamic(() => import("@components/modals/admin/ManageUserModal"));
 
 interface Props {
   isAuth: boolean;
@@ -109,7 +112,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return { props: { initialReduxState: store.getState() } };
 };
 
-const mapToProps = (state: State) => ({
+const mapToProps = (state: State): Props => ({
   isAuth: state.auth.isAuth,
   users: state.admin.users,
   loading: state.auth.loading,

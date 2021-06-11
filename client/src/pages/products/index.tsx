@@ -2,22 +2,24 @@ import { connect } from "react-redux";
 import * as React from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { GetServerSideProps } from "next";
+import dynamic from "next/dynamic";
+
 import { Layout } from "@components/Layout";
 import { Product } from "@t/Product";
 import { State } from "@t/State";
 import { Select, SelectValue } from "@components/Select/Select";
 import { sortProducts } from "@utils/sortProducts";
-import { GetServerSideProps } from "next";
 import { initializeStore } from "src/store/store";
 import { checkAuth } from "@actions/auth";
 import { getAllProducts } from "@actions/products";
 import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
-import AddProductModal from "@components/modals/products/AddProductModal";
 import { getAllCategories } from "@actions/admin/categories";
-import ManageProductModal from "@components/modals/products/ManageProductModal";
-
 import formStyles from "css/forms.module.scss";
+
+const AddProductModal = dynamic(() => import("@components/modals/products/AddProductModal"));
+const ManageProductModal = dynamic(() => import("@components/modals/products/ManageProductModal"));
 
 interface Props {
   products: Product[];
@@ -190,7 +192,7 @@ const ProductsPage = ({ products, isAuth, loading }: Props) => {
   );
 };
 
-const mapToProps = (state: State) => ({
+const mapToProps = (state: State): Props => ({
   products: state.products.products,
   isAuth: state.auth.isAuth,
   loading: state.auth.loading,

@@ -1,5 +1,6 @@
 import { Category } from "@t/Category";
 import { Product } from "@t/Product";
+import { Statistics } from "@t/Statistics";
 import { User } from "@t/User";
 
 export interface SetAuthLoading {
@@ -26,4 +27,9 @@ export interface UpdateCategories {
 export interface UpdateProducts {
   type: "GET_ALL_PRODUCTS" | "UPDATE_PRODUCT_BY_ID" | "ADD_PRODUCT" | "DELETE_PRODUCT_BY_ID";
   products: Product[];
+}
+
+export interface GetStats {
+  type: "GET_STATS";
+  stats: Statistics;
 }

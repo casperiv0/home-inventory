@@ -3,6 +3,7 @@ import { usersRouter } from "./admin/users";
 import { authRouter } from "./auth";
 import { productsRouter } from "./products";
 import { categoriesRouter } from "./admin/categories";
+import { notFoundMiddleware } from "@lib/middlewares";
 
 const router = Router();
 
@@ -16,5 +17,7 @@ router.post("/", (_, res) => {
     message: "Hello world",
   });
 });
+
+router.use(notFoundMiddleware);
 
 export default router;

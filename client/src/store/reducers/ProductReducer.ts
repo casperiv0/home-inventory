@@ -1,10 +1,11 @@
 import { State } from "@t/State";
-import { UpdateProducts } from "../types";
+import { GetStats, UpdateProducts } from "../types";
 
-type Actions = UpdateProducts;
+type Actions = UpdateProducts | GetStats;
 
 const initState: State["products"] = {
   products: [],
+  stats: null,
 };
 
 export default function ProductReducer(state = initState, action: Actions): State["products"] {
@@ -18,6 +19,14 @@ export default function ProductReducer(state = initState, action: Actions): Stat
         products: action.products,
       };
     }
+
+    case "GET_STATS": {
+      return {
+        ...state,
+        stats: action.stats,
+      };
+    }
+
     default: {
       return {
         ...state,
