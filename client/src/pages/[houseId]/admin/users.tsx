@@ -14,6 +14,7 @@ import { User, UserRole } from "@t/User";
 import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
 import { useHasAccess } from "@hooks/useHasAccess";
+import { getCurrentHouse } from "@actions/houses";
 
 const AddUserModal = dynamic(() => import("@components/modals/admin/AddUserModal"));
 const ManageUserModal = dynamic(() => import("@components/modals/admin/ManageUserModal"));
@@ -114,6 +115,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const houseId = ctx.query.houseId as string;
 
   await checkAuth(cookie)(store.dispatch);
+  await getCurrentHouse(houseId, cookie)(store.dispatch);
   await getAllUsers(houseId, cookie)(store.dispatch);
 
   return { props: { initialReduxState: store.getState() } };

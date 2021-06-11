@@ -10,4 +10,8 @@ export enum ModalIds {
   AddCategory = "AddCategoryModal",
   ManageCategory = "ManageCategoryModal",
   AlertDeleteCategory = "Alert_DeleteCategoryModal",
+
+  AddHouse = "AddHouseModal",
+  ManageHouse = "ManageHouseModal",
+  AlertDeleteHouse = "Alert_DeleteHouse",
 }

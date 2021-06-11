@@ -18,6 +18,7 @@ import { ModalIds } from "@t/ModalIds";
 import { getAllCategories } from "@actions/admin/categories";
 import formStyles from "css/forms.module.scss";
 import { ProductsTable } from "@components/ProductsTable";
+import { getCurrentHouse } from "@actions/houses";
 
 const AddProductModal = dynamic(() => import("@components/modals/products/AddProductModal"));
 const ManageProductModal = dynamic(() => import("@components/modals/products/ManageProductModal"));
@@ -85,7 +86,7 @@ const ProductsPage = ({ products, isAuth, loading }: Props) => {
   }, [isAuth, loading, router]);
 
   return (
-    <Layout>
+    <Layout showCurrentHouse>
       <Head>
         <title>Products - Inventory</title>
       </Head>
@@ -163,6 +164,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const houseId = ctx.query.houseId as string;
 
   await checkAuth(cookie)(store.dispatch);
+  await getCurrentHouse(houseId, cookie)(store.dispatch);
   await getAllProducts(houseId, cookie)(store.dispatch);
   await getAllCategories(houseId, cookie)(store.dispatch);
 

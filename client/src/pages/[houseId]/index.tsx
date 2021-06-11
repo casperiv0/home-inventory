@@ -8,17 +8,16 @@ import { checkAuth } from "@actions/auth";
 import { State } from "@t/State";
 import { initializeStore } from "src/store/store";
 import { Layout } from "@components/Layout";
-import { User } from "@t/User";
 import { getStats } from "@actions/products";
 import StatsCards from "@components/home/StatsCards";
+import { getCurrentHouse } from "@actions/houses";
 
 interface Props {
   isAuth: boolean;
   loading: boolean;
-  user: User | null;
 }
 
-const HousePage = ({ isAuth, loading, user }: Props) => {
+const HousePage = ({ isAuth, loading }: Props) => {
   const router = useRouter();
 
   React.useEffect(() => {
@@ -28,18 +27,10 @@ const HousePage = ({ isAuth, loading, user }: Props) => {
   }, [isAuth, loading, router]);
 
   return (
-    <Layout>
+    <Layout showCurrentHouse>
       <Head>
         <title>Home - Inventory</title>
       </Head>
-
-      <div style={{ marginTop: "1rem" }}>
-        <p>
-          <em>
-            Logged in as <strong>{user?.email}</strong>
-          </em>
-        </p>
-      </div>
 
       <StatsCards />
     </Layout>
@@ -52,6 +43,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const houseId = ctx.query.houseId as string;
 
   await checkAuth(cookie)(store.dispatch);
+  await getCurrentHouse(houseId, cookie)(store.dispatch);
   await getStats(houseId, cookie)(store.dispatch);
 
   return { props: { initialReduxState: store.getState() } };
@@ -60,7 +52,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 const mapToProps = (state: State): Props => ({
   isAuth: state.auth.isAuth,
   loading: state.auth.loading,
-  user: state.auth.user,
 });
 
 export default connect(mapToProps)(HousePage);

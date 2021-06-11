@@ -15,6 +15,7 @@ import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
 import { Category } from "@t/Category";
 import { useHasAccess } from "@hooks/useHasAccess";
+import { getCurrentHouse } from "@actions/houses";
 
 const AddCategoryModal = dynamic(() => import("@components/modals/admin/AddCategoryModal"));
 const ManageCategoryModal = dynamic(() => import("@components/modals/admin/ManageCategoryModal"));
@@ -109,6 +110,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const houseId = ctx.query.houseId as string;
 
   await checkAuth(cookie)(store.dispatch);
+  await getCurrentHouse(houseId, cookie)(store.dispatch);
   await getAllCategories(houseId, cookie)(store.dispatch);
 
   return { props: { initialReduxState: store.getState() } };

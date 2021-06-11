@@ -40,8 +40,7 @@ export interface UpdateHouses {
   houses: House[];
 }
 
-// todo: this may not be needed.
-// export interface GetHouseById {
-//   type: "GET_HOUSE_BY_ID";
-//   house: House;
-// }
+export interface GetHouseById {
+  type: "GET_HOUSE_BY_ID";
+  house: House;
+}

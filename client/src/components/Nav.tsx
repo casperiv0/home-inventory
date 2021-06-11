@@ -8,7 +8,11 @@ export const Nav = () => {
   return (
     <nav className={styles.navContainer}>
       <div className={styles.navContent}>
-        <div className={styles.navTitle}>Inventory</div>
+        <div className={styles.navTitle}>
+          <Link href="/">
+            <a>Inventory</a>
+          </Link>
+        </div>
 
         <ul className={styles.navLinks}>
           {houseId ? (

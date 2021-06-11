@@ -1,10 +1,11 @@
 import { State } from "@t/State";
-import { UpdateHouses } from "../types";
+import { GetHouseById, UpdateHouses } from "../types";
 
-type Actions = UpdateHouses;
+type Actions = UpdateHouses | GetHouseById;
 
 const initState: State["houses"] = {
   houses: [],
+  house: null,
 };
 
 export default function HousesReducer(state = initState, action: Actions): State["houses"] {
@@ -16,6 +17,13 @@ export default function HousesReducer(state = initState, action: Actions): State
       return {
         ...state,
         houses: action.houses,
+      };
+    }
+
+    case "GET_HOUSE_BY_ID": {
+      return {
+        ...state,
+        house: action.house,
       };
     }
 

@@ -4,7 +4,7 @@ import { Layout } from "./Layout";
 
 export const AdminLayout: React.FC = ({ children }) => {
   return (
-    <Layout>
+    <Layout showCurrentHouse>
       <div className={styles.adminContent}>
         <AdminSidebar />
         <>{children}</>

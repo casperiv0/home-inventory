@@ -19,6 +19,7 @@ export interface State {
     stats: Statistics | null;
   };
   houses: {
+    house: House | null;
     houses: House[];
   };
 }
