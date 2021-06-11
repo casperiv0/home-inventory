@@ -5,7 +5,8 @@
     "build": "npm run build:typed-css && next build",
     "build:typed-css": "tsm src",
     "build:typed-css:watch": "tsm src -w",
-    "start": "next start"
+    "start": "next start",
+    "test-tsc": "tsc --noEmit"
   },
   "dependencies": {
     "@casper124578/useful": "^0.0.12",
