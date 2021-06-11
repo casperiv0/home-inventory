@@ -59,8 +59,7 @@ router.get("/:houseId/stats", withAuth, withValidHouseId, async (req, res) => {
 
       const today = format(Date.now(), "yyyy-MM-dd");
       const expirationDate =
-        `${expirationDate2Days}` !== "Invalid Date" &&
-        format(expirationDate2Days, "yyyy-MM-dd");
+        `${expirationDate2Days}` !== "Invalid Date" && format(expirationDate2Days, "yyyy-MM-dd");
 
       return today === expirationDate;
     });
@@ -107,90 +106,85 @@ router.get("/:houseId/:id", withAuth, withValidHouseId, async (req, res) => {
 /**
  * create a new product
  */
-router.post(
-  "/:houseId",
-  withAuth,
-  withValidHouseId,
-  async (req: IRequest, res) => {
-    try {
-      const houseId = req.params.houseId as string;
-      const body = req.body;
+router.post("/:houseId", withAuth, withValidHouseId, async (req: IRequest, res) => {
+  try {
+    const houseId = req.params.houseId as string;
+    const body = req.body;
 
-      const [error] = await validateSchema(createProductSchema, body);
+    const [error] = await validateSchema(createProductSchema, body);
 
-      if (error) {
-        return res.status(400).json({
-          error: error.message,
-          status: "error",
-        });
-      }
-
-      const existing = await prisma.product.findFirst({
-        where: { name: body.name, houseId },
+    if (error) {
+      return res.status(400).json({
+        error: error.message,
+        status: "error",
       });
+    }
 
-      /**
-       * if there's already a product with the same name,
-       * update the existing product with the new quantity
-       * and append to price to the prices array
-       */
-      if (existing) {
-        await prisma.product.update({
-          where: {
-            id: existing.id,
-          },
-          data: {
-            quantity: existing.quantity + body.quantity,
+    const existing = await prisma.product.findFirst({
+      where: { name: body.name, houseId },
+    });
 
-            // body.price = for 1 item, times the quantity -> total amount for the product.
-            prices: [...(existing.prices ?? []), body.price * body.quantity],
-          },
-        });
-
-        const products = await getProducts(req.params.houseId);
-        return res.json({ products });
-      }
-
-      let category;
-      if (body.categoryId) {
-        category = await prisma.category.findUnique({
-          where: { id: body.categoryId },
-        });
-
-        if (!category) {
-          return res.status(404).json({
-            error: "That category was not found",
-            status: "error",
-          });
-        }
-      }
-
-      await prisma.product.create({
+    /**
+     * if there's already a product with the same name,
+     * update the existing product with the new quantity
+     * and append to price to the prices array
+     */
+    if (existing) {
+      await prisma.product.update({
+        where: {
+          id: existing.id,
+        },
         data: {
-          name: body.name,
-          price: body.price,
-          quantity: body.quantity,
-          prices: [body.price * body.quantity],
-          categoryId: category?.id ?? null,
-          expirationDate: body.expirationDate ?? null,
-          warnOnQuantity: body.warnOnQuantity,
-          userId: req.userId!,
-          houseId,
+          quantity: existing.quantity + body.quantity,
+
+          // body.price = for 1 item, times the quantity -> total amount for the product.
+          prices: [...(existing.prices ?? []), body.price * body.quantity],
         },
       });
 
       const products = await getProducts(req.params.houseId);
       return res.json({ products });
-    } catch (e) {
-      console.error(e);
-
-      return res.status(500).json({
-        error: "An unexpected error has occurred. Please try again later",
-        status: "error",
-      });
     }
+
+    let category;
+    if (body.categoryId) {
+      category = await prisma.category.findUnique({
+        where: { id: body.categoryId },
+      });
+
+      if (!category) {
+        return res.status(404).json({
+          error: "That category was not found",
+          status: "error",
+        });
+      }
+    }
+
+    await prisma.product.create({
+      data: {
+        name: body.name,
+        price: body.price,
+        quantity: body.quantity,
+        prices: [body.price * body.quantity],
+        categoryId: category?.id ?? null,
+        expirationDate: body.expirationDate ?? null,
+        warnOnQuantity: body.warnOnQuantity,
+        userId: req.userId!,
+        houseId,
+      },
+    });
+
+    const products = await getProducts(req.params.houseId);
+    return res.json({ products });
+  } catch (e) {
+    console.error(e);
+
+    return res.status(500).json({
+      error: "An unexpected error has occurred. Please try again later",
+      status: "error",
+    });
   }
-);
+});
 
 router.put("/:houseId/:id", withAuth, withValidHouseId, async (req, res) => {
   try {

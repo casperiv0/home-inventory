@@ -67,8 +67,7 @@ router.post("/", withAuth, async (req: IRequest, res) => {
 
     if (existing) {
       return res.status(400).json({
-        error:
-          "House name is already in-use. Please specify a different house name",
+        error: "House name is already in-use. Please specify a different house name",
       });
     }
 

@@ -2,11 +2,7 @@ import { IRequest } from "@t/IRequest";
 import { NextFunction, Response } from "express";
 import { prisma } from "src";
 
-export async function withValidHouseId(
-  req: IRequest,
-  res: Response,
-  next: NextFunction
-) {
+export async function withValidHouseId(req: IRequest, res: Response, next: NextFunction) {
   try {
     const house = await prisma.house.findUnique({
       where: { id: req.params.houseId! },

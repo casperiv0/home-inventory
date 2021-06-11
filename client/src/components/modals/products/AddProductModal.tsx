@@ -116,7 +116,13 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
           />
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+          }}
+        >
           <button
             type="button"
             onClick={() => closeModal(ModalIds.AddProduct)}

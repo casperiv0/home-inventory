@@ -24,68 +24,56 @@ async function getUsers(houseId: string | undefined) {
   });
 }
 
-router.post(
-  "/:houseId",
-  withAuth,
-  withValidHouseId,
-  withPermission("ADMIN"),
-  async (req, res) => {
-    try {
-      const body = req.body;
-      const houseId = req.params.houseId as string;
+router.post("/:houseId", withAuth, withValidHouseId, withPermission("ADMIN"), async (req, res) => {
+  try {
+    const body = req.body;
+    const houseId = req.params.houseId as string;
 
-      const [error] = await validateSchema(createUserSchema, body);
+    const [error] = await validateSchema(createUserSchema, body);
 
-      if (error) {
-        return res.status(400).json({
-          error: error.message,
-          status: "error",
-        });
-      }
-
-      const existing = await prisma.user.findFirst({
-        where: { email: body.email, houseId },
-      });
-
-      if (existing) {
-        return res.status(400).json({
-          error: "A user with that email already exists.",
-          status: "error",
-        });
-      }
-
-      await prisma.user.create({
-        data: {
-          password: hashSync(body.password, AuthConstants.saltRounds),
-          name: body.name,
-          email: body.email,
-          role: body.role,
-        },
-      });
-
-      const users = await getUsers(houseId);
-      return res.json({ users });
-    } catch (e) {
-      console.error(e);
-
-      return res.status(500).json({
-        error: "An unexpected error has occurred. Please try again later",
+    if (error) {
+      return res.status(400).json({
+        error: error.message,
         status: "error",
       });
     }
-  }
-);
 
-router.get(
-  "/:houseId",
-  withAuth,
-  withValidHouseId,
-  withPermission("ADMIN"),
-  async (req, res) => {
-    const users = await getUsers(req.params.houseId);
+    const existing = await prisma.user.findFirst({
+      where: { email: body.email, houseId },
+    });
+
+    if (existing) {
+      return res.status(400).json({
+        error: "A user with that email already exists.",
+        status: "error",
+      });
+    }
+
+    await prisma.user.create({
+      data: {
+        password: hashSync(body.password, AuthConstants.saltRounds),
+        name: body.name,
+        email: body.email,
+        role: body.role,
+      },
+    });
+
+    const users = await getUsers(houseId);
     return res.json({ users });
+  } catch (e) {
+    console.error(e);
+
+    return res.status(500).json({
+      error: "An unexpected error has occurred. Please try again later",
+      status: "error",
+    });
   }
-);
+});
+
+router.get("/:houseId", withAuth, withValidHouseId, withPermission("ADMIN"), async (req, res) => {
+  const users = await getUsers(req.params.houseId);
+  return res.json({ users });
+});
 
 router.put(
   "/:houseId/:id",
@@ -136,7 +124,7 @@ router.put(
         status: "error",
       });
     }
-  }
+  },
 );
 
 router.delete(
@@ -182,7 +170,7 @@ router.delete(
         status: "error",
       });
     }
-  }
+  },
 );
 
 export const usersRouter = router;

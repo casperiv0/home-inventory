@@ -58,7 +58,13 @@ const CategoriesAdminPage = ({ isAuth, categories }: Props) => {
       </Head>
 
       <div style={{ marginTop: "1rem" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
           <h1>Categories</h1>
 
           <button onClick={() => openModal(ModalIds.AddCategory)} className="btn">

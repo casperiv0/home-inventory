@@ -12,61 +12,55 @@ async function getCategories(houseId: string | undefined) {
   return prisma.category.findMany({ where: { houseId } });
 }
 
-router.post(
-  "/:houseId",
-  withAuth,
-  withValidHouseId,
-  withPermission("ADMIN"),
-  async (req, res) => {
-    try {
-      const houseId = req.params.houseId as string;
-      const body = req.body;
+router.post("/:houseId", withAuth, withValidHouseId, withPermission("ADMIN"), async (req, res) => {
+  try {
+    const houseId = req.params.houseId as string;
+    const body = req.body;
 
-      const [error] = await validateSchema(categorySchema, body);
+    const [error] = await validateSchema(categorySchema, body);
 
-      if (error) {
-        return res.status(400).json({
-          error: error.message,
-          status: "error",
-        });
-      }
-
-      const existing = await prisma.category.findFirst({
-        where: { name: body.name, houseId },
-      });
-
-      if (existing) {
-        return res.status(400).json({
-          error: "A category with that name already exists.",
-          status: "error",
-        });
-      }
-
-      await prisma.house.update({
-        where: {
-          id: houseId,
-        },
-        data: {
-          categories: {
-            create: {
-              name: body.name.toLowerCase(),
-            },
-          },
-        },
-      });
-
-      const categories = await getCategories(req.params.houseId);
-      return res.json({ categories });
-    } catch (e) {
-      console.error(e);
-
-      return res.status(500).json({
-        error: "An unexpected error has occurred. Please try again later",
+    if (error) {
+      return res.status(400).json({
+        error: error.message,
         status: "error",
       });
     }
+
+    const existing = await prisma.category.findFirst({
+      where: { name: body.name, houseId },
+    });
+
+    if (existing) {
+      return res.status(400).json({
+        error: "A category with that name already exists.",
+        status: "error",
+      });
+    }
+
+    await prisma.house.update({
+      where: {
+        id: houseId,
+      },
+      data: {
+        categories: {
+          create: {
+            name: body.name.toLowerCase(),
+          },
+        },
+      },
+    });
+
+    const categories = await getCategories(req.params.houseId);
+    return res.json({ categories });
+  } catch (e) {
+    console.error(e);
+
+    return res.status(500).json({
+      error: "An unexpected error has occurred. Please try again later",
+      status: "error",
+    });
   }
-);
+});
 
 router.get("/:houseId", withAuth, withValidHouseId, async (req, res) => {
   const categories = await getCategories(req.params.houseId);
@@ -123,7 +117,7 @@ router.put(
         status: "error",
       });
     }
-  }
+  },
 );
 
 router.delete(
@@ -159,7 +153,7 @@ router.delete(
         status: "error",
       });
     }
-  }
+  },
 );
 
 export const categoriesRouter = router;

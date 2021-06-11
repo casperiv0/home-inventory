@@ -5,7 +5,9 @@ import { prisma } from "src";
 
 export const withPermission =
   (providedRole: UserRole) => async (req: IRequest, res: Response, next: NextFunction) => {
-    const currentUser = await prisma.user.findUnique({ where: { id: req.userId! } });
+    const currentUser = await prisma.user.findUnique({
+      where: { id: req.userId! },
+    });
 
     const roles = {
       OWNER: 3,
