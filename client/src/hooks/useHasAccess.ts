@@ -9,7 +9,7 @@ export function useHasAccess(role: UserRole) {
   const [hasAccess, setAccess] = React.useState(true);
 
   React.useEffect(() => {
-    if (!auth.user) return;
+    if (!auth.user || !auth.isAuth) return;
     const userRole = userRoles[auth.user?.role];
 
     if (userRole < userRoles[role]) {

@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-const PASSWORD = yup.string().required().min(8);
+export const PASSWORD = yup.string().required().min(8);
 
 export const authenticateSchema = {
   email: yup.string().required().email(),

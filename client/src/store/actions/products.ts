@@ -59,8 +59,6 @@ export const deleteProductById = (id: string) => async (dispatch: Dispatch<Updat
   try {
     const res = await handleRequest(`/products/${id}`, "DELETE");
 
-    console.log(res);
-
     dispatch({
       type: "DELETE_PRODUCT_BY_ID",
       products: res.data.products,

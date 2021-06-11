@@ -38,7 +38,7 @@ export async function withAuth(
 
     return next();
   } catch (e) {
-    console.log(e);
+    console.error(e);
 
     return res.status(401).json({ error: "invalid token", status: "error" });
   }
