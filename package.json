@@ -11,7 +11,8 @@
     "dev:client": "cd client && npm run dev",
     "start:client": "cd client && npm run start",
     "test-tsc:client": "cd client && tsc --noEmit",
-    "test-tsc:api": "cd api && tsc --noEmit"
+    "test-tsc:api": "cd api && tsc --noEmit",
+    "prepare": "husky install"
   },
   "license": "MIT",
   "devDependencies": {
