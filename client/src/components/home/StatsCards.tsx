@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import styles from "css/home.module.scss";
 import { State } from "@t/State";
 import { Statistics } from "@t/Statistics";
+import { ProductsTable } from "../ProductsTable";
 
 interface Props {
   stats: Statistics | null;
@@ -63,14 +64,26 @@ const StatsCards = ({ stats }: Props) => {
         </div>
       </div>
 
-      <div id="soon-to-expire" style={{ marginTop: "1rem" }}>
+      <div className={styles.item} id="soon-to-expire">
         <h1>Soon to expire</h1>
-        TODO
+
+        <p>
+          These items are going to expire soon. Make sure to double check these items before eating
+          them!
+        </p>
+
+        <ProductsTable currentFilter="expirationDate" products={soonToExpire ?? []} />
       </div>
 
-      <div id="low-on-quantity" style={{ marginTop: "1rem" }}>
+      <div className={styles.item} id="low-on-quantity">
         <h1>Low on quantity</h1>
-        TODO
+
+        <p>
+          These products are low on quantity, do not forget to re-stock them next time going to the
+          shop.
+        </p>
+
+        <ProductsTable currentFilter="quantity" products={soonToExpire ?? []} />
       </div>
     </div>
   );
