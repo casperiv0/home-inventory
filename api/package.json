@@ -4,6 +4,20 @@
     "dev": "nodemon",
     "test-tsc": "tsc --noEmit"
   },
+  "dependencies": {
+    "@prisma/client": "^2.24.1",
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "cookie-parser": "1.4.5",
+    "cors": "^2.8.5",
+    "csurf": "^1.11.0",
+    "date-fns": "^2.22.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "yup": "^0.32.9"
+  },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/compression": "^1.7.0",
@@ -18,19 +32,5 @@
     "ts-node": "^10.0.0",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^4.3.2"
-  },
-  "dependencies": {
-    "@prisma/client": "^2.24.1",
-    "bcryptjs": "^2.4.3",
-    "compression": "^1.7.4",
-    "cookie-parser": "1.4.5",
-    "cors": "^2.8.5",
-    "csurf": "^1.11.0",
-    "date-fns": "^2.22.1",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "helmet": "^4.6.0",
-    "jsonwebtoken": "^8.5.1",
-    "yup": "^0.32.9"
   }
 }

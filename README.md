@@ -8,16 +8,10 @@ A home inventory app to keep track of items in your home (food items, tech, medi
 
 ## Stack
 
+- TypeScript
+- Sass
 - Next.js
 - Express.js
 - Prisma
 - Docker
 - Others Soon™
-
-## Todos
-
-- [ ] client
-- [ ] api
-- [ ] setup GitHub actions
-  - [x] Eslint
-  - [ ] Run `tsc --noEmit` to check types.
