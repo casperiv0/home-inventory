@@ -109,7 +109,7 @@ router.post("/user", withAuth, async (req: IRequest, res) => {
       createdAt: true,
       name: true,
       email: true,
-      // role: true,
+      houseRoles: { select: { role: true, houseId: true, userId: true } },
       houses: { select: { name: true, id: true } },
     },
   });

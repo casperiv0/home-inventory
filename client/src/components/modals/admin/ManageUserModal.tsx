@@ -1,5 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
+
 import { Modal } from "@components/Modal/Modal";
 import { ModalIds } from "@t/ModalIds";
 import styles from "css/forms.module.scss";
@@ -12,6 +13,7 @@ import { RequestData } from "@lib/fetch";
 import { selectRoles } from "@lib/constants";
 import { AlertModal } from "../AlertModal";
 import { useHouseId } from "@hooks/useHouseId";
+import { getUserRole } from "@utils/getUserRole";
 
 interface Props {
   user: User | null;
@@ -33,8 +35,12 @@ const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
 
     setEmail(user.email);
     setName(user.name);
-    setRole({ label: user.role, value: user.role });
-  }, [user]);
+    const userRole = getUserRole(user, houseId);
+
+    if (userRole) {
+      setRole({ label: userRole.role, value: userRole.role });
+    }
+  }, [user, houseId]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -97,7 +103,7 @@ const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
           <Select onChange={setRole} value={role} options={selectRoles} />
         </div>
 
-        {user?.role !== UserRole.OWNER ? (
+        {getUserRole(user, houseId)?.role !== UserRole.OWNER ? (
           <div>
             <button
               onClick={() => openModal(ModalIds.AlertDeleteUser)}
@@ -130,7 +136,7 @@ const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
         </div>
       </form>
 
-      {user?.role !== UserRole.OWNER ? (
+      {getUserRole(user, houseId)?.role !== UserRole.OWNER ? (
         <AlertModal
           id={ModalIds.AlertDeleteUser}
           title="Delete user"
