@@ -1,7 +1,12 @@
 import ReactToolTip from "react-tooltip";
 import format from "date-fns/format";
+import { useSelector } from "react-redux";
+import Link from "next/link";
+
 import { Product } from "@t/Product";
-import { filters } from "src/pages/[houseId]/products";
+import { State } from "@t/State";
+import { useHouseId } from "@hooks/useHouseId";
+import { filters } from "./Products";
 
 interface Props {
   products: Product[];
@@ -12,6 +17,9 @@ interface Props {
 }
 
 export const ProductsTable = ({ products, currentFilter, showActions, onManageClick }: Props) => {
+  const categories = useSelector((state: State) => state.admin.categories);
+  const houseId = useHouseId();
+
   return (
     <table style={{ marginTop: "1rem" }} className="table">
       <thead>
@@ -21,6 +29,7 @@ export const ProductsTable = ({ products, currentFilter, showActions, onManageCl
           <th>Total amount</th>
           <th>Quantity</th>
           <th>Expiration Date</th>
+          <th>Category</th>
           {showActions ? <th>Actions</th> : null}
         </tr>
       </thead>
@@ -33,6 +42,8 @@ export const ProductsTable = ({ products, currentFilter, showActions, onManageCl
           const boldText = (str: string) => {
             return currentFilter === str;
           };
+
+          const category = categories.find((c) => c.id === product.categoryId);
 
           const totalPricesAmount = (product.prices ?? [])
             ?.reduce((ac, curr) => ac + curr, 0)
@@ -73,6 +84,15 @@ export const ProductsTable = ({ products, currentFilter, showActions, onManageCl
               </td>
               <td className={boldText("expirationDate") ? "bold" : ""}>
                 {product.expirationDate ?? "N/A"}
+              </td>
+              <td>
+                {product.categoryId && category?.name ? (
+                  <Link href={`/${houseId}/category/${category.name}`}>
+                    <a className="btn small">{category?.name}</a>
+                  </Link>
+                ) : (
+                  "None"
+                )}
               </td>
 
               {showActions ? (

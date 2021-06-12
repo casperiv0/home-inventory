@@ -9,5 +9,5 @@ export const createProductSchema = {
   quantity: yup.number().required(),
   price: yup.number().required(),
   expirationDate: yup.string(),
-  categoryId: yup.string(),
+  categoryId: yup.string().nullable(),
 };

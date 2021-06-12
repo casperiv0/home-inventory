@@ -225,6 +225,7 @@ router.put("/:houseId/:id", withAuth, withValidHouseId, async (req, res) => {
 
         // body.price = for 1 item, times the quantity -> total amount for the product.
         prices: [body.price * body.quantity],
+        categoryId: body.categoryId ?? null,
       },
     });
 

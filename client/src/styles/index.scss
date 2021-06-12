@@ -37,12 +37,15 @@ a:focus-visible {
   cursor: pointer;
   transition: border 200ms;
 
+  text-decoration: none;
+  color: var(--dark);
+
   &:disabled {
     cursor: not-allowed;
   }
 
   &:hover:enabled {
-    filter: brightness(90%);
+    background: #d6d6d6;
   }
 
   &:disabled {

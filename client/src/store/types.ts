@@ -26,7 +26,12 @@ export interface UpdateCategories {
 }
 
 export interface UpdateProducts {
-  type: "GET_ALL_PRODUCTS" | "UPDATE_PRODUCT_BY_ID" | "ADD_PRODUCT" | "DELETE_PRODUCT_BY_ID";
+  type:
+    | "GET_ALL_PRODUCTS"
+    | "UPDATE_PRODUCT_BY_ID"
+    | "ADD_PRODUCT"
+    | "DELETE_PRODUCT_BY_ID"
+    | "GET_PRODUCTS_BY_CATEGORY";
   products: Product[];
 }
 

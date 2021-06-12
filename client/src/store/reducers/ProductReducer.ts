@@ -13,6 +13,7 @@ export default function ProductReducer(state = initState, action: Actions): Stat
     case "ADD_PRODUCT":
     case "DELETE_PRODUCT_BY_ID":
     case "GET_ALL_PRODUCTS":
+    case "GET_PRODUCTS_BY_CATEGORY":
     case "UPDATE_PRODUCT_BY_ID": {
       return {
         ...state,

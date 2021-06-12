@@ -20,6 +20,23 @@ export const getAllProducts =
     }
   };
 
+export const getProductsByCategory =
+  (houseId: string, category: string, cookie?: string) =>
+  async (dispatch: Dispatch<UpdateProducts>) => {
+    try {
+      const res = await handleRequest(`/category/${houseId}/${category}`, "GET", { cookie });
+
+      dispatch({
+        type: "GET_PRODUCTS_BY_CATEGORY",
+        products: res.data.products,
+      });
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
+
 export const addProduct =
   (houseId: string, data: RequestData) =>
   async (dispatch: Dispatch<UpdateProducts>): Promise<boolean> => {

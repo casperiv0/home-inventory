@@ -11,6 +11,7 @@ import { State } from "@t/State";
 import { Category } from "@t/Category";
 import { Select, SelectValue } from "@components/Select/Select";
 import { useHouseId } from "@hooks/useHouseId";
+import { useRouter } from "next/router";
 
 interface Props {
   categories: Category[];
@@ -25,8 +26,13 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
   const [category, setCategory] = React.useState<SelectValue | null>(null);
   const [loading, setLoading] = React.useState(false);
 
+  const router = useRouter();
   const houseId = useHouseId();
   const ref = useModalEvent(ModalIds.AddProduct);
+
+  const foundCategory = React.useMemo(() => {
+    return categories.find((c) => c.name === router.query?.name);
+  }, [categories, router.query?.name]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -37,7 +43,7 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
       price: Number(Number(price).toFixed(2)),
       quantity: Number(quantity),
       expirationDate: expireDate,
-      categoryId: category?.value,
+      categoryId: category?.value ?? null,
     });
 
     setLoading(false);
@@ -52,6 +58,12 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
       setCategory(null);
     }
   }
+
+  React.useEffect(() => {
+    if (foundCategory) {
+      setCategory({ label: foundCategory.name, value: foundCategory.id });
+    }
+  }, [foundCategory]);
 
   return (
     <Modal title="Add a new product" id={ModalIds.AddProduct}>

@@ -63,7 +63,7 @@ const ManageProductModal = ({
       price: Number(Number(price).toFixed(2)),
       quantity: Number(quantity),
       expirationDate: expireDate,
-      categoryId: category?.value,
+      categoryId: category?.value ?? null,
     });
 
     setLoading(false);
@@ -129,6 +129,7 @@ const ManageProductModal = ({
           <label htmlFor="add-product-category">Category</label>
 
           <Select
+            isClearable
             value={category}
             onChange={setCategory}
             options={categories.map((c) => ({
