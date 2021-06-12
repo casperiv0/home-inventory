@@ -19,6 +19,7 @@ import { getAllCategories } from "@actions/admin/categories";
 import formStyles from "css/forms.module.scss";
 import { ProductsTable } from "@components/ProductsTable";
 import { getCurrentHouse } from "@actions/houses";
+import styles from "css/products.module.scss";
 
 const AddProductModal = dynamic(() => import("@components/modals/products/AddProductModal"));
 const ManageProductModal = dynamic(() => import("@components/modals/products/ManageProductModal"));
@@ -91,25 +92,15 @@ const ProductsPage = ({ products, isAuth, loading }: Props) => {
         <title>Products - Inventory</title>
       </Head>
 
-      <div
-        style={{
-          marginTop: "1rem",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
+      <div className={styles.productsHeader}>
         <h1>Products</h1>
 
-        <div style={{ display: "flex" }}>
-          <button
-            onClick={() => openModal(ModalIds.AddProduct)}
-            style={{ marginRight: "0.5rem" }}
-            className="btn"
-          >
+        <div className={styles.productsButtons}>
+          <button onClick={() => openModal(ModalIds.AddProduct)} className="btn">
             Add product
           </button>
-          <div style={{ width: "200px" }}>
+
+          <div className={styles.productsSelect}>
             <Select
               isClearable
               theme={{ backgroundColor: "#eeeeee" }}
@@ -139,12 +130,18 @@ const ProductsPage = ({ products, isAuth, loading }: Props) => {
         </button>
       </form>
 
-      <ProductsTable
-        showActions
-        onManageClick={handleManage}
-        products={filtered}
-        currentFilter={filter?.value ?? null}
-      />
+      {products.length <= 0 ? (
+        <p style={{ marginTop: "1rem" }}>There {"aren't"} any products yet.</p>
+      ) : filtered.length <= 0 ? (
+        <p style={{ marginTop: "1rem" }}>No items were found with that search query.</p>
+      ) : (
+        <ProductsTable
+          showActions
+          onManageClick={handleManage}
+          products={filtered}
+          currentFilter={filter?.value ?? null}
+        />
+      )}
 
       <AddProductModal />
       <ManageProductModal product={tempProduct} />

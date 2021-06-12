@@ -73,29 +73,38 @@ const CategoriesAdminPage = ({ isAuth, categories }: Props) => {
           </button>
         </div>
 
-        <table style={{ marginTop: "0.5rem" }} className="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
+        {categories.length <= 0 ? (
+          <p>
+            There {"aren't"} any categories yet.
+            <button onClick={() => openModal(ModalIds.AddCategory)} className="btn link-btn">
+              Create one
+            </button>
+          </p>
+        ) : (
+          <table style={{ marginTop: "0.5rem" }} className="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
 
-          <tbody>
-            {categories
-              .sort((a, b) => sortByCreatedAt(a, b))
-              .map((category) => (
-                <tr key={category.id}>
-                  <td>{category.name}</td>
-                  <td style={{ width: "100px" }} id="table-actions">
-                    <button onClick={() => handleManage(category)} className="btn small">
-                      Manage
-                    </button>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+            <tbody>
+              {categories
+                .sort((a, b) => sortByCreatedAt(a, b))
+                .map((category) => (
+                  <tr key={category.id}>
+                    <td>{category.name}</td>
+                    <td style={{ width: "100px" }} id="table-actions">
+                      <button onClick={() => handleManage(category)} className="btn small">
+                        Manage
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        )}
       </div>
 
       <ManageCategoryModal category={tempCategory} />

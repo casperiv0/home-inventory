@@ -1,5 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
+
 import { Modal } from "@components/Modal/Modal";
 import { ModalIds } from "@t/ModalIds";
 import styles from "css/forms.module.scss";
@@ -8,6 +9,7 @@ import useModalEvent from "src/hooks/useModalEvent";
 import { RequestData } from "@lib/fetch";
 import { addCategory } from "@actions/admin/categories";
 import { useHouseId } from "@hooks/useHouseId";
+import { parseCategoryName } from "@utils/parseCategoryName";
 
 interface Props {
   addCategory: (houseId: string, data: RequestData) => Promise<boolean>;
@@ -45,7 +47,7 @@ const AddCategoryModal = ({ addCategory }: Props) => {
             type="text"
             className={styles.formInput}
             value={name}
-            onChange={(e) => setName(e.target.value.toLowerCase())}
+            onChange={(e) => setName(parseCategoryName(e.target.value))}
           />
         </div>
 

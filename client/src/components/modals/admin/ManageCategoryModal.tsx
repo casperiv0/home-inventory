@@ -1,5 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
+
 import { Modal } from "@components/Modal/Modal";
 import { ModalIds } from "@t/ModalIds";
 import styles from "css/forms.module.scss";
@@ -10,6 +11,7 @@ import { RequestData } from "@lib/fetch";
 import { Category } from "@t/Category";
 import { AlertModal } from "../AlertModal";
 import { useHouseId } from "@hooks/useHouseId";
+import { parseCategoryName } from "@utils/parseCategoryName";
 
 interface Props {
   category: Category | null;
@@ -68,7 +70,7 @@ const ManageCategoryModal = ({ category, updateCategoryById, deleteCategoryById 
             type="text"
             className={styles.formInput}
             value={name}
-            onChange={(e) => setName(e.target.value.toLowerCase())}
+            onChange={(e) => setName(parseCategoryName(e.target.value))}
           />
         </div>
 
