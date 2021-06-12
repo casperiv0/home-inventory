@@ -3,23 +3,17 @@ import { compareSync, hashSync } from "bcryptjs";
 import { prisma } from "../index";
 import { authenticateSchema, newPasswordSchema } from "@schemas/auth.schema";
 import { AuthConstants } from "@lib/constants";
-import { createSessionToken, setCookie } from "@lib/auth.lib";
+import { createSessionToken, createUserAndLinkHouse, setCookie } from "@lib/auth.lib";
 import { withAuth } from "@hooks/withAuth";
 import { IRequest } from "@t/IRequest";
 import { validateSchema } from "@utils/validateSchema";
-import { UserRole } from "@prisma/client";
 
 const router = Router();
 
-/**
- * no login/register routes
- *
- * - only allow an admin to add other users
- */
-router.post("/authenticate", async (req, res) => {
+router.post("/register", async (req, res) => {
   const { email, name, password } = req.body;
 
-  const [error] = await validateSchema(authenticateSchema, {
+  const [error] = await validateSchema(authenticateSchema(true), {
     email,
     name,
     password,
@@ -32,85 +26,68 @@ router.post("/authenticate", async (req, res) => {
     });
   }
 
-  const usersLength = await prisma.user.count();
-  let user;
+  const user = await prisma.user.findUnique({ where: { email } });
 
-  /**
-   * no users created yet? Create the first user as owner
-   */
-  if (usersLength === 0) {
-    const hash = hashSync(password, AuthConstants.saltRounds);
-
-    /**
-     * first create the user account
-     */
-    const createdUser = await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hash,
-        role: UserRole.OWNER,
-      },
+  if (user) {
+    return res.status(404).json({
+      error: "That email is already in-use. Please specify a different email.",
+      status: "error",
     });
-
-    /**
-     * once the user account is created
-     *
-     * - create a house with a default name "First home"
-     * - connect the user account to the house
-     */
-    const house = await prisma.house.create({
-      data: {
-        name: "First home",
-        userId: createdUser.id,
-        users: {
-          connect: {
-            id: createdUser.id,
-          },
-        },
-      },
-      select: {
-        id: true,
-        name: true,
-        users: { select: { email: true, id: true } },
-      },
-    });
-
-    /**
-     * update the user with the new houseId
-     */
-    await prisma.user.update({
-      where: {
-        id: createdUser.id,
-      },
-      data: {
-        houseId: house.id,
-      },
-    });
-
-    [user] = house.users;
-  } else {
-    user = await prisma.user.findUnique({ where: { email } });
-
-    if (!user) {
-      return res.status(404).json({
-        error: "User was not found",
-        status: "error",
-      });
-    }
-
-    const isPwCorrect = compareSync(password, user.password);
-    if (!isPwCorrect) {
-      return res.status(400).json({
-        error: "Password is invalid",
-        status: "error",
-      });
-    }
   }
 
+  const hash = hashSync(password, AuthConstants.saltRounds);
+
+  const createdUser = await prisma.user.create({
+    data: {
+      name,
+      email,
+      password: hash,
+    },
+  });
+
+  await createUserAndLinkHouse(createdUser);
+
+  const token = createSessionToken(createdUser.id);
+  setCookie(token, res);
+
+  return res.json({
+    status: "success",
+    userId: createdUser.id,
+  });
+});
+
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  const [error] = await validateSchema(authenticateSchema(false), {
+    email,
+    password,
+  });
+
+  if (error) {
+    return res.status(400).json({
+      error: error.message,
+      status: "error",
+    });
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
   if (!user) {
-    return res.status(500).json({
-      error: "An error occurred",
+    return res.status(400).json({
+      error: "User was not found",
+      status: "error",
+    });
+  }
+
+  const isPwCorrect = compareSync(password, user.password);
+  if (!isPwCorrect) {
+    return res.status(400).json({
+      error: "Password is invalid",
       status: "error",
     });
   }
@@ -132,7 +109,7 @@ router.post("/user", withAuth, async (req: IRequest, res) => {
       createdAt: true,
       name: true,
       email: true,
-      role: true,
+      // role: true,
       houses: { select: { name: true, id: true } },
     },
   });

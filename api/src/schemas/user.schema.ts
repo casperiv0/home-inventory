@@ -1,5 +1,4 @@
 import * as yup from "yup";
-import { PASSWORD } from "./auth.schema";
 
 export const updateUserSchema = {
   role: yup
@@ -11,6 +10,5 @@ export const updateUserSchema = {
 
 export const createUserSchema = {
   ...updateUserSchema,
-  password: PASSWORD,
   email: yup.string().email().required(),
 };

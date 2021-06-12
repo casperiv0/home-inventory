@@ -9,6 +9,11 @@ export const withPermission =
       where: { id: req.userId! },
     });
 
+    const currentHouse = await prisma.house.findUnique({
+      where: { id: req.params.houseId },
+      select: { houseRoles: { select: { id: true, userId: true, role: true, houseId: true } } },
+    });
+
     const roles = {
       OWNER: 3,
       ADMIN: 2,
@@ -23,7 +28,18 @@ export const withPermission =
       });
     }
 
-    if (roles[currentUser!.role] < role) {
+    const currentUserRole = currentHouse?.houseRoles.find(
+      (r) => r.userId === currentUser?.id && r.houseId === req.params.houseId,
+    );
+
+    if (!currentUserRole) {
+      return res.status(403).json({
+        error: "Not part of this house.",
+        status: "error",
+      });
+    }
+
+    if (roles[currentUserRole!.role] < role) {
       return res.status(403).json({
         error: "Invalid role.",
       });

@@ -1,13 +1,12 @@
 import { Router } from "express";
-import { hashSync } from "bcryptjs";
-import { UserRole } from "@prisma/client";
 import { withAuth } from "@hooks/withAuth";
 import { withPermission } from "@hooks/withPermission";
 import { prisma } from "src/index";
 import { createUserSchema, updateUserSchema } from "@schemas/user.schema";
-import { AuthConstants } from "@lib/constants";
 import { validateSchema } from "@utils/validateSchema";
 import { withValidHouseId } from "@hooks/withValidHouseId";
+import { getCurrentHouseRole } from "@utils/getCurrentHouseRole";
+import { UserRole } from "@prisma/client";
 
 const router = Router();
 
@@ -22,14 +21,26 @@ async function getUsers(houseId: string | undefined) {
           name: true,
           id: true,
           email: true,
-          role: true,
           createdAt: true,
+          houseRoles: {
+            select: {
+              id: true,
+              role: true,
+              houseId: true,
+            },
+          },
         },
       },
     },
   });
 
-  return data?.users ?? [];
+  if (!data) return [];
+
+  return data.users.map((user) => {
+    user.houseRoles = user.houseRoles.filter((r) => r.houseId === houseId);
+
+    return user;
+  });
 }
 
 router.post("/:houseId", withAuth, withValidHouseId, withPermission("ADMIN"), async (req, res) => {
@@ -46,45 +57,80 @@ router.post("/:houseId", withAuth, withValidHouseId, withPermission("ADMIN"), as
       });
     }
 
-    const existing = await prisma.user.findUnique({
-      where: { email: body.email },
+    /**
+     * a house can only have 1 owner.
+     */
+    if (body.role === UserRole.OWNER) {
+      return res.status(403).json({
+        error: "Please specify a different role.",
+        status: "error",
+      });
+    }
+
+    const alreadyPartOfHouse = await prisma.user.findFirst({
+      where: {
+        email: body.email,
+        houseId,
+      },
     });
 
     /**
-     * if there's already a user with the same email, update the user's houses
-     * otherwise create a new user in the house.
+     * if the user is already part of the house
+     * don't allow them to be re-added
      */
-    if (existing) {
-      await prisma.house.update({
-        where: {
-          id: houseId,
-        },
-        data: {
-          users: {
-            connect: {
-              id: existing.id,
-            },
-          },
-        },
-      });
-    } else {
-      await prisma.house.update({
-        where: {
-          id: houseId,
-        },
-        data: {
-          users: {
-            create: {
-              password: hashSync(body.password, AuthConstants.saltRounds),
-              name: body.name,
-              email: body.email,
-              role: body.role,
-              houseId,
-            },
-          },
-        },
+    if (alreadyPartOfHouse) {
+      return res.status(400).json({
+        error: "This user is already part of this house.",
+        status: "error",
       });
     }
+
+    /**
+     * find the provided user to add to the house
+     */
+    const user = await prisma.user.findUnique({
+      where: { email: body.email },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        error: "User was not found",
+        status: "error",
+      });
+    }
+
+    /**
+     * update the user to add the "houseRoles"
+     */
+    await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        houseRoles: {
+          create: {
+            houseId,
+            role: body.role,
+          },
+        },
+      },
+    });
+
+    /**
+     * update the house to connect the provided user
+     */
+    await prisma.house.update({
+      where: {
+        id: houseId,
+      },
+      data: {
+        users: {
+          connect: {
+            id: user.id,
+          },
+        },
+      },
+    });
 
     const users = await getUsers(houseId);
     return res.json({ users });
@@ -124,10 +170,21 @@ router.put(
       }
 
       const user = await prisma.user.findFirst({ where: { id, houseId } });
+      const currentRole = await getCurrentHouseRole(id, houseId);
 
-      if (!user) {
+      if (!user || !currentRole) {
         return res.status(404).json({
           error: "User was not found",
+          status: "error",
+        });
+      }
+
+      /**
+       * the owner's role should not be allowed to be updated.
+       */
+      if (currentRole?.role === UserRole.OWNER && body.role !== currentRole.role) {
+        return res.status(403).json({
+          error: "Cannot update the owner's role.",
           status: "error",
         });
       }
@@ -137,8 +194,15 @@ router.put(
           id,
         },
         data: {
-          role: body.role,
           name: body.name,
+          houseRoles: {
+            update: {
+              where: { id: currentRole.id },
+              data: {
+                role: body.role,
+              },
+            },
+          },
         },
       });
 
@@ -176,7 +240,12 @@ router.delete(
         });
       }
 
-      if (user.role === UserRole.OWNER) {
+      const currentRole = await getCurrentHouseRole(id, houseId);
+
+      /**
+       * the owner's account cannot be deleted
+       */
+      if (currentRole?.role === UserRole.OWNER) {
         return res.status(403).json({
           error: "Cannot delete the owner's account",
           status: "error",

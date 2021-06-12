@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { UserRole } from "@prisma/client";
 import { withAuth } from "@hooks/withAuth";
 import { IRequest } from "@t/IRequest";
 import { prisma } from "src/index";
@@ -13,7 +14,14 @@ async function returnHouseByUserId(userId: string | undefined) {
     select: {
       name: true,
       id: true,
-      users: { select: { name: true, email: true, id: true, role: true } },
+      users: {
+        select: {
+          name: true,
+          email: true,
+          id: true,
+          houseRoles: { select: { id: true, role: true, userId: true } },
+        },
+      },
       products: { select: { name: true, id: true } },
     },
   });
@@ -29,7 +37,9 @@ router.get("/:id", withAuth, async (req, res) => {
   try {
     const id = req.params.id as string;
 
-    const house = await prisma.house.findUnique({ where: { id } });
+    const house = await prisma.house.findUnique({
+      where: { id },
+    });
 
     if (!house) {
       return res.status(404).json({
@@ -76,6 +86,12 @@ router.post("/", withAuth, async (req: IRequest, res) => {
       data: {
         name: body.name,
         userId: req.userId!,
+        houseRoles: {
+          create: {
+            role: UserRole.OWNER,
+            userId: req.userId!,
+          },
+        },
       },
     });
 
