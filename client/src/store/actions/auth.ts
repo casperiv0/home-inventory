@@ -4,10 +4,10 @@ import { getErrorFromResponse, handleRequest, RequestData } from "@lib/fetch";
 import { Authenticate, SetAuthLoading } from "../types";
 
 export const authenticate =
-  (data: RequestData) =>
+  (data: RequestData, login?: boolean) =>
   async (dispatch: Dispatch<Authenticate | SetAuthLoading>): Promise<boolean> => {
     try {
-      const res = await handleRequest("/auth/authenticate", "POST", data);
+      const res = await handleRequest(`/auth/${login ? "login" : "register"}`, "POST", data);
 
       dispatch({
         type: "AUTHENTICATE",

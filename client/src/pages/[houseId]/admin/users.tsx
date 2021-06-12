@@ -33,7 +33,7 @@ const UsersAdminPage = ({ isAuth, users }: Props) => {
 
   React.useEffect(() => {
     if (!loading && !isAuth) {
-      router.push("/auth");
+      router.push("/auth/login");
     }
   }, [isAuth, loading, router]);
 
@@ -91,7 +91,7 @@ const UsersAdminPage = ({ isAuth, users }: Props) => {
                 <tr key={user.id}>
                   <td>{user.email}</td>
                   <td>{user.name}</td>
-                  <td>{user.role}</td>
+                  <td>{user.houseRoles[0]?.role}</td>
                   <td id="table-actions">
                     <button onClick={() => handleManage(user)} className="btn small">
                       Manage

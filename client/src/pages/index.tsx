@@ -10,7 +10,7 @@ import { checkAuth } from "@actions/auth";
 import { State } from "@t/State";
 import { initializeStore } from "src/store/store";
 import { Layout } from "@components/Layout";
-import { User } from "@t/User";
+import { User, UserRole } from "@t/User";
 import { getHouses } from "@actions/houses";
 import { House } from "@t/House";
 import styles from "css/houses.module.scss";
@@ -40,7 +40,7 @@ const IndexPage = ({ isAuth, loading, user, houses }: Props) => {
 
   React.useEffect(() => {
     if (!loading && !isAuth) {
-      router.push("/auth");
+      router.push("/auth/login");
     }
   }, [isAuth, loading, router]);
 
@@ -76,37 +76,47 @@ const IndexPage = ({ isAuth, loading, user, houses }: Props) => {
       <p style={{ marginTop: "0.5rem" }}>Below you can find all the houses you are a part of.</p>
 
       <div className={styles.housesGrid}>
-        {houses.map((house) => (
-          <div key={house.id} className={styles.housesItem}>
-            <header className={styles.houseItemHeader}>
-              <Link href={`/${house.id}`}>
-                <a>
-                  <h1>{house.name}</h1>
-                </a>
-              </Link>
+        {houses.map((house) => {
+          const role = house.houseRoles?.find((r) => r.userId === user?.id);
 
-              <div>
-                <EditIcon onClick={() => handleManageHouse(house)} data-tip data-for="EditHouse" />
+          return (
+            <div key={house.id} className={styles.housesItem}>
+              <header className={styles.houseItemHeader}>
+                <Link href={`/${house.id}`}>
+                  <a>
+                    <h1>{house.name}</h1>
+                  </a>
+                </Link>
 
-                <ReactToolTip
-                  textColor="#2f2f2f"
-                  backgroundColor="#bbbbbb"
-                  effect="solid"
-                  id="EditHouse"
-                >
-                  Manage house
-                </ReactToolTip>
-              </div>
-            </header>
+                {role?.role === UserRole.OWNER ? (
+                  <div>
+                    <EditIcon
+                      onClick={() => handleManageHouse(house)}
+                      data-tip
+                      data-for="EditHouse"
+                    />
 
-            <p>
-              <strong>Users:</strong> {house.users?.length}
-            </p>
-            <p>
-              <strong>Products:</strong> {house.products?.length}
-            </p>
-          </div>
-        ))}
+                    <ReactToolTip
+                      textColor="#2f2f2f"
+                      backgroundColor="#bbbbbb"
+                      effect="solid"
+                      id="EditHouse"
+                    >
+                      Manage house
+                    </ReactToolTip>
+                  </div>
+                ) : null}
+              </header>
+
+              <p>
+                <strong>Users:</strong> {house.users?.length}
+              </p>
+              <p>
+                <strong>Products:</strong> {house.products?.length}
+              </p>
+            </div>
+          );
+        })}
       </div>
 
       <ManageHouseModal house={tempHouse} />

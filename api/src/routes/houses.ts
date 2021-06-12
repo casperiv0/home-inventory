@@ -9,22 +9,47 @@ import { validateSchema } from "@utils/validateSchema";
 const router = Router();
 
 async function returnHouseByUserId(userId: string | undefined) {
-  return prisma.house.findMany({
-    where: { userId: userId! },
+  const userData = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
     select: {
-      name: true,
-      id: true,
-      users: {
+      houses: {
         select: {
           name: true,
-          email: true,
           id: true,
           houseRoles: { select: { id: true, role: true, userId: true } },
+          users: {
+            select: { name: true },
+          },
+          products: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
         },
       },
-      products: { select: { name: true, id: true } },
     },
   });
+
+  return userData?.houses ?? [];
+  // return prisma.house.findMany({
+  //   where: { userId: userId! },
+  //   select: {
+  //     name: true,
+  //     id: true,
+  //     users: {
+  //       select: {
+  //         name: true,
+  //         email: true,
+  //         id: true,
+  //
+  //       },
+  //     },
+  //     products: { select: { name: true, id: true } },
+  //   },
+  // });
 }
 
 router.get("/", withAuth, async (req: IRequest, res) => {

@@ -8,4 +8,5 @@ export interface House {
 
   users?: User[];
   products?: Product[];
+  houseRoles?: User["houseRoles"];
 }

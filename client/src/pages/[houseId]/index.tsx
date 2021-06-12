@@ -22,7 +22,7 @@ const HousePage = ({ isAuth, loading }: Props) => {
 
   React.useEffect(() => {
     if (!loading && !isAuth) {
-      router.push("/auth");
+      router.push("/auth/login");
     }
   }, [isAuth, loading, router]);
 

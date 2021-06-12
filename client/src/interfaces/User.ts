@@ -3,7 +3,13 @@ export interface User {
   email: string;
   name: string;
   createdAt: Date;
-  role: UserRole;
+
+  houseRoles: {
+    id: string;
+    userId: string;
+    houseId: string;
+    role: UserRole;
+  }[];
 }
 
 export enum UserRole {
