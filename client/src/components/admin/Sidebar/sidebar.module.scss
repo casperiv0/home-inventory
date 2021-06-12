@@ -22,11 +22,14 @@
   padding: 0.5rem 0.8rem;
   border-radius: 0.3rem;
   cursor: pointer;
+  display: block;
 
   margin-bottom: 0.5rem;
 
-  text-decoration: none;
-  color: var(--dark);
+  a {
+    text-decoration: none;
+    color: var(--dark);
+  }
 
   transition: background 200ms;
 

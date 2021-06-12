@@ -16,25 +16,21 @@ import { ModalIds } from "@t/ModalIds";
 import { Category } from "@t/Category";
 import { useHasAccess } from "@hooks/useHasAccess";
 import { getCurrentHouse } from "@actions/houses";
+import { useIsAuth } from "@hooks/useIsAuth";
 
 const AddCategoryModal = dynamic(() => import("@components/modals/admin/AddCategoryModal"));
 const ManageCategoryModal = dynamic(() => import("@components/modals/admin/ManageCategoryModal"));
 
 interface Props {
-  isAuth: boolean;
   categories: Category[];
 }
 
-const CategoriesAdminPage = ({ isAuth, categories }: Props) => {
-  const router = useRouter();
-  const { loading, hasAccess } = useHasAccess(UserRole.ADMIN);
+const CategoriesAdminPage = ({ categories }: Props) => {
   const [tempCategory, setTempCategory] = React.useState<Category | null>(null);
 
-  React.useEffect(() => {
-    if (!loading && !isAuth) {
-      router.push("/auth/login");
-    }
-  }, [isAuth, loading, router]);
+  const router = useRouter();
+  const { loading, hasAccess } = useHasAccess(UserRole.ADMIN);
+  useIsAuth();
 
   React.useEffect(() => {
     if (!loading && !hasAccess) {
@@ -126,7 +122,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const mapToProps = (state: State): Props => ({
-  isAuth: state.auth.isAuth,
   categories: state.admin.categories,
 });
 

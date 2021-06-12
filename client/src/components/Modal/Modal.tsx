@@ -5,6 +5,7 @@ import styles from "./modal.module.scss";
 import { ModalIds } from "@t/ModalIds";
 import { closeModal } from "@lib/modal";
 import { CloseIcon } from "@components/icons/Close";
+import { classes } from "@utils/classes";
 
 interface Props {
   id: ModalIds;
@@ -41,11 +42,7 @@ export const Modal: React.FC<Props> = ({ id, title, children, ...rest }) => {
 
   return isMounted
     ? createPortal(
-        <div
-          className={[styles.modalContainer, "modal"].join(" ")}
-          onClick={handleOuterClick}
-          id={id}
-        >
+        <div className={classes(styles.modalContainer, "modal")} onClick={handleOuterClick} id={id}>
           <div
             style={{ width: rest.width ?? "600px" }}
             className={styles.modalContent}

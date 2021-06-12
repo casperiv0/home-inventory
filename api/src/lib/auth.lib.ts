@@ -1,5 +1,5 @@
 import { User, UserRole } from "@prisma/client";
-import { Response } from "express";
+import { CookieOptions, Response } from "express";
 import jwt from "jsonwebtoken";
 import { prisma } from "src";
 import { AuthConstants } from "./constants";
@@ -9,10 +9,17 @@ export function createSessionToken(userId: string) {
 }
 
 export function setCookie(token: string, res: Response) {
-  res.cookie(AuthConstants.cookieName, token, {
+  const options: CookieOptions = {
     httpOnly: true,
     expires: new Date(Date.now() + AuthConstants.cookieExpires),
-  });
+  };
+
+  if (process.env["NODE_ENV"] === "production") {
+    options.sameSite = "none";
+    options.secure = true;
+  }
+
+  res.cookie(AuthConstants.cookieName, token, options);
 }
 
 export async function createUserAndLinkHouse(createdUser: User) {

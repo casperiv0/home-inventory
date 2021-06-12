@@ -66,6 +66,10 @@ https://github.com/Dev-CasperTheGhost/notey.app/blob/main/src/components/modal/s
   &:focus {
     background: #bbbbbb;
   }
+
+  &:focus {
+    outline: 2px solid var(--blue);
+  }
 }
 
 /**

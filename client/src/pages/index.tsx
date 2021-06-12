@@ -1,7 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -18,31 +17,24 @@ import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
 import { EditIcon } from "@components/icons/Edit";
 import ReactToolTip from "react-tooltip";
+import { useIsAuth } from "@hooks/useIsAuth";
 
 const AddHouseModal = dynamic(() => import("@components/modals/houses/AddHouseModal"));
 const ManageHouseModal = dynamic(() => import("@components/modals/houses/ManageHouseModal"));
 
 interface Props {
-  isAuth: boolean;
-  loading: boolean;
   user: User | null;
   houses: House[];
 }
 
-const IndexPage = ({ isAuth, loading, user, houses }: Props) => {
-  const router = useRouter();
+const IndexPage = ({ user, houses }: Props) => {
   const [tempHouse, setTempHouse] = React.useState<House | null>(null);
+  useIsAuth();
 
   function handleManageHouse(house: House) {
     setTempHouse(house);
     openModal(ModalIds.ManageHouse);
   }
-
-  React.useEffect(() => {
-    if (!loading && !isAuth) {
-      router.push("/auth/login");
-    }
-  }, [isAuth, loading, router]);
 
   return (
     <Layout>
@@ -136,8 +128,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const mapToProps = (state: State): Props => ({
-  isAuth: state.auth.isAuth,
-  loading: state.auth.loading,
   user: state.auth.user,
   houses: state.houses.houses,
 });

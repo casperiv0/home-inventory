@@ -1,30 +1,18 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 
 import { checkAuth } from "@actions/auth";
-import { State } from "@t/State";
 import { initializeStore } from "src/store/store";
 import { Layout } from "@components/Layout";
 import { getStats } from "@actions/products";
 import StatsCards from "@components/home/StatsCards";
 import { getCurrentHouse } from "@actions/houses";
+import { useIsAuth } from "@hooks/useIsAuth";
 
-interface Props {
-  isAuth: boolean;
-  loading: boolean;
-}
-
-const HousePage = ({ isAuth, loading }: Props) => {
-  const router = useRouter();
-
-  React.useEffect(() => {
-    if (!loading && !isAuth) {
-      router.push("/auth/login");
-    }
-  }, [isAuth, loading, router]);
+const HousePage = () => {
+  useIsAuth();
 
   return (
     <Layout showCurrentHouse>
@@ -49,9 +37,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return { props: { initialReduxState: store.getState() } };
 };
 
-const mapToProps = (state: State): Props => ({
-  isAuth: state.auth.isAuth,
-  loading: state.auth.loading,
-});
-
-export default connect(mapToProps)(HousePage);
+export default connect(null)(HousePage);

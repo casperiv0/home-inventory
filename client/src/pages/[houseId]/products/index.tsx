@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
 import * as React from "react";
-import { useRouter } from "next/router";
 import Head from "next/head";
 import { GetServerSideProps } from "next";
 
@@ -13,21 +12,14 @@ import { getAllProducts } from "@actions/products";
 import { getAllCategories } from "@actions/admin/categories";
 import { getCurrentHouse } from "@actions/houses";
 import { Products } from "@components/Products";
+import { useIsAuth } from "@hooks/useIsAuth";
 
 interface Props {
   products: Product[];
-  isAuth: boolean;
-  loading: boolean;
 }
 
-const ProductsPage = ({ products, isAuth, loading }: Props) => {
-  const router = useRouter();
-
-  React.useEffect(() => {
-    if (!loading && !isAuth) {
-      router.push("/auth/login");
-    }
-  }, [isAuth, loading, router]);
+const ProductsPage = ({ products }: Props) => {
+  useIsAuth();
 
   return (
     <Layout showCurrentHouse>
@@ -39,12 +31,6 @@ const ProductsPage = ({ products, isAuth, loading }: Props) => {
     </Layout>
   );
 };
-
-const mapToProps = (state: State): Props => ({
-  products: state.products.products,
-  isAuth: state.auth.isAuth,
-  loading: state.auth.loading,
-});
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const store = initializeStore();
@@ -58,5 +44,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return { props: { initialReduxState: store.getState() } };
 };
+
+const mapToProps = (state: State): Props => ({
+  products: state.products.products,
+});
 
 export default connect(mapToProps)(ProductsPage);

@@ -89,11 +89,11 @@ const ManageProductModal = ({
     <Modal title={`Managing ${product?.name}`} id={ModalIds.ManageProduct}>
       <form onSubmit={onSubmit}>
         <div className={styles.formGroup}>
-          <label htmlFor="add-product-name">Name</label>
+          <label htmlFor="manage-product-name">Name</label>
           <input
             required
             ref={ref}
-            id="add-product-name"
+            id="manage-product-name"
             type="text"
             className={styles.formInput}
             value={name}
@@ -103,9 +103,9 @@ const ManageProductModal = ({
 
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
-            <label htmlFor="add-product-price">Price (Euro)</label>
+            <label htmlFor="manage-product-price">Price (Euro)</label>
             <input
-              id="add-product-price"
+              id="manage-product-price"
               type="text"
               className={styles.formInput}
               value={price}
@@ -113,10 +113,10 @@ const ManageProductModal = ({
             />
           </div>
           <div className={styles.formGroup}>
-            <label htmlFor="add-product-name">Quantity</label>
+            <label htmlFor="manage-product-name">Quantity</label>
             <input
               required
-              id="add-product-quantity"
+              id="manage-product-quantity"
               type="number"
               className={styles.formInput}
               value={quantity}
@@ -126,7 +126,7 @@ const ManageProductModal = ({
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="add-product-category">Category</label>
+          <label htmlFor="manage-product-category">Category</label>
 
           <Select
             isClearable
@@ -140,9 +140,9 @@ const ManageProductModal = ({
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="add-product-expire-date">Expiration Date</label>
+          <label htmlFor="manage-product-expire-date">Expiration Date</label>
           <input
-            id="add-product-expire-date"
+            id="manage-product-expire-date"
             type="date"
             className={styles.formInput}
             value={expireDate}

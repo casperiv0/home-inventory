@@ -15,27 +15,21 @@ import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
 import { useHasAccess } from "@hooks/useHasAccess";
 import { getCurrentHouse } from "@actions/houses";
+import { useIsAuth } from "@hooks/useIsAuth";
 
 const AddUserModal = dynamic(() => import("@components/modals/admin/AddUserModal"));
 const ManageUserModal = dynamic(() => import("@components/modals/admin/ManageUserModal"));
 
 interface Props {
-  isAuth: boolean;
-  loading: boolean;
   users: User[];
-  user: User | null;
 }
 
-const UsersAdminPage = ({ isAuth, users }: Props) => {
+const UsersAdminPage = ({ users }: Props) => {
   const router = useRouter();
-  const { loading, hasAccess } = useHasAccess(UserRole.ADMIN);
   const [tempUser, setTempUser] = React.useState<User | null>(null);
 
-  React.useEffect(() => {
-    if (!loading && !isAuth) {
-      router.push("/auth/login");
-    }
-  }, [isAuth, loading, router]);
+  const { loading, hasAccess } = useHasAccess(UserRole.ADMIN);
+  useIsAuth();
 
   React.useEffect(() => {
     if (!loading && !hasAccess) {
@@ -122,10 +116,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const mapToProps = (state: State): Props => ({
-  isAuth: state.auth.isAuth,
   users: state.admin.users,
-  loading: state.auth.loading,
-  user: state.auth.user,
 });
 
 export default connect(mapToProps)(UsersAdminPage);

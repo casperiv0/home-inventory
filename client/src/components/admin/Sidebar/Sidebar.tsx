@@ -3,28 +3,37 @@ import Link from "next/link";
 import styles from "./sidebar.module.scss";
 import { useRouter } from "next/router";
 import { useHouseId } from "@hooks/useHouseId";
+import { classes } from "@utils/classes";
 
 export const AdminSidebar = () => {
   const router = useRouter();
   const houseId = useHouseId();
   const activeRouter = (route: string) => (router.asPath === route ? styles.sidebarItemActive : "");
 
+  function push(page: string) {
+    return router.push(`/${houseId}/admin/${page}`);
+  }
+
   return (
     <nav className={styles.adminSidebar}>
       <ul className={styles.adminItems}>
-        <Link href={`/${houseId}/admin/users`}>
-          <a className={[styles.sidebarItem, activeRouter(`/${houseId}/admin/users`)].join(" ")}>
-            Users
-          </a>
-        </Link>
+        <li
+          onClick={() => push("users")}
+          className={classes(styles.sidebarItem, activeRouter(`/${houseId}/admin/users`))}
+        >
+          <Link href={`/${houseId}/admin/users`}>
+            <a>Users</a>
+          </Link>
+        </li>
 
-        <Link href={`/${houseId}/admin/categories`}>
-          <a
-            className={[styles.sidebarItem, activeRouter(`/${houseId}/admin/categories`)].join(" ")}
-          >
-            Categories
-          </a>
-        </Link>
+        <li
+          onClick={() => push("categories")}
+          className={classes(styles.sidebarItem, activeRouter(`/${houseId}/admin/categories`))}
+        >
+          <Link href={`/${houseId}/admin/categories`}>
+            <a>Categories</a>
+          </Link>
+        </li>
       </ul>
     </nav>
   );

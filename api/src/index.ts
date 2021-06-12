@@ -14,21 +14,24 @@ import { notFoundMiddleware } from "@lib/middlewares";
 
 const server = express();
 
+server.disable("x-powered-by");
 server.use(cookieParser());
 server.use(
   cors({
     origin: [process.env["CORS_ORIGIN_URL"] as string, "http://172.26.114.18:3000"],
     credentials: true,
+    methods: ["GET", "POST", "PUT", "OPTIONS", "DELETE", "HEAD"],
   }),
 );
 server.use(compression());
 server.use(express.json());
 server.use(helmet());
+
 server.use("/api", apiRouter, csurf({ cookie: true }));
 server.use(notFoundMiddleware);
 
 server.listen(parseInt(process.env["API_PORT"] as string), () => {
-  logger.log("API", `Woop woop! API is listening on port ${process.env["API_PORT"]}`);
+  logger.log("API", `Woop woop! API is listening at http://localhost:${process.env["API_PORT"]}`);
 });
 
 export const prisma = new PrismaClient({});
