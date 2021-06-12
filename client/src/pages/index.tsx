@@ -17,6 +17,7 @@ import styles from "css/houses.module.scss";
 import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
 import { EditIcon } from "@components/icons/Edit";
+import ReactToolTip from "react-tooltip";
 
 const AddHouseModal = dynamic(() => import("@components/modals/houses/AddHouseModal"));
 const ManageHouseModal = dynamic(() => import("@components/modals/houses/ManageHouseModal"));
@@ -72,6 +73,8 @@ const IndexPage = ({ isAuth, loading, user, houses }: Props) => {
         </button>
       </div>
 
+      <p style={{ marginTop: "0.5rem" }}>Below you can find all the houses you are a part of.</p>
+
       <div className={styles.housesGrid}>
         {houses.map((house) => (
           <div key={house.id} className={styles.housesItem}>
@@ -82,8 +85,17 @@ const IndexPage = ({ isAuth, loading, user, houses }: Props) => {
                 </a>
               </Link>
 
-              <div onClick={() => handleManageHouse(house)}>
-                <EditIcon />
+              <div>
+                <EditIcon onClick={() => handleManageHouse(house)} data-tip data-for="EditHouse" />
+
+                <ReactToolTip
+                  textColor="#2f2f2f"
+                  backgroundColor="#bbbbbb"
+                  effect="solid"
+                  id="EditHouse"
+                >
+                  Manage house
+                </ReactToolTip>
               </div>
             </header>
 

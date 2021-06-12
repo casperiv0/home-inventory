@@ -51,6 +51,23 @@ https://github.com/Dev-CasperTheGhost/notey.app/blob/main/src/components/modal/s
   max-height: 90%;
 }
 
+.closeModal {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.6rem;
+  border-radius: 0.3rem;
+
+  transition: 200ms;
+  display: grid;
+  place-items: center;
+
+  &:hover,
+  &:focus {
+    background: #bbbbbb;
+  }
+}
+
 /**
   Alert modal styles
 */

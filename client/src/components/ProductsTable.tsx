@@ -1,3 +1,5 @@
+import ReactToolTip from "react-tooltip";
+import format from "date-fns/format";
 import { Product } from "@t/Product";
 import { filters } from "src/pages/[houseId]/products";
 
@@ -38,7 +40,30 @@ export const ProductsTable = ({ products, currentFilter, showActions, onManageCl
 
           return (
             <tr key={product.id}>
-              <td className={boldText("name") ? "bold" : ""}>{product.name}</td>
+              <td className={boldText("name") ? "bold" : ""}>
+                <span data-tip data-for="ProductName">
+                  {product.name}
+                </span>
+
+                <ReactToolTip
+                  textColor="var(--dark)"
+                  backgroundColor="#bbbbbb"
+                  place="top"
+                  id="ProductName"
+                  effect="solid"
+                  className="tooltip-overwrite"
+                >
+                  <p>
+                    <strong>Created at: </strong>
+                    {format(new Date(product.createdAt), "yyyy-MM-dd")}
+                  </p>
+
+                  <p>
+                    <strong>Last updated: </strong>
+                    {format(new Date(product.updatedAt), "yyyy-MM-dd")}
+                  </p>
+                </ReactToolTip>
+              </td>
               <td className={boldText("price") || boldText("priceHigh") ? "bold" : ""}>
                 €{product.price.toFixed(2)}
               </td>

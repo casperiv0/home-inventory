@@ -8,3 +8,4 @@ export const modalClosed: string;
 export const modalContentActive: string;
 export const openAni: string;
 export const small: string;
+export const tooltipOverwrite: string;

@@ -4,6 +4,7 @@ import { useMounted, usePortal } from "@casper124578/useful/hooks";
 import styles from "./modal.module.scss";
 import { ModalIds } from "@t/ModalIds";
 import { closeModal } from "@lib/modal";
+import { CloseIcon } from "@components/icons/Close";
 
 interface Props {
   id: ModalIds;
@@ -54,8 +55,9 @@ export const Modal: React.FC<Props> = ({ id, title, children, ...rest }) => {
               <header className={styles.modalHeader}>
                 {title}
 
-                {/* todo: setup this icon */}
-                {/* <CloseModal onClick={() => closeModal(id)}>&times;</CloseModal> */}
+                <button onClick={() => closeModal(id)} className={styles.closeModal}>
+                  <CloseIcon />
+                </button>
               </header>
               <div className={styles.modalBody}>{children}</div>
             </div>
