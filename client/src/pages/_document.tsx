@@ -11,6 +11,19 @@ class CustomDocument extends Document {
       <Html lang="en">
         <Head>
           <meta charSet="utf-8" />
+
+          <meta
+            name="description"
+            content="A home inventory app to keep track of items in your home (food items, tech, medical supplies, etc.)."
+          />
+          <meta
+            property="og:description"
+            content="A home inventory app to keep track of items in your home (food items, tech, medical supplies, etc.)."
+          />
+          <meta
+            name="twitter:description"
+            content="A home inventory app to keep track of items in your home (food items, tech, medical supplies, etc.)."
+          />
         </Head>
 
         <body>
