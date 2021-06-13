@@ -17,6 +17,7 @@ import { Category } from "@t/Category";
 import { useHasAccess } from "@hooks/useHasAccess";
 import { getCurrentHouse } from "@actions/houses";
 import { useIsAuth } from "@hooks/useIsAuth";
+import { useValidHouse } from "@hooks/useValidHouse";
 
 const AddCategoryModal = dynamic(() => import("@components/modals/admin/AddCategoryModal"));
 const ManageCategoryModal = dynamic(() => import("@components/modals/admin/ManageCategoryModal"));
@@ -31,6 +32,7 @@ const CategoriesAdminPage = ({ categories }: Props) => {
   const router = useRouter();
   const { loading, hasAccess } = useHasAccess(UserRole.ADMIN);
   useIsAuth();
+  useValidHouse();
 
   React.useEffect(() => {
     if (!loading && !hasAccess) {

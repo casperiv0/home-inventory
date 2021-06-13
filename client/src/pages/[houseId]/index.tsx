@@ -10,9 +10,11 @@ import { getStats } from "@actions/products";
 import StatsCards from "@components/home/StatsCards";
 import { getCurrentHouse } from "@actions/houses";
 import { useIsAuth } from "@hooks/useIsAuth";
+import { useValidHouse } from "@hooks/useValidHouse";
 
 const HousePage = () => {
   useIsAuth();
+  useValidHouse();
 
   return (
     <Layout showCurrentHouse>

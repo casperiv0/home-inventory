@@ -3,6 +3,7 @@ import { User } from "./User";
 import { Product } from "./Product";
 import { Statistics } from "./Statistics";
 import { House } from "./House";
+import { States } from "src/store/types";
 
 export interface State {
   auth: {
@@ -21,5 +22,6 @@ export interface State {
   houses: {
     house: House | null;
     houses: House[];
+    state: States;
   };
 }

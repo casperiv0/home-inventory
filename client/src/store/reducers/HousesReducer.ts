@@ -1,11 +1,12 @@
 import { State } from "@t/State";
-import { GetHouseById, UpdateHouses } from "../types";
+import { GetHouseById, SetState, UpdateHouses } from "../types";
 
-type Actions = UpdateHouses | GetHouseById;
+type Actions = UpdateHouses | GetHouseById | SetState;
 
 const initState: State["houses"] = {
   houses: [],
   house: null,
+  state: "DONE",
 };
 
 export default function HousesReducer(state = initState, action: Actions): State["houses"] {
@@ -17,6 +18,7 @@ export default function HousesReducer(state = initState, action: Actions): State
       return {
         ...state,
         houses: action.houses,
+        state: "DONE",
       };
     }
 
@@ -25,6 +27,10 @@ export default function HousesReducer(state = initState, action: Actions): State
         ...state,
         house: action.house,
       };
+    }
+
+    case "SET_STATE": {
+      return { ...state, ...action };
     }
 
     default: {

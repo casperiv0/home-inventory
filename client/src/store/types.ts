@@ -49,3 +49,10 @@ export interface GetHouseById {
   type: "GET_HOUSE_BY_ID";
   house: House;
 }
+
+export type States = "ERROR" | "LOADING" | "DONE";
+export interface SetState {
+  type: "SET_STATE";
+  state: States;
+  [key: string]: any;
+}

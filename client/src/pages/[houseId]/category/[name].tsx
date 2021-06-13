@@ -13,6 +13,7 @@ import { State } from "@t/State";
 import { initializeStore } from "src/store/store";
 import { useRouter } from "next/router";
 import { useIsAuth } from "@hooks/useIsAuth";
+import { useValidHouse } from "@hooks/useValidHouse";
 
 interface Props {
   products: Product[];
@@ -21,6 +22,7 @@ interface Props {
 const FilterByCategoryPage = ({ products }: Props) => {
   const router = useRouter();
   useIsAuth();
+  useValidHouse();
 
   return (
     <Layout>

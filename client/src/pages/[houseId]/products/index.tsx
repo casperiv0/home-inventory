@@ -13,6 +13,7 @@ import { getAllCategories } from "@actions/admin/categories";
 import { getCurrentHouse } from "@actions/houses";
 import { Products } from "@components/Products";
 import { useIsAuth } from "@hooks/useIsAuth";
+import { useValidHouse } from "@hooks/useValidHouse";
 
 interface Props {
   products: Product[];
@@ -20,6 +21,7 @@ interface Props {
 
 const ProductsPage = ({ products }: Props) => {
   useIsAuth();
+  useValidHouse();
 
   return (
     <Layout showCurrentHouse>

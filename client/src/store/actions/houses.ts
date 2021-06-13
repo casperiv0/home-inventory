@@ -1,25 +1,31 @@
 import { getErrorFromResponse, handleRequest, RequestData } from "@lib/fetch";
 import { Dispatch } from "react";
 import { toast } from "react-toastify";
-import { GetHouseById, UpdateHouses } from "../types";
+import { GetHouseById, SetState, UpdateHouses } from "../types";
 
-export const getHouses = (cookie?: string) => async (dispatch: Dispatch<UpdateHouses>) => {
-  try {
-    const res = await handleRequest("/houses", "GET", { cookie });
+export const getHouses =
+  (cookie?: string) => async (dispatch: Dispatch<UpdateHouses | SetState>) => {
+    dispatch({ type: "SET_STATE", state: "LOADING" });
 
-    dispatch({
-      type: "GET_ALL_HOUSES",
-      houses: res.data.houses,
-    });
+    try {
+      const res = await handleRequest("/houses", "GET", { cookie });
 
-    return true;
-  } catch (e) {
-    return false;
-  }
-};
+      dispatch({
+        type: "GET_ALL_HOUSES",
+        houses: res.data.houses,
+      });
+
+      return true;
+    } catch (e) {
+      dispatch({ type: "SET_STATE", state: "ERROR" });
+      return false;
+    }
+  };
 
 export const getCurrentHouse =
-  (houseId: string, cookie?: string) => async (dispatch: Dispatch<GetHouseById>) => {
+  (houseId: string, cookie?: string) => async (dispatch: Dispatch<GetHouseById | SetState>) => {
+    dispatch({ type: "SET_STATE", state: "LOADING" });
+
     try {
       const res = await handleRequest(`/houses/${houseId}`, "GET", { cookie });
 
@@ -30,6 +36,7 @@ export const getCurrentHouse =
 
       return true;
     } catch (e) {
+      dispatch({ type: "SET_STATE", state: "ERROR", code: 404 });
       return false;
     }
   };

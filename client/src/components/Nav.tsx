@@ -1,9 +1,12 @@
 import Link from "next/link";
 import styles from "css/nav.module.scss";
 import { useHouseId } from "@hooks/useHouseId";
+import { useHasAccess } from "@hooks/useHasAccess";
+import { UserRole } from "@t/User";
 
 export const Nav = () => {
   const houseId = useHouseId();
+  const { hasAccess } = useHasAccess(UserRole.ADMIN);
 
   return (
     <nav className={styles.navContainer}>
@@ -29,12 +32,13 @@ export const Nav = () => {
                 </Link>
               </li>
 
-              {/* todo: add other links */}
-              <li className={styles.navLink}>
-                <Link href={`/${houseId}/admin/users`}>
-                  <a>Admin</a>
-                </Link>
-              </li>
+              {hasAccess ? (
+                <li className={styles.navLink}>
+                  <Link href={`/${houseId}/admin/users`}>
+                    <a>Admin</a>
+                  </Link>
+                </li>
+              ) : null}
             </>
           ) : (
             <li className={styles.navLink}>

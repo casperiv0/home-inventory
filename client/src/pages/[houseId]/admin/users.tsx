@@ -16,6 +16,7 @@ import { ModalIds } from "@t/ModalIds";
 import { useHasAccess } from "@hooks/useHasAccess";
 import { getCurrentHouse } from "@actions/houses";
 import { useIsAuth } from "@hooks/useIsAuth";
+import { useValidHouse } from "@hooks/useValidHouse";
 
 const AddUserModal = dynamic(() => import("@components/modals/admin/AddUserModal"));
 const ManageUserModal = dynamic(() => import("@components/modals/admin/ManageUserModal"));
@@ -30,6 +31,7 @@ const UsersAdminPage = ({ users }: Props) => {
 
   const { loading, hasAccess } = useHasAccess(UserRole.ADMIN);
   useIsAuth();
+  useValidHouse();
 
   React.useEffect(() => {
     if (!loading && !hasAccess) {

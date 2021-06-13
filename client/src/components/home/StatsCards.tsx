@@ -93,7 +93,7 @@ const StatsCards = ({ stats }: Props) => {
               the shop.
             </p>
 
-            <ProductsTable currentFilter="quantity" products={soonToExpire ?? []} />
+            <ProductsTable currentFilter="quantity" products={lowOnQuantity ?? []} />
           </>
         )}
       </div>
