@@ -18,7 +18,7 @@ server.disable("x-powered-by");
 server.use(cookieParser());
 server.use(
   cors({
-    origin: [process.env["CORS_ORIGIN_URL"] as string, "http://172.26.114.18:3000"],
+    origin: [process.env["CORS_ORIGIN_URL"] as string, "https://home.caspertheghost.me"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "OPTIONS", "DELETE", "HEAD"],
   }),

@@ -10,6 +10,8 @@ services:
       - "5433:5432"
     networks:
       - web
+    volumes:
+      - ./.data:/var/lib/postgresql/data
 
   api:
     container_name: "api"
@@ -49,9 +51,6 @@ services:
       - web
     env_file:
       - .env
-
-volumes:
-  pgdata: {}
 
 networks:
   web:
