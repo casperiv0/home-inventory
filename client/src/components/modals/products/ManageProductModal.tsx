@@ -36,6 +36,7 @@ const ManageProductModal = ({
   const [loading, setLoading] = React.useState(false);
   const [warnOnQuantity, setWarnOnQuantity] = React.useState({ value: "2", checked: false });
   const [ignoreQuantityWarning, setIgnoreWarning] = React.useState(false);
+  const [createdAt, setCreatedAt] = React.useState("");
 
   const houseId = useHouseId();
   const ref = useModalEvent(ModalIds.ManageProduct);
@@ -59,6 +60,7 @@ const ManageProductModal = ({
     setPrice(product.price.toString());
     setQuantity(product.quantity.toString());
     setExpireDate(product.expirationDate ?? "");
+    setCreatedAt(product.createdAt);
   }, [product, categories]);
 
   async function onSubmit(e: React.FormEvent) {
@@ -74,6 +76,7 @@ const ManageProductModal = ({
       categoryId: category?.value ?? null,
       warnOnQuantity: warnOnQuantity.checked ? Number(warnOnQuantity.value) : null,
       ignoreQuantityWarning,
+      createdAt: createdAt || null,
     });
 
     setLoading(false);
@@ -149,15 +152,27 @@ const ManageProductModal = ({
           />
         </div>
 
-        <div className={styles.formGroup}>
-          <label htmlFor="manage-product-expire-date">Expiration Date</label>
-          <input
-            id="manage-product-expire-date"
-            type="date"
-            className={styles.formInput}
-            value={expireDate}
-            onChange={(e) => setExpireDate(e.target.value)}
-          />
+        <div className={styles.formRow}>
+          <div className={styles.formGroup}>
+            <label htmlFor="add-product-expire-date">Expiration Date (optional)</label>
+            <input
+              id="add-product-expire-date"
+              type="date"
+              className={styles.formInput}
+              value={expireDate}
+              onChange={(e) => setExpireDate(e.target.value)}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="add-product-created-at">Created at (optional)</label>
+            <input
+              id="add-product-created-at"
+              type="date"
+              className={styles.formInput}
+              value={createdAt}
+              onChange={(e) => setCreatedAt(e.target.value)}
+            />
+          </div>
         </div>
 
         <div className={styles.formGroup}>

@@ -168,10 +168,11 @@ router.post("/:houseId", withAuth, withValidHouseId, async (req: IRequest, res) 
         prices: [body.price * body.quantity],
         categoryId: category?.id ?? null,
         expirationDate: body.expirationDate ?? null,
-        warnOnQuantity: body.warnOnQuantity ?? null,
+        warnOnQuantity: body.warnOnQuantity ?? undefined,
         ignoreQuantityWarning: body.ignoreQuantityWarning ?? false,
         userId: req.userId!,
         houseId,
+        createdAt: body.createdAt ? new Date(body.createdAt) : undefined,
       },
     });
 

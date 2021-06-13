@@ -26,6 +26,7 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
   const [category, setCategory] = React.useState<SelectValue | null>(null);
   const [warnOnQuantity, setWarnOnQuantity] = React.useState({ value: "2", checked: false });
   const [ignoreQuantityWarning, setIgnoreWarning] = React.useState(false);
+  const [createdAt, setCreatedAt] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
   const router = useRouter();
@@ -48,6 +49,7 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
       categoryId: category?.value ?? null,
       warnOnQuantity: warnOnQuantity.checked ? Number(warnOnQuantity.value) : null,
       ignoreQuantityWarning,
+      createdAt: createdAt || null,
     });
 
     setLoading(false);
@@ -98,7 +100,7 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
             />
           </div>
           <div className={styles.formGroup}>
-            <label htmlFor="add-product-name">Quantity</label>
+            <label htmlFor="add-product-quantity">Quantity</label>
             <input
               required
               id="add-product-quantity"
@@ -111,7 +113,7 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="add-product-category">Category</label>
+          <label htmlFor="add-product-category">Category (optional)</label>
 
           <Select
             value={category}
@@ -123,15 +125,27 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
           />
         </div>
 
-        <div className={styles.formGroup}>
-          <label htmlFor="add-product-expire-date">Expiration Date</label>
-          <input
-            id="add-product-expire-date"
-            type="date"
-            className={styles.formInput}
-            value={expireDate}
-            onChange={(e) => setExpireDate(e.target.value)}
-          />
+        <div className={styles.formRow}>
+          <div className={styles.formGroup}>
+            <label htmlFor="add-product-expire-date">Expiration Date (optional)</label>
+            <input
+              id="add-product-expire-date"
+              type="date"
+              className={styles.formInput}
+              value={expireDate}
+              onChange={(e) => setExpireDate(e.target.value)}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="add-product-created-at">Created at (optional)</label>
+            <input
+              id="add-product-created-at"
+              type="date"
+              className={styles.formInput}
+              value={createdAt}
+              onChange={(e) => setCreatedAt(e.target.value)}
+            />
+          </div>
         </div>
 
         <div className={styles.formGroup}>

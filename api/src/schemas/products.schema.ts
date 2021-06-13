@@ -12,4 +12,5 @@ export const createProductSchema = {
   categoryId: yup.string().nullable(),
   warnOnQuantity: yup.number().nullable(),
   ignoreQuantityWarning: yup.boolean().notRequired(),
+  createdAt: yup.string().notRequired().nullable(),
 };
