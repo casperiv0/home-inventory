@@ -6,6 +6,7 @@
     "build:typed-css": "tsm src",
     "build:typed-css:watch": "tsm src -w",
     "start": "next start",
+    "prod": "npm run build && npm run start",
     "test-tsc": "tsc --noEmit"
   },
   "dependencies": {
