@@ -23,20 +23,21 @@ model User {
 }
 
 model Product {
-  id             String   @id @default(uuid())
-  quantity       Int
-  warnOnQuantity Int      @default(2)
-  price          Float
-  prices         Float[]
-  name           String   @unique
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  expirationDate String?
-  createdBy      User     @relation(fields: [userId], references: [id])
-  userId         String
-  categoryId     String?
-  house          House    @relation(fields: [houseId], references: [id])
-  houseId        String
+  id                    String   @id @default(uuid())
+  quantity              Int
+  warnOnQuantity        Int      @default(2)
+  ignoreQuantityWarning Boolean  @default(false)
+  price                 Float
+  prices                Float[]
+  name                  String   @unique
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  expirationDate        String?
+  createdBy             User     @relation(fields: [userId], references: [id])
+  userId                String
+  categoryId            String?
+  house                 House    @relation(fields: [houseId], references: [id])
+  houseId               String
 }
 
 model House {

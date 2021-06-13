@@ -24,6 +24,8 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
   const [quantity, setQuantity] = React.useState("");
   const [expireDate, setExpireDate] = React.useState("");
   const [category, setCategory] = React.useState<SelectValue | null>(null);
+  const [warnOnQuantity, setWarnOnQuantity] = React.useState({ value: "2", checked: false });
+  const [ignoreQuantityWarning, setIgnoreWarning] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
   const router = useRouter();
@@ -44,6 +46,8 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
       quantity: Number(quantity),
       expirationDate: expireDate,
       categoryId: category?.value ?? null,
+      warnOnQuantity: warnOnQuantity.checked ? Number(warnOnQuantity.value) : null,
+      ignoreQuantityWarning,
     });
 
     setLoading(false);
@@ -56,6 +60,7 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
       setExpireDate("");
       setPrice("");
       setCategory(null);
+      setWarnOnQuantity({ value: "", checked: false });
     }
   }
 
@@ -127,6 +132,50 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
             value={expireDate}
             onChange={(e) => setExpireDate(e.target.value)}
           />
+        </div>
+
+        <div className={styles.formGroup}>
+          <div className={styles.formCheckboxGroup}>
+            <label htmlFor="custom-warn-quantity">custom {"'warn on quantity'"}</label>
+            <input
+              id="custom-warn-quantity"
+              onChange={() => setWarnOnQuantity((p) => ({ checked: !p.checked, value: p.value }))}
+              type="checkbox"
+            />
+          </div>
+
+          {warnOnQuantity.checked ? (
+            <div style={{ marginBottom: "0", marginTop: "1rem" }} className={styles.formGroup}>
+              <label htmlFor="add-product-warn-quantity">Warn on quantity</label>
+              <input
+                autoFocus
+                id="add-product-warn-quantity"
+                type="number"
+                className={styles.formInput}
+                value={warnOnQuantity.value}
+                onChange={(e) =>
+                  setWarnOnQuantity((p) => ({ checked: p.checked, value: e.target.value }))
+                }
+              />
+            </div>
+          ) : null}
+        </div>
+
+        <div className={styles.formGroup}>
+          <div className={styles.formCheckboxGroup}>
+            <label htmlFor="ignore-quantity-warning">Ignore quantity warning</label>
+            <input
+              value={`${ignoreQuantityWarning}`}
+              id="ignore-quantity-warning"
+              onChange={() => setIgnoreWarning((p) => !p)}
+              type="checkbox"
+            />
+          </div>
+
+          <p style={{ marginTop: "0.5rem" }}>
+            When checked, this product will, when low on quantity, <strong>not</strong> show up on
+            the home page.
+          </p>
         </div>
 
         <div

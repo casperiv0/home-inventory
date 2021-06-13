@@ -9,4 +9,6 @@ export interface Product {
   expirationDate: string | null;
   userId: string;
   categoryId: string | null;
+  warnOnQuantity: number | null;
+  ignoreQuantityWarning: boolean;
 }

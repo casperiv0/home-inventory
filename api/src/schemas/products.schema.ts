@@ -10,4 +10,6 @@ export const createProductSchema = {
   price: yup.number().required(),
   expirationDate: yup.string(),
   categoryId: yup.string().nullable(),
+  warnOnQuantity: yup.number().nullable(),
+  ignoreQuantityWarning: yup.boolean().notRequired(),
 };

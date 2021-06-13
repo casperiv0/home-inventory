@@ -168,7 +168,8 @@ router.post("/:houseId", withAuth, withValidHouseId, async (req: IRequest, res) 
         prices: [body.price * body.quantity],
         categoryId: category?.id ?? null,
         expirationDate: body.expirationDate ?? null,
-        warnOnQuantity: body.warnOnQuantity,
+        warnOnQuantity: body.warnOnQuantity ?? null,
+        ignoreQuantityWarning: body.ignoreQuantityWarning ?? false,
         userId: req.userId!,
         houseId,
       },
@@ -222,6 +223,8 @@ router.put("/:houseId/:id", withAuth, withValidHouseId, async (req, res) => {
         quantity: body.quantity,
         price: body.price,
         expirationDate: body.expirationDate ?? null,
+        warnOnQuantity: body.warnOnQuantity ?? 2,
+        ignoreQuantityWarning: body.ignoreQuantityWarning ?? false,
 
         // body.price = for 1 item, times the quantity -> total amount for the product.
         prices: [body.price * body.quantity],

@@ -30,7 +30,7 @@ const StatsCards = ({ stats }: Props) => {
       </>
     ) : (
       <>
-        There are <strong>{soonToExpire?.length}</strong> items that are low on quantity.
+        There are <strong>{lowOnQuantity?.length}</strong> items that are low on quantity.
       </>
     );
 

@@ -40,6 +40,17 @@
   }
 }
 
+.formCheckboxGroup {
+  display: flex;
+  align-items: center;
+
+  label {
+    font-size: 1rem;
+    margin: 0;
+    margin-right: 1rem;
+  }
+}
+
 .formInput {
   font-size: 1rem;
   padding: 0.5rem;
