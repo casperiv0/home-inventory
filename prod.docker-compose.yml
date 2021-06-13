@@ -47,6 +47,8 @@ services:
       - api
     networks:
       - web
+    env_file:
+      - .env
 
 volumes:
   pgdata: {}
