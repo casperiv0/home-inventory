@@ -18,7 +18,6 @@ interface Props {
 const AddUserModal = ({ addUser }: Props) => {
   const [email, setEmail] = React.useState("");
   const [name, setName] = React.useState("");
-  const [password, setPassword] = React.useState("");
   const [role, setRole] = React.useState<SelectValue | null>(null);
   const [loading, setLoading] = React.useState(false);
 
@@ -29,7 +28,7 @@ const AddUserModal = ({ addUser }: Props) => {
     e.preventDefault();
     setLoading(true);
 
-    const success = await addUser(houseId, { email, name, password, role: role?.value });
+    const success = await addUser(houseId, { email, role: role?.value });
 
     if (success) {
       closeModal(ModalIds.AddUser);
@@ -37,7 +36,6 @@ const AddUserModal = ({ addUser }: Props) => {
       setEmail("");
       setName("");
       setRole(null);
-      setPassword("");
     }
 
     setLoading(false);
@@ -73,17 +71,6 @@ const AddUserModal = ({ addUser }: Props) => {
           <label htmlFor="add-user-role">Role</label>
 
           <Select value={role} onChange={setRole} options={selectRoles} />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label htmlFor="add-user-password">Password</label>
-          <input
-            id="add-user-password"
-            type="password"
-            className={styles.formInput}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
         </div>
 
         <div

@@ -1,14 +1,15 @@
 import * as yup from "yup";
 
+const ROLE = yup
+  .string()
+  .required()
+  .matches(/ADMIN|USER|OWNER/, "Role must match 'ADMIN' or 'USER'");
+
 export const updateUserSchema = {
-  role: yup
-    .string()
-    .required()
-    .matches(/ADMIN|USER|OWNER/, "Role must match 'ADMIN' or 'USER'"),
-  name: yup.string().required(),
+  role: ROLE,
 };
 
 export const createUserSchema = {
-  ...updateUserSchema,
+  role: ROLE,
   email: yup.string().email().required(),
 };

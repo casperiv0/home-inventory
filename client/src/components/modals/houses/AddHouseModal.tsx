@@ -60,7 +60,7 @@ const AddHouseModal = ({ addHouse }: Props) => {
             Cancel
           </button>
           <button disabled={loading} type="submit" className={styles.submitBtn}>
-            {loading ? "updating.." : "Add house"}
+            {loading ? "loading.." : "Add house"}
           </button>
         </div>
       </form>

@@ -194,7 +194,6 @@ router.put(
           id,
         },
         data: {
-          name: body.name,
           houseRoles: {
             update: {
               where: { id: currentRole.id },

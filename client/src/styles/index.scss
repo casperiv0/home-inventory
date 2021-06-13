@@ -45,7 +45,7 @@ a:focus-visible {
   }
 
   &:hover:enabled {
-    background: #d6d6d6;
+    filter: brightness(90%);
   }
 
   &:disabled {

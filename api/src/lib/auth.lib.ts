@@ -15,7 +15,7 @@ export function setCookie(token: string, res: Response) {
   };
 
   if (process.env["NODE_ENV"] === "production") {
-    options.sameSite = "none";
+    options.sameSite = "lax";
     options.secure = true;
   }
 

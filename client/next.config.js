@@ -5,6 +5,15 @@ module.exports = {
   future: {
     webpack5: true,
   },
+  async redirects() {
+    return [
+      {
+        source: "/logout",
+        destination: "/auth/logout",
+        permanent: true,
+      },
+    ];
+  },
   webpack: (config, { dev, isServer }) => {
     if (!dev && !isServer) {
       config.resolve.alias = {
