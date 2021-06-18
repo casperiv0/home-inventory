@@ -1,6 +1,6 @@
 import ReactSelect, { Props as SelectProps } from "react-select";
 import React from "react";
-import { SelectStyles, SelectTheme } from "./selectStyles";
+import { styles, SelectTheme } from "./styles";
 
 export interface SelectValue<TValue = string> {
   value: TValue;
@@ -44,7 +44,7 @@ export const Select: React.FC<Props> = ({
       value={value}
       isSearchable
       isMulti={isMulti !== undefined ? isMulti : true}
-      styles={SelectStyles(theme ?? {})}
+      styles={styles(theme ?? {})}
       onChange={onChange}
       options={options}
       defaultValue={defaultValue}

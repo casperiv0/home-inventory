@@ -1,9 +1,7 @@
 module.exports = {
+  reactStrictMode: true,
   experimental: {
     turboMode: true,
-  },
-  future: {
-    webpack5: true,
   },
   async redirects() {
     return [

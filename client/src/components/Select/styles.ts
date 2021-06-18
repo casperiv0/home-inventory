@@ -4,7 +4,7 @@ export interface SelectTheme {
   backgroundColor?: string;
 }
 
-export const SelectStyles = ({
+export const styles = ({
   backgroundColor = "#bbbbbb",
 }: SelectTheme): Partial<Styles<any, true, GroupTypeBase<any>>> | undefined => ({
   valueContainer: (base) => ({
@@ -68,15 +68,15 @@ export const SelectStyles = ({
     backgroundColor,
     color: "#222222",
   }),
-  clearIndicator: (base, state) => ({
+  clearIndicator: (base) => ({
     ...base,
     cursor: "pointer",
-    color: state.isFocused ? "#222222" : "#222222",
+    color: "#222222",
   }),
-  dropdownIndicator: (base, state) => ({
+  dropdownIndicator: (base) => ({
     ...base,
     cursor: "pointer",
-    color: state.isFocused ? "#222222" : "#222222",
+    color: "#222222",
   }),
   control: (base, state) => ({
     ...base,
