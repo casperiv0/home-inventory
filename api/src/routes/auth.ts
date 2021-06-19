@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { compareSync, hashSync } from "bcryptjs";
+import { validateSchema } from "@casper124578/utils";
 import { prisma } from "../index";
 import { authenticateSchema, newPasswordSchema } from "@schemas/auth.schema";
 import { AuthConstants } from "@lib/constants";
 import { createSessionToken, createUserAndLinkHouse, setCookie } from "@lib/auth.lib";
 import { withAuth } from "@hooks/withAuth";
 import { IRequest } from "@t/IRequest";
-import { validateSchema } from "@utils/validateSchema";
 
 const router = Router();
 

@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { UserRole } from "@prisma/client";
+import { validateSchema } from "@casper124578/utils";
 import { withAuth } from "@hooks/withAuth";
 import { IRequest } from "@t/IRequest";
 import { prisma } from "src/index";
 import { createHouseSchema } from "@schemas/house.schema";
-import { validateSchema } from "@utils/validateSchema";
 
 const router = Router();
 

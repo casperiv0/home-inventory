@@ -1,12 +1,12 @@
 import { Router } from "express";
+import { validateSchema } from "@casper124578/utils";
+import { UserRole } from "@prisma/client";
 import { withAuth } from "@hooks/withAuth";
 import { withPermission } from "@hooks/withPermission";
 import { prisma } from "src/index";
 import { createUserSchema, updateUserSchema } from "@schemas/user.schema";
-import { validateSchema } from "@utils/validateSchema";
 import { withValidHouseId } from "@hooks/withValidHouseId";
 import { getCurrentHouseRole } from "@utils/getCurrentHouseRole";
-import { UserRole } from "@prisma/client";
 
 const router = Router();
 

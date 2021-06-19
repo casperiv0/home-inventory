@@ -2,11 +2,11 @@ import { Router } from "express";
 import format from "date-fns/format";
 import sub from "date-fns/sub";
 import isThisMonth from "date-fns/isThisMonth";
+import { validateSchema } from "@casper124578/utils";
 import { withAuth } from "@hooks/withAuth";
 import { createProductSchema } from "@schemas/products.schema";
 import { IRequest } from "@t/IRequest";
 import { prisma } from "src/index";
-import { validateSchema } from "@utils/validateSchema";
 import { withValidHouseId } from "@hooks/withValidHouseId";
 
 const router = Router();

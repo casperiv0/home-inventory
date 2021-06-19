@@ -4,7 +4,7 @@ A home inventory app to keep track of items in your home (food items, tech, medi
 
 ## Status
 
-- pre-alpha
+- finished, not sure what todo with this project _yet_.
 
 ## Stack
 
@@ -14,4 +14,3 @@ A home inventory app to keep track of items in your home (food items, tech, medi
 - Express.js
 - Prisma
 - Docker
-- Others Soon™
