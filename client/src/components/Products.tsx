@@ -10,6 +10,7 @@ import { ModalIds } from "@t/ModalIds";
 import formStyles from "css/forms.module.scss";
 import { ProductsTable } from "@components/ProductsTable";
 import styles from "css/products.module.scss";
+import { setter } from "@lib/setter";
 
 const AddProductModal = dynamic(() => import("@components/modals/products/AddProductModal"));
 const ManageProductModal = dynamic(() => import("@components/modals/products/ManageProductModal"));
@@ -97,7 +98,7 @@ export const Products = ({ products }: Props) => {
         <input
           ref={searchRef}
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={setter(setSearchValue)}
           className={formStyles.formInput}
           style={{ background: "#eeeeee", width: "100%" }}
           placeholder="Find a product by its name"

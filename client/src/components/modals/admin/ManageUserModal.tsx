@@ -14,6 +14,7 @@ import { selectRoles } from "@lib/constants";
 import { AlertModal } from "../AlertModal";
 import { useHouseId } from "@hooks/useHouseId";
 import { getUserRole } from "@utils/getUserRole";
+import { setter } from "@lib/setter";
 
 interface Props {
   user: User | null;
@@ -82,7 +83,7 @@ const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
             type="email"
             className={styles.formInput}
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={setter(setEmail)}
           />
         </div>
 
@@ -93,7 +94,7 @@ const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
             type="text"
             className={styles.formInput}
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={setter(setName)}
           />
         </div>
 

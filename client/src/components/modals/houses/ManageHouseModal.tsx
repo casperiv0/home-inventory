@@ -9,6 +9,7 @@ import styles from "css/forms.module.scss";
 import useModalEvent from "@hooks/useModalEvent";
 import { House } from "@t/House";
 import { AlertModal } from "@components/modals/AlertModal";
+import { setter } from "@lib/setter";
 
 interface Props {
   house: House | null;
@@ -62,7 +63,7 @@ const ManageHouseModal = ({ updateHouseById, deleteHouseById, house }: Props) =>
             id="add-house-name"
             className={styles.formInput}
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={setter(setName)}
           />
         </div>
 

@@ -13,6 +13,7 @@ import { Select, SelectValue } from "@components/Select/Select";
 import { Product } from "@t/Product";
 import { AlertModal } from "@components/modals/AlertModal";
 import { useHouseId } from "@hooks/useHouseId";
+import { setter } from "@lib/setter";
 
 interface Props {
   product: Product | null;
@@ -110,7 +111,7 @@ const ManageProductModal = ({
             type="text"
             className={styles.formInput}
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={setter(setName)}
           />
         </div>
 
@@ -122,7 +123,7 @@ const ManageProductModal = ({
               type="text"
               className={styles.formInput}
               value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              onChange={setter(setPrice)}
             />
           </div>
           <div className={styles.formGroup}>
@@ -133,7 +134,7 @@ const ManageProductModal = ({
               type="number"
               className={styles.formInput}
               value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
+              onChange={setter(setQuantity)}
             />
           </div>
         </div>
@@ -160,7 +161,7 @@ const ManageProductModal = ({
               type="date"
               className={styles.formInput}
               value={expireDate}
-              onChange={(e) => setExpireDate(e.target.value)}
+              onChange={setter(setExpireDate)}
             />
           </div>
           <div className={styles.formGroup}>
@@ -170,7 +171,7 @@ const ManageProductModal = ({
               type="date"
               className={styles.formInput}
               value={createdAt}
-              onChange={(e) => setCreatedAt(e.target.value)}
+              onChange={setter(setCreatedAt)}
             />
           </div>
         </div>

@@ -12,6 +12,7 @@ import { Category } from "@t/Category";
 import { Select, SelectValue } from "@components/Select/Select";
 import { useHouseId } from "@hooks/useHouseId";
 import { useRouter } from "next/router";
+import { setter } from "@lib/setter";
 
 interface Props {
   categories: Category[];
@@ -84,7 +85,7 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
             type="text"
             className={styles.formInput}
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={setter(setName)}
           />
         </div>
 
@@ -96,7 +97,7 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
               type="text"
               className={styles.formInput}
               value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              onChange={setter(setPrice)}
             />
           </div>
           <div className={styles.formGroup}>
@@ -107,7 +108,7 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
               type="number"
               className={styles.formInput}
               value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
+              onChange={setter(setQuantity)}
             />
           </div>
         </div>
@@ -133,7 +134,7 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
               type="date"
               className={styles.formInput}
               value={expireDate}
-              onChange={(e) => setExpireDate(e.target.value)}
+              onChange={setter(setExpireDate)}
             />
           </div>
           <div className={styles.formGroup}>
@@ -143,7 +144,7 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
               type="date"
               className={styles.formInput}
               value={createdAt}
-              onChange={(e) => setCreatedAt(e.target.value)}
+              onChange={setter(setCreatedAt)}
             />
           </div>
         </div>

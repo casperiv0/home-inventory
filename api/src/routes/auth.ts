@@ -1,10 +1,15 @@
-import { Router } from "express";
+import { Response, Router } from "express";
 import { compareSync, hashSync } from "bcryptjs";
 import { validateSchema } from "@casper124578/utils";
 import { prisma } from "../index";
 import { authenticateSchema, newPasswordSchema } from "@schemas/auth.schema";
 import { AuthConstants } from "@lib/constants";
-import { createSessionToken, createUserAndLinkHouse, setCookie } from "@lib/auth.lib";
+import {
+  createSessionToken,
+  createUserAndLinkHouse,
+  setCookie,
+  validateUserPassword,
+} from "@lib/auth.lib";
 import { withAuth } from "@hooks/withAuth";
 import { IRequest } from "@t/IRequest";
 
@@ -104,6 +109,48 @@ router.post("/login", async (req, res) => {
 router.post("/user", withAuth, async (req: IRequest, res) => {
   const user = await prisma.user.findUnique({
     where: { id: req.userId! },
+    select: {
+      id: true,
+      createdAt: true,
+      name: true,
+      email: true,
+      houseRoles: { select: { role: true, houseId: true, userId: true } },
+      houses: { select: { name: true, id: true } },
+    },
+  });
+
+  return res.json({ user });
+});
+
+router.put("/user", withAuth, async (req: IRequest, res: Response) => {
+  const body = req.body;
+
+  const [error] = await validateSchema(authenticateSchema(true), body);
+
+  if (error) {
+    return res.status(400).json({
+      error: error.message,
+      status: "error",
+    });
+  }
+
+  const isPwCorrect = await validateUserPassword(req.userId!, req.body.password);
+
+  if (!isPwCorrect) {
+    return res.status(400).json({
+      error: "Password does not match",
+      status: "error",
+    });
+  }
+
+  const user = await prisma.user.update({
+    where: {
+      id: req.userId!,
+    },
+    data: {
+      email: req.body.email,
+      name: req.body.name,
+    },
     select: {
       id: true,
       createdAt: true,

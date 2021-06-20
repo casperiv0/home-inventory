@@ -27,6 +27,12 @@ export const Nav = () => {
               </li>
 
               <li className={styles.navLink}>
+                <Link href="/user/settings">
+                  <a>Settings</a>
+                </Link>
+              </li>
+
+              <li className={styles.navLink}>
                 <Link href={`/${houseId}/products`}>
                   <a>Products</a>
                 </Link>
@@ -41,11 +47,18 @@ export const Nav = () => {
               ) : null}
             </>
           ) : (
-            <li className={styles.navLink}>
-              <Link href="/">
-                <a>Home</a>
-              </Link>
-            </li>
+            <>
+              <li className={styles.navLink}>
+                <Link href="/">
+                  <a>Home</a>
+                </Link>
+              </li>
+              <li className={styles.navLink}>
+                <Link href="/user/settings">
+                  <a>Settings</a>
+                </Link>
+              </li>
+            </>
           )}
         </ul>
       </div>

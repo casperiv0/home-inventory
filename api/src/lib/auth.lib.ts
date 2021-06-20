@@ -1,4 +1,5 @@
 import { User, UserRole } from "@prisma/client";
+import { compareSync } from "bcryptjs";
 import { CookieOptions, Response } from "express";
 import jwt from "jsonwebtoken";
 import { prisma } from "src";
@@ -20,6 +21,16 @@ export function setCookie(token: string, res: Response) {
   }
 
   res.cookie(AuthConstants.cookieName, token, options);
+}
+
+export async function validateUserPassword(userId: string, passwordStr: string) {
+  const data = await prisma.user.findUnique({ where: { id: userId }, select: { password: true } });
+
+  if (!data) {
+    return false;
+  }
+
+  return compareSync(passwordStr, data.password);
 }
 
 export async function createUserAndLinkHouse(createdUser: User) {

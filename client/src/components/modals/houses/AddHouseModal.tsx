@@ -7,6 +7,7 @@ import { RequestData } from "@lib/fetch";
 import { closeModal } from "@lib/modal";
 import styles from "css/forms.module.scss";
 import useModalEvent from "@hooks/useModalEvent";
+import { setter } from "@lib/setter";
 
 interface Props {
   addHouse: (data: RequestData) => Promise<boolean>;
@@ -41,7 +42,7 @@ const AddHouseModal = ({ addHouse }: Props) => {
             id="add-house-name"
             className={styles.formInput}
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={setter(setName)}
           />
         </div>
 

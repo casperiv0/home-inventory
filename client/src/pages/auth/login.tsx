@@ -5,6 +5,7 @@ import Head from "next/head";
 import { authenticate } from "@actions/auth";
 import styles from "css/forms.module.scss";
 import { RequestData } from "@lib/fetch";
+import { setter } from "@lib/setter";
 
 interface Props {
   authenticate: (data: RequestData, login?: boolean) => Promise<boolean>;
@@ -44,7 +45,7 @@ const LoginPage = ({ authenticate }: Props) => {
             id="email"
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={setter(setEmail)}
           />
         </div>
 
@@ -55,7 +56,7 @@ const LoginPage = ({ authenticate }: Props) => {
             id="password"
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={setter(setPassword)}
           />
         </div>
 

@@ -62,3 +62,22 @@ export const logout = () => async (dispatch: Dispatch<Authenticate>) => {
     return false;
   }
 };
+
+export const updateUserSettings =
+  (data: RequestData) => async (dispatch: Dispatch<Authenticate>) => {
+    try {
+      const res = await handleRequest("/auth/user", "PUT", data);
+
+      dispatch({
+        type: "AUTHENTICATE",
+        isAuth: true,
+        user: res.data.user,
+      });
+
+      toast.success("Successfully updated settings.");
+      return true;
+    } catch (e) {
+      toast.error(getErrorFromResponse(e));
+      return false;
+    }
+  };

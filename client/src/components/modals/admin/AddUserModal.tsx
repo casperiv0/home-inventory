@@ -10,6 +10,7 @@ import { RequestData } from "@lib/fetch";
 import { connect } from "react-redux";
 import { addUser } from "@actions/admin/users";
 import { useHouseId } from "@hooks/useHouseId";
+import { setter } from "@lib/setter";
 
 interface Props {
   addUser: (houseId: string, data: RequestData) => Promise<boolean>;
@@ -52,7 +53,7 @@ const AddUserModal = ({ addUser }: Props) => {
             type="email"
             className={styles.formInput}
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={setter(setEmail)}
           />
         </div>
 
@@ -63,7 +64,7 @@ const AddUserModal = ({ addUser }: Props) => {
             type="text"
             className={styles.formInput}
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={setter(setName)}
           />
         </div>
 
