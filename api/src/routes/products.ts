@@ -43,7 +43,7 @@ router.get("/:houseId/stats", withAuth, withValidHouseId, async (req, res) => {
      * products that are low on quantity will be shown on the dashboard
      */
     const lowOnQuantity = products.filter((v) => {
-      return v.quantity <= v.warnOnQuantity;
+      return v.quantity <= v.warnOnQuantity && !v.ignoreQuantityWarning;
     });
 
     const soonToExpire = products.filter((v) => {
