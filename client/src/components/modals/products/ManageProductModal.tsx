@@ -49,6 +49,8 @@ const ManageProductModal = ({
 
     if (foundCategory) {
       setCategory({ value: foundCategory.id, label: foundCategory.name });
+    } else {
+      setCategory(null);
     }
 
     if (product.warnOnQuantity !== 2 && product.warnOnQuantity !== null) {

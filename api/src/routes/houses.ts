@@ -34,22 +34,6 @@ async function returnHouseByUserId(userId: string | undefined) {
   });
 
   return userData?.houses ?? [];
-  // return prisma.house.findMany({
-  //   where: { userId: userId! },
-  //   select: {
-  //     name: true,
-  //     id: true,
-  //     users: {
-  //       select: {
-  //         name: true,
-  //         email: true,
-  //         id: true,
-  //
-  //       },
-  //     },
-  //     products: { select: { name: true, id: true } },
-  //   },
-  // });
 }
 
 router.get("/", withAuth, async (req: IRequest, res) => {
@@ -194,6 +178,9 @@ router.delete("/:id", withAuth, async (req: IRequest, res) => {
   try {
     const id = req.params.id as string;
 
+    await prisma.product.deleteMany({ where: { houseId: id } });
+    await prisma.category.deleteMany({ where: { houseId: id } });
+    await prisma.houseRole.deleteMany({ where: { houseId: id } });
     await prisma.house.delete({ where: { id } });
 
     const houses = await returnHouseByUserId(req.userId);

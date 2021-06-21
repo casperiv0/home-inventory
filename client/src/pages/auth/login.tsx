@@ -2,6 +2,8 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import Link from "next/link";
+
 import { authenticate } from "@actions/auth";
 import styles from "css/forms.module.scss";
 import { RequestData } from "@lib/fetch";
@@ -60,8 +62,16 @@ const LoginPage = ({ authenticate }: Props) => {
           />
         </div>
 
-        <div>
-          <button disabled={isLoading} className={styles.submitBtn} type="submit">
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+          <Link href="/auth/register">
+            <a>Register</a>
+          </Link>
+          <button
+            style={{ marginLeft: "1rem" }}
+            disabled={isLoading}
+            className={styles.submitBtn}
+            type="submit"
+          >
             {isLoading ? "loading.." : "Login"}
           </button>
         </div>
