@@ -5,38 +5,40 @@ import { Modal } from "@components/Modal/Modal";
 import { ModalIds } from "@t/ModalIds";
 import styles from "css/forms.module.scss";
 import { closeModal, openModal } from "@lib/modal";
-import useModalEvent from "src/hooks/useModalEvent";
 import { User, UserRole } from "@t/User";
 import { Select, SelectValue } from "@components/Select/Select";
-import { updateUserById, deleteUserById } from "@actions/admin/users";
+import { updateUserById, removeUserFromHouse } from "@actions/admin/users";
 import { RequestData } from "@lib/fetch";
 import { selectRoles } from "@lib/constants";
 import { AlertModal } from "../AlertModal";
 import { useHouseId } from "@hooks/useHouseId";
 import { getUserRole } from "@utils/getUserRole";
-import { setter } from "@lib/setter";
 
 interface Props {
   user: User | null;
   updateUserById: (houseId: string, id: string, data: RequestData) => Promise<boolean>;
-  deleteUserById: (houseId: string, id: string) => Promise<boolean>;
+  removeUserFromHouse: (houseId: string, id: string) => Promise<boolean>;
 }
 
-const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
+const ManageUserModal = ({ user, updateUserById, removeUserFromHouse }: Props) => {
   const [email, setEmail] = React.useState("");
-  const [name, setName] = React.useState("");
   const [role, setRole] = React.useState<SelectValue | null>(null);
   const [loading, setLoading] = React.useState(false);
+  const [isOwner, setOwner] = React.useState(false);
 
   const houseId = useHouseId();
-  const ref = useModalEvent(ModalIds.ManageUser);
 
   React.useEffect(() => {
     if (!user) return;
 
     setEmail(user.email);
-    setName(user.name);
     const userRole = getUserRole(user, houseId);
+
+    if (getUserRole(user, houseId)?.role === UserRole.OWNER) {
+      setOwner(true);
+    } else {
+      setOwner(false);
+    }
 
     if (userRole) {
       setRole({ label: userRole.role, value: userRole.role });
@@ -51,7 +53,6 @@ const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
     const success = await updateUserById(houseId, user.id, {
       email,
       role: role?.value,
-      name,
     });
 
     if (success) {
@@ -61,13 +62,13 @@ const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
     setLoading(false);
   }
 
-  async function handleUserDelete() {
+  async function handleRemoveUser() {
     if (!user) return;
 
-    const success = await deleteUserById(houseId, user.id);
+    const success = await removeUserFromHouse(houseId, user.id);
 
     if (success) {
-      closeModal(ModalIds.AlertDeleteUser);
+      closeModal(ModalIds.AlertRemoveUser);
       closeModal(ModalIds.ManageUser);
     }
   }
@@ -78,40 +79,29 @@ const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
         <div className={styles.formGroup}>
           <label htmlFor="manage-user-email">Email</label>
           <input
-            ref={ref}
             id="manage-user-email"
             type="email"
             className={styles.formInput}
             value={email}
-            onChange={setter(setEmail)}
-          />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label htmlFor="manage-user-name">Name</label>
-          <input
-            id="manage-user-name"
-            type="text"
-            className={styles.formInput}
-            value={name}
-            onChange={setter(setName)}
+            readOnly
+            disabled
           />
         </div>
 
         <div className={styles.formGroup}>
           <label htmlFor="manage-user-role">Role</label>
 
-          <Select onChange={setRole} value={role} options={selectRoles} />
+          <Select disabled={isOwner} onChange={setRole} value={role} options={selectRoles} />
         </div>
 
-        {getUserRole(user, houseId)?.role !== UserRole.OWNER ? (
+        {!isOwner ? (
           <div>
             <button
-              onClick={() => openModal(ModalIds.AlertDeleteUser)}
+              onClick={() => openModal(ModalIds.AlertRemoveUser)}
               type="button"
               className="btn danger"
             >
-              Delete user
+              Remove user
             </button>
           </div>
         ) : null}
@@ -137,20 +127,20 @@ const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
         </div>
       </form>
 
-      {getUserRole(user, houseId)?.role !== UserRole.OWNER ? (
+      {!isOwner ? (
         <AlertModal
-          id={ModalIds.AlertDeleteUser}
+          id={ModalIds.AlertRemoveUser}
           title="Delete user"
-          description="Are you sure you want to remove this user?"
+          description="Are you sure you want to remove this user from this house?"
           actions={[
             {
               name: "Cancel",
-              onClick: () => closeModal(ModalIds.AlertDeleteUser),
+              onClick: () => closeModal(ModalIds.AlertRemoveUser),
             },
             {
-              name: "Delete",
+              name: "Remove user",
               danger: true,
-              onClick: handleUserDelete,
+              onClick: handleRemoveUser,
             },
           ]}
         />
@@ -159,4 +149,4 @@ const ManageUserModal = ({ user, updateUserById, deleteUserById }: Props) => {
   );
 };
 
-export default connect(null, { updateUserById, deleteUserById })(ManageUserModal);
+export default connect(null, { updateUserById, removeUserFromHouse })(ManageUserModal);

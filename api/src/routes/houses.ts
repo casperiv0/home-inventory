@@ -81,8 +81,8 @@ router.post("/", withAuth, async (req: IRequest, res) => {
       });
     }
 
-    const existing = await prisma.house.findUnique({
-      where: { name: body.name },
+    const existing = await prisma.house.findFirst({
+      where: { userId: req.userId, name: body.name },
     });
 
     if (existing) {
@@ -106,7 +106,7 @@ router.post("/", withAuth, async (req: IRequest, res) => {
 
     await prisma.user.update({
       where: {
-        id: req.userId!,
+        id: req.userId,
       },
       data: {
         houses: {

@@ -61,7 +61,7 @@ router.post("/:houseId", withAuth, withValidHouseId, withPermission("ADMIN"), as
      * a house can only have 1 owner.
      */
     if (body.role === UserRole.OWNER) {
-      return res.status(403).json({
+      return res.status(400).json({
         error: "Please specify a different role.",
         status: "error",
       });
@@ -197,9 +197,7 @@ router.put(
           houseRoles: {
             update: {
               where: { id: currentRole.id },
-              data: {
-                role: body.role,
-              },
+              data: { role: body.role },
             },
           },
         },
@@ -218,6 +216,9 @@ router.put(
   },
 );
 
+/**
+ * remove the requested user from a house.
+ */
 router.delete(
   "/:houseId/:id",
   withAuth,
@@ -228,8 +229,8 @@ router.delete(
       const id = req.params.id as string;
       const houseId = req.params.houseId as string;
 
-      const user = await prisma.user.findFirst({
-        where: { id, houseId },
+      const user = await prisma.user.findUnique({
+        where: { id },
       });
 
       if (!user) {
@@ -242,7 +243,7 @@ router.delete(
       const currentRole = await getCurrentHouseRole(id, houseId);
 
       /**
-       * the owner's account cannot be deleted
+       * the owner cannot be deleted from a house.
        */
       if (currentRole?.role === UserRole.OWNER) {
         return res.status(403).json({
@@ -251,10 +252,38 @@ router.delete(
         });
       }
 
-      await prisma.house.deleteMany({ where: { userId: id } });
-      await prisma.product.deleteMany({ where: { userId: id } });
+      /**
+       * delete any products of the user in the house
+       */
+      await prisma.product.deleteMany({
+        where: {
+          houseId,
+          userId: id,
+        },
+      });
 
-      await prisma.user.deleteMany({ where: { id } });
+      /**
+       * remove the houseRole of the user
+       */
+      await prisma.houseRole.delete({
+        where: {
+          id: currentRole?.id,
+        },
+      });
+
+      /**
+       * disconnect to user from the house
+       */
+      await prisma.user.update({
+        where: {
+          id,
+        },
+        data: {
+          houses: {
+            disconnect: { id: houseId },
+          },
+        },
+      });
 
       const users = await getUsers(houseId);
       return res.json({ users });

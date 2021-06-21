@@ -59,6 +59,10 @@
   border: 1px solid transparent;
   border-radius: 0.3rem;
 
+  &:disabled {
+    cursor: not-allowed;
+  }
+
   &:focus {
     outline: 2px solid var(--blue);
   }

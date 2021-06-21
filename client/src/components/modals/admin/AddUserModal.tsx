@@ -18,7 +18,6 @@ interface Props {
 
 const AddUserModal = ({ addUser }: Props) => {
   const [email, setEmail] = React.useState("");
-  const [name, setName] = React.useState("");
   const [role, setRole] = React.useState<SelectValue | null>(null);
   const [loading, setLoading] = React.useState(false);
 
@@ -35,7 +34,6 @@ const AddUserModal = ({ addUser }: Props) => {
       closeModal(ModalIds.AddUser);
 
       setEmail("");
-      setName("");
       setRole(null);
     }
 
@@ -44,6 +42,12 @@ const AddUserModal = ({ addUser }: Props) => {
 
   return (
     <Modal title="Add a new user" id={ModalIds.AddUser}>
+      <div className={styles.formGroup}>
+        <p>
+          Add a new user to have access to this house. This {"user's"} account must exist already.
+        </p>
+      </div>
+
       <form onSubmit={onSubmit}>
         <div className={styles.formGroup}>
           <label htmlFor="add-user-email">Email</label>
@@ -54,17 +58,6 @@ const AddUserModal = ({ addUser }: Props) => {
             className={styles.formInput}
             value={email}
             onChange={setter(setEmail)}
-          />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label htmlFor="add-user-name">Name</label>
-          <input
-            id="add-user-name"
-            type="text"
-            className={styles.formInput}
-            value={name}
-            onChange={setter(setName)}
           />
         </div>
 

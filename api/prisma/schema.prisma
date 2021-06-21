@@ -42,7 +42,7 @@ model Product {
 
 model House {
   id         String      @id @default(uuid())
-  name       String      @unique
+  name       String
   users      User[]      @relation(fields: [userId], references: [id])
   userId     String
   products   Product[]

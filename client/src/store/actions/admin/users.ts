@@ -55,7 +55,7 @@ export const updateUserById =
     }
   };
 
-export const deleteUserById =
+export const removeUserFromHouse =
   (houseId: string, id: string) => async (dispatch: Dispatch<UpdateUsers>) => {
     try {
       const res = await handleRequest(`/admin/users/${houseId}/${id}`, "DELETE");
