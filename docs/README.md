@@ -29,4 +29,4 @@ This is a simple README to show how you can setup this project locally
 ### Production
 
 1. Follow the steps of [getting-started](#getting-started)
-2. Start the app: `docker-compose up -f prod.docker-compose.yml`
+2. Start the app: `docker-compose -f prod.docker-compose.yml up`
