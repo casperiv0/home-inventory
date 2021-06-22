@@ -1,6 +1,7 @@
 import { GetServerSideProps } from "next";
 import { connect } from "react-redux";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 import { getAllCategories } from "@actions/admin/categories";
 import { checkAuth } from "@actions/auth";
@@ -11,7 +12,6 @@ import { Products } from "@components/Products";
 import { Product } from "@t/Product";
 import { State } from "@t/State";
 import { initializeStore } from "src/store/store";
-import { useRouter } from "next/router";
 import { useIsAuth } from "@hooks/useIsAuth";
 import { useValidHouse } from "@hooks/useValidHouse";
 

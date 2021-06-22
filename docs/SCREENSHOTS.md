@@ -1,5 +1,7 @@
 # Screenshots
 
+> **Some of these screenshots can be outdated or a few could be missing.**
+
 ## Houses page
 
 ![houses](./screenshots/houses.png)

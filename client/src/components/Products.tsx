@@ -11,22 +11,10 @@ import formStyles from "css/forms.module.scss";
 import { ProductsTable } from "@components/ProductsTable";
 import styles from "css/products.module.scss";
 import { setter } from "@lib/setter";
+import { FilterKeys, filters } from "@lib/constants";
 
 const AddProductModal = dynamic(() => import("@components/modals/products/AddProductModal"));
 const ManageProductModal = dynamic(() => import("@components/modals/products/ManageProductModal"));
-
-export const filters = {
-  name: "Name",
-
-  createdAt: "Created at",
-  updatedAt: "Updated at",
-
-  price: "Price lowest",
-  priceHigh: "Price highest",
-
-  quantity: "Quantity lowest",
-  quantityHigh: "Quantity highest",
-};
 
 interface Props {
   products: Product[];
@@ -38,7 +26,7 @@ export const Products = ({ products }: Props) => {
 
   const [searchValue, setSearchValue] = React.useState<string>("");
   const [tempProduct, setTempProduct] = React.useState<Product | null>(null);
-  const [filter, setFilter] = React.useState<SelectValue<keyof typeof filters> | null>({
+  const [filter, setFilter] = React.useState<SelectValue<FilterKeys> | null>({
     label: "Created at",
     value: "createdAt",
   });

@@ -1,7 +1,7 @@
-import { filters } from "@components/Products";
+import { FilterKeys } from "@lib/constants";
 import { Product } from "@t/Product";
 
-export function sortProducts(filter: keyof typeof filters, products: Product[]) {
+export function sortProducts(filter: FilterKeys, products: Product[]) {
   switch (filter) {
     case "name": {
       return products.sort((a, b) => {

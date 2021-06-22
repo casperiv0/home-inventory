@@ -14,3 +14,11 @@ A home inventory app to keep track of items in your home (food items, tech, medi
 - Express.js
 - Prisma
 - Docker
+
+## Docs
+
+You can [view the docs here](docs/README.md)
+
+## Screenshots
+
+You can [view the screenshots here](docs/SCREENSHOTS.md)

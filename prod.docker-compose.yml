@@ -18,7 +18,7 @@ services:
 
     image: node:16
     build: ./api
-    command: "npm run dev:api"
+    command: "npm run start:api"
     ports:
       - "3030:3030"
     expose:

@@ -1,5 +1,9 @@
 import { ModalIds } from "@t/ModalIds";
 
+/**
+ * open a modal and dispatch the `modalOpen` event
+ * @param id
+ */
 export const openModal = (id: ModalIds) => {
   document.querySelector(`#${id}`)?.classList.add("modal-active");
   document.querySelector(`#style-${id}`)?.classList.remove("modal-closed");

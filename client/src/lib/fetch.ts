@@ -4,6 +4,12 @@ import { ALLOWED_METHODS, NO_ERROR } from "./constants";
 
 export type RequestData = Record<string, unknown>;
 
+/**
+ * perform a request to the API
+ * @param path The path for the request
+ * @param method The method for the request
+ * @param data optional data for the request
+ */
 export const handleRequest = (
   path: string,
   method: ALLOWED_METHODS,
@@ -27,6 +33,10 @@ export const handleRequest = (
   });
 };
 
+/**
+ * get the error message from the response error
+ * @param {*} e The error
+ */
 export const getErrorFromResponse = (e: any) => {
   return e?.response?.data?.errors?.[0] ?? e?.response?.data?.error ?? NO_ERROR;
 };

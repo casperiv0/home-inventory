@@ -5,26 +5,29 @@ import { withValidHouseId } from "@hooks/withValidHouseId";
 
 const router = Router();
 
+/**
+ * return products found by the category name.
+ */
 router.get("/:houseId/:name", withAuth, withValidHouseId, async (req, res) => {
   try {
     const categoryName = req.params.name as string;
+    const houseId = req.params.houseId as string;
 
-    const category = await prisma.category.findUnique({
+    const category = await prisma.category.findFirst({
       where: {
+        houseId,
         name: categoryName,
       },
     });
 
     if (!category) {
-      return res.json({
-        products: [],
-        status: "success",
-      });
+      return res.json({ products: [] });
     }
 
     const products = await prisma.product.findMany({
       where: {
         categoryId: category.id,
+        houseId,
       },
     });
 

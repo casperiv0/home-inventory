@@ -31,24 +31,6 @@ services:
     networks:
       - web
 
-  # temp disalbed.
-  # client:
-  #   container_name: "client"
-  #   image: node:16
-  #   build: ./client
-  #   command: "npm run dev:client"
-  #   ports:
-  #     - "3000:3000"
-  #   expose:
-  #     - 3000
-  #   volumes:
-  #     - .:/srv/client
-  #   working_dir: /srv/client
-  #   depends_on:
-  #     - api
-  #   networks:
-  #     - web
-
 volumes:
   pgdata: {}
 

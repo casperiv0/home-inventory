@@ -6,12 +6,12 @@ import Link from "next/link";
 import { Product } from "@t/Product";
 import { State } from "@t/State";
 import { useHouseId } from "@hooks/useHouseId";
-import { filters } from "./Products";
+import { FilterKeys } from "@lib/constants";
 
 interface Props {
   products: Product[];
   showActions?: boolean;
-  currentFilter?: keyof typeof filters | "expirationDate" | null;
+  currentFilter?: FilterKeys | "expirationDate" | null;
 
   onManageClick?: (product: Product) => unknown;
 }

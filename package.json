@@ -8,7 +8,6 @@
     "dev:api": "npm run api:migrate && cd api &&  npm run dev",
     "api:migrate": "cd api && npx prisma migrate dev",
     "start:api": "cd api && npm run start",
-    "dev:client": "cd client && npm run dev",
     "start:client": "cd client && npm run prod",
     "test-tsc:client": "cd client && tsc --noEmit",
     "test-tsc:api": "cd api && tsc --noEmit",

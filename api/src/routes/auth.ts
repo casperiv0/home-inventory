@@ -55,10 +55,7 @@ router.post("/register", async (req, res) => {
   const token = createSessionToken(createdUser.id);
   setCookie(token, res);
 
-  return res.json({
-    status: "success",
-    userId: createdUser.id,
-  });
+  return res.json({ userId: createdUser.id });
 });
 
 router.post("/login", async (req, res) => {
@@ -100,10 +97,7 @@ router.post("/login", async (req, res) => {
   const token = createSessionToken(user.id);
   setCookie(token, res);
 
-  return res.json({
-    status: "success",
-    userId: user.id,
-  });
+  return res.json({ userId: user.id });
 });
 
 router.post("/user", withAuth, async (req: IRequest, res) => {
@@ -211,7 +205,7 @@ router.post("/logout", withAuth, async (req: IRequest, res) => {
 
   res.clearCookie(AuthConstants.cookieName);
 
-  return res.json({ status: "success" });
+  return res.status(200);
 });
 
 export const authRouter = router;
