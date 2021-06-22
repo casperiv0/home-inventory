@@ -12,6 +12,7 @@ import { ProductsTable } from "@components/ProductsTable";
 import styles from "css/products.module.scss";
 import { setter } from "@lib/setter";
 import { FilterKeys, filters } from "@lib/constants";
+import { download } from "@utils/download";
 
 const AddProductModal = dynamic(() => import("@components/modals/products/AddProductModal"));
 const ManageProductModal = dynamic(() => import("@components/modals/products/ManageProductModal"));
@@ -63,6 +64,14 @@ export const Products = ({ products }: Props) => {
         <h1>Products</h1>
 
         <div className={styles.productsButtons}>
+          <button
+            onClick={() =>
+              download(`products_${Date.now()}.json`, JSON.stringify(products, null, 2))
+            }
+            className="btn"
+          >
+            Export
+          </button>
           <button onClick={() => openModal(ModalIds.AddProduct)} className="btn">
             Add product
           </button>
