@@ -1,6 +1,4 @@
 import { Router } from "express";
-import format from "date-fns/format";
-import sub from "date-fns/sub";
 import isThisMonth from "date-fns/isThisMonth";
 import { validateSchema } from "@casper124578/utils";
 import { withAuth } from "@hooks/withAuth";
@@ -49,19 +47,14 @@ router.get("/:houseId/stats", withAuth, withValidHouseId, async (req, res) => {
     const soonToExpire = products.filter((v) => {
       if (!v.expirationDate || v.expirationDate === "N/A") return false;
 
+      const expirationDate = new Date(v.expirationDate).getTime();
+      const twoDaysFromNow = Date.now() + 60 * 60 * 24 * 2 * 1000;
+
       /**
-       * subtract 2 days of the expirationDate of the product
-       * this will show on a dashboard: "this product will expire soon"
+       * if the product will expire within 2 days from today
+       * show it on the dashboard
        */
-      const expirationDate2Days = sub(new Date(v.expirationDate), {
-        days: 2,
-      });
-
-      const today = format(Date.now(), "yyyy-MM-dd");
-      const expirationDate =
-        `${expirationDate2Days}` !== "Invalid Date" && format(expirationDate2Days, "yyyy-MM-dd");
-
-      return today === expirationDate;
+      return expirationDate <= twoDaysFromNow;
     });
 
     return res.json({

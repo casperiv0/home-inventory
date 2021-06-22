@@ -29,7 +29,7 @@ model Product {
   ignoreQuantityWarning Boolean  @default(false)
   price                 Float
   prices                Float[]
-  name                  String   @unique
+  name                  String
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
   expirationDate        String?
