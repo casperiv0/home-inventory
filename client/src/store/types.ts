@@ -31,7 +31,8 @@ export interface UpdateProducts {
     | "UPDATE_PRODUCT_BY_ID"
     | "ADD_PRODUCT"
     | "DELETE_PRODUCT_BY_ID"
-    | "GET_PRODUCTS_BY_CATEGORY";
+    | "GET_PRODUCTS_BY_CATEGORY"
+    | "IMPORT_PRODUCTS";
   products: Product[];
 }
 

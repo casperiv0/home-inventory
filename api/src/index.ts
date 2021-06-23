@@ -7,6 +7,7 @@ import csurf from "csurf";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import compression from "compression";
+import fileUpload from "express-fileupload";
 
 import apiRouter from "./routes/api";
 import { logger } from "@utils/logger";
@@ -26,6 +27,7 @@ server.use(
 server.use(compression());
 server.use(express.json());
 server.use(helmet());
+server.use(fileUpload({ safeFileNames: true }));
 
 server.use("/api", apiRouter, csurf({ cookie: true }));
 server.use(notFoundMiddleware);

@@ -109,3 +109,23 @@ export const getStats =
       return false;
     }
   };
+
+export const importProducts =
+  (houseId: string, file: File) => async (dispatch: Dispatch<UpdateProducts>) => {
+    try {
+      const fd = new FormData();
+      fd.append("file", file, file.name);
+
+      const res = await handleRequest(`/products/${houseId}/import`, "POST", fd as any);
+
+      dispatch({
+        type: "IMPORT_PRODUCTS",
+        products: res.data.products,
+      });
+
+      return true;
+    } catch (e) {
+      toast.error(getErrorFromResponse(e));
+      return false;
+    }
+  };
