@@ -13,6 +13,7 @@ import styles from "css/products.module.scss";
 import { setter } from "@lib/setter";
 import { FilterKeys, filters } from "@lib/constants";
 import { download } from "@utils/download";
+import ImportProductsModal from "./modals/products/ImportProductsModal";
 
 const AddProductModal = dynamic(() => import("@components/modals/products/AddProductModal"));
 const ManageProductModal = dynamic(() => import("@components/modals/products/ManageProductModal"));
@@ -72,6 +73,9 @@ export const Products = ({ products }: Props) => {
           >
             Export
           </button>
+          <button onClick={() => openModal(ModalIds.ImportProducts)} className="btn">
+            Import
+          </button>
           <button onClick={() => openModal(ModalIds.AddProduct)} className="btn">
             Add product
           </button>
@@ -125,6 +129,7 @@ export const Products = ({ products }: Props) => {
         />
       )}
 
+      <ImportProductsModal />
       <AddProductModal />
       <ManageProductModal product={tempProduct} />
     </>

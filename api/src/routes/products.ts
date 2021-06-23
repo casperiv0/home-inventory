@@ -1,6 +1,7 @@
-import { Router } from "express";
+import { Response, Router } from "express";
 import isThisMonth from "date-fns/isThisMonth";
 import { validateSchema } from "@casper124578/utils";
+import { UploadedFile } from "express-fileupload";
 import { withAuth } from "@hooks/withAuth";
 import { createProductSchema } from "@schemas/products.schema";
 import { IRequest } from "@t/IRequest";
@@ -180,6 +181,117 @@ router.post("/:houseId", withAuth, withValidHouseId, async (req: IRequest, res) 
     });
   }
 });
+
+router.post(
+  "/:houseId/import",
+  withAuth,
+  withValidHouseId,
+  async (req: IRequest, res: Response) => {
+    const files = req.files;
+    const houseId = req.params.houseId as string;
+
+    if (!files || Object.keys(files).length === 0) {
+      return res.status(400).send({ error: "Please upload a valid file" });
+    }
+
+    /**
+     * the file that was uploaded
+     */
+    const file = files.file as UploadedFile;
+
+    if (file.mimetype !== "application/json") {
+      return res.status(400).json({ error: "invalid file type" });
+    }
+
+    /**
+     * the raw data of the file
+     */
+    const rawData = file?.data?.toString("utf8");
+
+    let data;
+    const array = [];
+
+    try {
+      data = JSON.parse(rawData);
+    } catch {
+      data = null;
+    }
+
+    if (Array.isArray(data)) {
+      /**
+       * check for any errors
+       */
+      const errors = await Promise.all(
+        data.map(async (obj) => {
+          const [error] = await validateSchema(createProductSchema, obj);
+
+          return error ?? null;
+        }),
+      );
+
+      /**
+       * only return the error messages instead of the entire error
+       */
+      const filteredErrors = errors.filter(Boolean).map((v) => v?.message);
+      if (filteredErrors.length > 0) {
+        return res.status(400).json({ error: filteredErrors.join(", ") });
+      }
+
+      array.push(...data);
+    } else if (typeof data === "object") {
+      const [error] = await validateSchema(createProductSchema, data);
+
+      if (error) {
+        return res.status(400).json({ error: error.message });
+      }
+
+      array.push(data);
+    } else {
+      return res.status(400).json({
+        error: "invalid data received",
+      });
+    }
+
+    await Promise.all(
+      array.map(async (v) => {
+        const existing = await prisma.product.findFirst({
+          where: { name: v.name, houseId },
+        });
+
+        if (existing) {
+          await prisma.product.update({
+            where: {
+              id: existing.id,
+            },
+            data: {
+              quantity: existing.quantity + v.quantity,
+              prices: [...(existing.prices ?? []), v.price * v.quantity],
+            },
+          });
+        } else {
+          await prisma.product.create({
+            data: {
+              name: v.name,
+              price: v.price,
+              quantity: v.quantity,
+              prices: [v.price * v.quantity],
+              categoryId: v.categoryId ?? null,
+              expirationDate: v.expirationDate ?? null,
+              warnOnQuantity: v.warnOnQuantity ?? undefined,
+              ignoreQuantityWarning: v.ignoreQuantityWarning ?? false,
+              userId: req.userId!,
+              houseId,
+              createdAt: v.createdAt ? new Date(v.createdAt) : undefined,
+            },
+          });
+        }
+      }),
+    );
+
+    const products = await getProducts(req.params.houseId);
+    return res.json({ products });
+  },
+);
 
 router.put("/:houseId/:id", withAuth, withValidHouseId, async (req, res) => {
   try {
