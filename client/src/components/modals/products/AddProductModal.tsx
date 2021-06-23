@@ -63,6 +63,7 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
       setExpireDate("");
       setPrice("");
       setCategory(null);
+      setIgnoreWarning(false);
       setWarnOnQuantity({ value: "", checked: false });
     }
   }
