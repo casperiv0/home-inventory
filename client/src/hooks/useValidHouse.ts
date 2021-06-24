@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 
 /**
- * check if someone is authenticated.
+ * check if the router houseId is a valid houseId
  */
 export function useValidHouse() {
   const state = useSelector((state: State) => state);

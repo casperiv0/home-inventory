@@ -3,6 +3,9 @@ import { NextFunction, Response } from "express";
 import { IRequest } from "@t/IRequest";
 import { prisma } from "src";
 
+/**
+ * check if the authenticated user has access to a route
+ */
 export const withPermission =
   (providedRole: UserRole) => async (req: IRequest, res: Response, next: NextFunction) => {
     const currentUser = await prisma.user.findUnique({

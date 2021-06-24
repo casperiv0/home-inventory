@@ -1,8 +1,4 @@
-import { genSaltSync } from "bcryptjs";
-
 export const AuthConstants = {
-  saltRounds: genSaltSync(15),
-
   /**
    * cookie expires after 6 hours
    */

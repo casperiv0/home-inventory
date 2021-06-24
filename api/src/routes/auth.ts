@@ -1,5 +1,5 @@
 import { Response, Router } from "express";
-import { compareSync, hashSync } from "bcryptjs";
+import { compareSync, genSaltSync, hashSync } from "bcryptjs";
 import { validateSchema } from "@casper124578/utils";
 import { prisma } from "../index";
 import { authenticateSchema, newPasswordSchema } from "@schemas/auth.schema";
@@ -40,7 +40,7 @@ router.post("/register", async (req, res) => {
     });
   }
 
-  const hash = hashSync(password, AuthConstants.saltRounds);
+  const hash = hashSync(password, genSaltSync(15));
 
   const createdUser = await prisma.user.create({
     data: {
