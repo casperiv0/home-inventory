@@ -1,16 +1,11 @@
 import * as React from "react";
-import { Modal } from "@components/Modal/Modal";
-import { ModalIds } from "@t/ModalIds";
+import { Modal, ModalProps } from "@components/Modal/Modal";
 import styles from "@components/Modal/modal.module.scss";
 import useModalEvent from "@hooks/useModalEvent";
 
-interface Props {
-  id: ModalIds;
-  title: string;
+interface Props extends ModalProps {
   description: string | React.ReactFragment;
-
   actions: ModalAction[];
-  width?: string;
 }
 
 export interface ModalAction {
@@ -23,7 +18,7 @@ export const AlertModal = (props: Props) => {
   const ref = useModalEvent<HTMLButtonElement>(props.id);
 
   return (
-    <Modal width={props.width ?? "500px"} title={props.title} id={props.id}>
+    <Modal width={props.width ?? "500px"} {...props}>
       <p className={styles.alertModalDescription}>{props.description}</p>
 
       <div className={styles.alertModalActions}>

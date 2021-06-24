@@ -7,14 +7,14 @@ import { closeModal } from "@lib/modal";
 import { CloseIcon } from "@components/icons/Close";
 import { classes } from "@utils/classes";
 
-interface Props {
+export interface ModalProps {
   id: ModalIds;
   title: string;
   width?: string;
   [key: string]: unknown;
 }
 
-export const Modal: React.FC<Props> = ({ id, title, children, ...rest }) => {
+export const Modal: React.FC<ModalProps> = ({ id, title, children, ...rest }) => {
   const portalRef = usePortal(`Modal_Portal_${id}`);
   const isMounted = useMounted();
 
@@ -42,7 +42,12 @@ export const Modal: React.FC<Props> = ({ id, title, children, ...rest }) => {
 
   return isMounted
     ? createPortal(
-        <div className={classes(styles.modalContainer, "modal")} onClick={handleOuterClick} id={id}>
+        <div
+          {...rest}
+          className={classes(styles.modalContainer, "modal")}
+          onClick={handleOuterClick}
+          id={id}
+        >
           <div
             style={{ width: rest.width ?? "600px" }}
             className={styles.modalContent}

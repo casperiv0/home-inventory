@@ -1,6 +1,8 @@
-import axios from "axios";
+import { ModalIds } from "@t/ModalIds";
+import axios, { AxiosError } from "axios";
 import cookie from "cookie";
 import { ALLOWED_METHODS, NO_ERROR } from "./constants";
+import { openModal } from "./modal";
 
 export type RequestData = Record<string, unknown>;
 
@@ -37,6 +39,11 @@ export const handleRequest = (
  * get the error message from the response error
  * @param {*} e The error
  */
-export const getErrorFromResponse = (e: any) => {
+export const getErrorFromResponse = (e: AxiosError): string | null => {
+  if (e.response?.status === 429) {
+    openModal(ModalIds.AlertRateLimited);
+    return null;
+  }
+
   return e?.response?.data?.errors?.[0] ?? e?.response?.data?.error ?? NO_ERROR;
 };

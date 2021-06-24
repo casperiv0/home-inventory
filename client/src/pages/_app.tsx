@@ -14,6 +14,7 @@ import "css/table.scss";
 import "css/index.scss";
 
 import { useStore } from "../store/store";
+import { RateLimitedModal } from "@components/modals/RateLimited";
 
 const App: NextPage<AppProps> = ({ Component, pageProps }) => {
   const store = useStore(pageProps?.initialReduxState);
@@ -49,6 +50,8 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
       <ReduxProvider store={store}>
         <Component {...pageProps} />
       </ReduxProvider>
+
+      <RateLimitedModal />
     </>
   );
 };

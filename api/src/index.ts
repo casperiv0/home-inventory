@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import compression from "compression";
 import fileUpload from "express-fileupload";
+import rateLimit from "express-rate-limit";
 
 import apiRouter from "./routes/api";
 import { logger } from "@utils/logger";
@@ -28,6 +29,21 @@ server.use(compression());
 server.use(express.json());
 server.use(helmet());
 server.use(fileUpload({ safeFileNames: true }));
+server.use(
+  rateLimit({
+    // max 50 requests per 1 minute
+    max: 50,
+    skip: (req) => {
+      const { method, path } = req;
+
+      if (method === "POST" && path === "/api/auth/user") return true;
+      if (method === "GET" && path.startsWith("/api/houses")) return true;
+      if (method === "GET" && path.endsWith("/products")) return true;
+
+      return false;
+    },
+  }),
+);
 
 server.use("/api", apiRouter, csurf({ cookie: true }));
 server.use(notFoundMiddleware);

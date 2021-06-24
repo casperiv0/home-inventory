@@ -14,5 +14,7 @@ export enum ModalIds {
 
   AddHouse = "AddHouseModal",
   ManageHouse = "ManageHouseModal",
-  AlertDeleteHouse = "Alert_DeleteHouse",
+  AlertDeleteHouse = "Alert_DeleteHouseModal",
+
+  AlertRateLimited = "Alert_RateLimitedModal",
 }
