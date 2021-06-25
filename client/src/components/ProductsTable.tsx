@@ -40,7 +40,7 @@ export const ProductsTable = ({ products, currentFilter, showActions, onManageCl
            * set the current filter to bold
            */
           const boldText = (str: string) => {
-            return currentFilter === str;
+            return currentFilter === str ? "bold" : "";
           };
 
           const category = categories.find((c) => c.id === product.categoryId);
@@ -75,16 +75,14 @@ export const ProductsTable = ({ products, currentFilter, showActions, onManageCl
                   </p>
                 </ReactToolTip>
               </td>
-              <td className={boldText("price") || boldText("priceHigh") ? "bold" : ""}>
+              <td className={boldText("price") || boldText("priceHigh")}>
                 €{product.price.toFixed(2)}
               </td>
               <td>€{totalPricesAmount}</td>
-              <td className={boldText("quantity") || boldText("quantityHigh") ? "bold" : ""}>
+              <td className={boldText("quantity") || boldText("quantityHigh")}>
                 {product.quantity}
               </td>
-              <td className={boldText("expirationDate") ? "bold" : ""}>
-                {product.expirationDate ?? "N/A"}
-              </td>
+              <td className={boldText("expirationDate")}>{product.expirationDate ?? "N/A"}</td>
               <td>
                 {product.categoryId && category?.name ? (
                   <Link href={`/${houseId}/category/${category.name}`}>

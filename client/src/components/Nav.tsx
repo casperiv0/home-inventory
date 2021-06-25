@@ -27,13 +27,7 @@ export const Nav = () => {
               </li>
 
               <li className={styles.navLink}>
-                <Link href="/user/settings">
-                  <a>Settings</a>
-                </Link>
-              </li>
-
-              <li className={styles.navLink}>
-                <Link href={`/${houseId}/products`}>
+                <Link scroll href={`/${houseId}/products`}>
                   <a>Products</a>
                 </Link>
               </li>

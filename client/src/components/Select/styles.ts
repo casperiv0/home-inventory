@@ -12,7 +12,7 @@ export const styles = ({
     background: backgroundColor,
     color: "#222222",
     ":hover": {
-      borderColor: backgroundColor,
+      border: "none",
     },
   }),
   option: (base) => ({
@@ -39,9 +39,9 @@ export const styles = ({
   }),
   multiValue: (base) => ({
     ...base,
-    color: "#222222",
-    backgroundColor: "#2f2f2F",
-    borderColor: "#2f2f2F",
+    color: "#cccccc",
+    backgroundColor: "#cccccc",
+    borderColor: "#cccccc",
   }),
   noOptionsMessage: (base) => ({
     ...base,
@@ -49,18 +49,19 @@ export const styles = ({
   }),
   multiValueLabel: (base) => ({
     ...base,
-    backgroundColor: "#2f2f2F",
+    backgroundColor: "#cccccc",
     color: "#222222",
-    padding: "0.2rem 0.8rem",
+    padding: "0.2rem",
     borderRadius: "2px 0 0 2px",
   }),
   multiValueRemove: (base) => ({
     ...base,
-    backgroundColor: "#2f2f2f",
+    backgroundColor: "#cccccc",
+    color: "#222222",
     borderRadius: "0 2px 2px 0",
     cursor: "pointer",
     ":hover": {
-      opacity: "0.8",
+      filter: "brightness(90%)",
     },
   }),
   indicatorsContainer: (base) => ({

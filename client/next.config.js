@@ -1,8 +1,4 @@
 module.exports = {
-  reactStrictMode: true,
-  experimental: {
-    turboMode: true,
-  },
   async redirects() {
     return [
       {
