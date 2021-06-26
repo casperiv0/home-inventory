@@ -40,6 +40,8 @@ const LoginPage = ({ authenticate }: Props) => {
       </Head>
 
       <form onSubmit={onSubmit} className={styles.authForm}>
+        <h1>Log in to continue</h1>
+
         <div className={styles.formGroup}>
           <label htmlFor="email">Email</label>
           <input

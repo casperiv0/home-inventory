@@ -41,6 +41,8 @@ const RegisterPage = ({ authenticate }: Props) => {
       </Head>
 
       <form onSubmit={onSubmit} className={styles.authForm}>
+        <h1>Create an account</h1>
+
         <div className={styles.formGroup}>
           <label htmlFor="email">Email</label>
           <input

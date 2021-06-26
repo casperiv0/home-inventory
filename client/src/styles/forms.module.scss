@@ -9,8 +9,13 @@
 }
 
 .authForm {
-  width: 32rem;
+  width: 30rem;
   padding: 0.5rem;
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
 }
 
 .formRow {
