@@ -1,7 +1,7 @@
 import { Response, Router } from "express";
 import { compareSync, genSaltSync, hashSync } from "bcryptjs";
 import { validateSchema } from "@casper124578/utils";
-import { prisma } from "../index";
+import { prisma } from "@lib/prisma";
 import { authenticateSchema, newPasswordSchema } from "@schemas/auth.schema";
 import { AuthConstants } from "@lib/constants";
 import {

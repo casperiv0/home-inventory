@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { withAuth } from "@hooks/withAuth";
-import { prisma } from "src/index";
+import { prisma } from "@lib/prisma";
 import { withValidHouseId } from "@hooks/withValidHouseId";
 
 const router = Router();

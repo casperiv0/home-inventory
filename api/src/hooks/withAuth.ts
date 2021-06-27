@@ -2,7 +2,7 @@ import { NextFunction, Response } from "express";
 import jwt from "jsonwebtoken";
 import { IRequest } from "@t/IRequest";
 import { AuthConstants } from "@lib/constants";
-import { prisma } from "src";
+import { prisma } from "@lib/prisma";
 
 /**
  * check if someone is authenticated

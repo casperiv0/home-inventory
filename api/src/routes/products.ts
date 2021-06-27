@@ -5,7 +5,7 @@ import { UploadedFile } from "express-fileupload";
 import { withAuth } from "@hooks/withAuth";
 import { createProductSchema } from "@schemas/products.schema";
 import { IRequest } from "@t/IRequest";
-import { prisma } from "src/index";
+import { prisma } from "@lib/prisma";
 import { withValidHouseId } from "@hooks/withValidHouseId";
 
 const router = Router();

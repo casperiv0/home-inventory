@@ -2,7 +2,8 @@
   "private": true,
   "scripts": {
     "dev": "nodemon",
-    "test-tsc": "tsc --noEmit"
+    "test-tsc": "tsc --noEmit",
+    "generate": "prisma generate"
   },
   "dependencies": {
     "@casper124578/utils": "^0.1.1",

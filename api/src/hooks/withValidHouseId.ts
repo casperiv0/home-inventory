@@ -1,6 +1,6 @@
 import { IRequest } from "@t/IRequest";
 import { NextFunction, Response } from "express";
-import { prisma } from "src";
+import { prisma } from "@lib/prisma";
 
 /**
  * check if the router houseId is a valid houseId

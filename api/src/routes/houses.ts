@@ -3,7 +3,7 @@ import { UserRole } from "@prisma/client";
 import { validateSchema } from "@casper124578/utils";
 import { withAuth } from "@hooks/withAuth";
 import { IRequest } from "@t/IRequest";
-import { prisma } from "src/index";
+import { prisma } from "@lib/prisma";
 import { createHouseSchema } from "@schemas/house.schema";
 
 const router = Router();

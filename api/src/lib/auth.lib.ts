@@ -2,7 +2,7 @@ import { User, UserRole } from "@prisma/client";
 import { compareSync } from "bcryptjs";
 import { CookieOptions, Response } from "express";
 import jwt from "jsonwebtoken";
-import { prisma } from "src";
+import { prisma } from "@lib/prisma";
 import { AuthConstants } from "./constants";
 
 export function createSessionToken(userId: string) {

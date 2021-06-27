@@ -2,7 +2,7 @@ import { Router } from "express";
 import { validateSchema } from "@casper124578/utils";
 import { withAuth } from "@hooks/withAuth";
 import { withPermission } from "@hooks/withPermission";
-import { prisma } from "src/index";
+import { prisma } from "@lib/prisma";
 import { categorySchema } from "@schemas/category.schema";
 import { withValidHouseId } from "@hooks/withValidHouseId";
 

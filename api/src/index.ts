@@ -1,5 +1,4 @@
 import "dotenv/config";
-import { PrismaClient } from "@prisma/client";
 import express from "express";
 
 import helmet from "helmet";
@@ -51,5 +50,3 @@ server.use(notFoundMiddleware);
 server.listen(parseInt(process.env["API_PORT"] as string), () => {
   logger.log("API", `Woop woop! API is listening at http://localhost:${process.env["API_PORT"]}`);
 });
-
-export const prisma = new PrismaClient({});

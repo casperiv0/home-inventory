@@ -1,7 +1,7 @@
 import { UserRole } from "@prisma/client";
 import { NextFunction, Response } from "express";
 import { IRequest } from "@t/IRequest";
-import { prisma } from "src";
+import { prisma } from "@lib/prisma";
 
 /**
  * check if the authenticated user has access to a route
