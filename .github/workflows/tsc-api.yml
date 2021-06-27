@@ -3,7 +3,7 @@ name: Check TS build (api)
 on: [push, pull_request]
 
 jobs:
-  tsc-client:
+  tsc-api:
     runs-on: ubuntu-latest
     defaults:
       run:
