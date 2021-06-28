@@ -2,14 +2,18 @@ export interface User {
   id: string;
   email: string;
   name: string;
+  password: string;
   createdAt: Date;
+  houseId: string | null;
 
-  houseRoles: {
-    id: string;
-    userId: string;
-    houseId: string;
-    role: UserRole;
-  }[];
+  houseRoles: HouseRole[];
+}
+
+export interface HouseRole {
+  id: string;
+  role: UserRole;
+  houseId: string;
+  userId: string;
 }
 
 export enum UserRole {

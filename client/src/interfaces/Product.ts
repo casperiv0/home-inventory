@@ -1,6 +1,8 @@
 export interface Product {
   id: string;
   quantity: number;
+  warnOnQuantity: number;
+  ignoreQuantityWarning: boolean;
   price: number;
   prices: number[];
   name: string;
@@ -9,6 +11,5 @@ export interface Product {
   expirationDate: string | null;
   userId: string;
   categoryId: string | null;
-  warnOnQuantity: number | null;
-  ignoreQuantityWarning: boolean;
+  houseId: string;
 }

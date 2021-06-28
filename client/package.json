@@ -36,6 +36,7 @@
     "@types/react-dom": "^17.0.8",
     "@types/react-select": "^4.0.15",
     "concurrently": "^6.2.0",
+    "critters": "^0.0.10",
     "typed-scss-modules": "^4.1.1",
     "typescript": "4.3.4"
   }
