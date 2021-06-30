@@ -14,10 +14,10 @@
 .productsButtons {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 
   button {
     width: 100%;
-    margin: 0.5rem 0;
   }
 
   @media (min-width: 500px) {
@@ -25,7 +25,6 @@
 
     button {
       margin: 0;
-      margin-right: 0.5rem;
       width: 8rem;
     }
   }

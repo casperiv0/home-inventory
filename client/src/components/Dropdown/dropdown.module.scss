@@ -1,0 +1,38 @@
+.dropdownContainer {
+  position: relative;
+}
+
+.dropdownUl {
+  z-index: 10;
+  position: absolute;
+  top: 110%;
+  animation: openMenu 200ms;
+
+  box-shadow: 0 0 10px 2px rgba(184, 184, 184, 0.5);
+
+  padding: 0.5em;
+  border-radius: 0.3em;
+  background: #d6d6d6;
+
+  list-style: none;
+
+  & li {
+    margin: 0.2rem 0;
+
+    button {
+      background: #d6d6d6;
+      width: 100%;
+    }
+  }
+}
+
+@keyframes openMenu {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

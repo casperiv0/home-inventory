@@ -14,6 +14,8 @@ import { setter } from "@lib/setter";
 import { FilterKeys, filters } from "@lib/constants";
 import { download } from "@utils/download";
 import ImportProductsModal from "./modals/products/ImportProductsModal";
+import Dropdown from "./Dropdown/Dropdown";
+import { DotsIcon } from "./icons/Dots";
 
 const AddProductModal = dynamic(() => import("@components/modals/products/AddProductModal"));
 const ManageProductModal = dynamic(() => import("@components/modals/products/ManageProductModal"));
@@ -26,6 +28,7 @@ export const Products = ({ products }: Props) => {
   const searchRef = React.useRef<HTMLInputElement>(null);
   const router = useRouter();
 
+  const [isOpen, setOpen] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState<string>("");
   const [tempProduct, setTempProduct] = React.useState<Product | null>(null);
   const [filter, setFilter] = React.useState<SelectValue<FilterKeys> | null>({
@@ -65,22 +68,36 @@ export const Products = ({ products }: Props) => {
         <h1>Products</h1>
 
         <div className={styles.productsButtons}>
-          <button
-            onClick={() =>
-              download(`products_${Date.now()}.json`, JSON.stringify(products, null, 2))
-            }
-            className="btn"
-          >
-            Export
-          </button>
-          <button onClick={() => openModal(ModalIds.ImportProducts)} className="btn">
-            Import
-          </button>
+          <div>
+            <Dropdown
+              width="150px"
+              onClose={() => setOpen(false)}
+              isOpen={isOpen}
+              autoFocus
+              options={[
+                {
+                  name: "Export",
+                  onClick: () =>
+                    download(`products_${Date.now()}.json`, JSON.stringify(products, null, 2)),
+                },
+                {
+                  name: "Import",
+                  onClick: () => openModal(ModalIds.ImportProducts),
+                },
+              ]}
+            >
+              <button onClick={() => setOpen((v) => !v)} className="btn icon-btn">
+                <DotsIcon height="25.6" width="25.6" />
+              </button>
+            </Dropdown>
+          </div>
+
           <button onClick={() => openModal(ModalIds.AddProduct)} className="btn">
             Add product
           </button>
 
           <div className={styles.productsSelect}>
+            {/* todo: replace this width the dropdown component */}
             <Select
               isClearable
               theme={{ backgroundColor: "#eeeeee" }}
