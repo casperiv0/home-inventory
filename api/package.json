@@ -33,6 +33,7 @@
     "@types/express-rate-limit": "^5.1.2",
     "@types/jsonwebtoken": "^8.5.2",
     "@types/node": "^15.12.4",
+    "esbuild-register": "^2.6.0",
     "nodemon": "^2.0.7",
     "prisma": "^2.25.0",
     "ts-node": "^10.0.0",
