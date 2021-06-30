@@ -69,6 +69,13 @@ a {
     text-decoration: underline;
   }
 
+  &.has-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+
   &.icon-btn {
     width: 100%;
     display: grid;

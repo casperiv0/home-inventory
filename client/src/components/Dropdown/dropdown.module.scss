@@ -1,5 +1,9 @@
 .dropdownContainer {
   position: relative;
+
+  & svg {
+    transition: transform 300ms;
+  }
 }
 
 .dropdownUl {
@@ -22,6 +26,7 @@
     button {
       background: #d6d6d6;
       width: 100%;
+      text-align: left;
     }
   }
 }

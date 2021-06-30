@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 
 import { Product } from "@t/Product";
-import { Select, SelectValue } from "@components/Select/Select";
+import { SelectValue } from "@components/Select/Select";
 import { sortProducts } from "@utils/sortProducts";
 import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
@@ -16,6 +16,7 @@ import { download } from "@utils/download";
 import ImportProductsModal from "./modals/products/ImportProductsModal";
 import Dropdown from "./Dropdown/Dropdown";
 import { DotsIcon } from "./icons/Dots";
+import { ArrowIcon } from "./icons/Arrow";
 
 const AddProductModal = dynamic(() => import("@components/modals/products/AddProductModal"));
 const ManageProductModal = dynamic(() => import("@components/modals/products/ManageProductModal"));
@@ -29,6 +30,8 @@ export const Products = ({ products }: Props) => {
   const router = useRouter();
 
   const [isOpen, setOpen] = React.useState(false);
+  const [isSelectOpen, setSelectOpen] = React.useState(false);
+
   const [searchValue, setSearchValue] = React.useState<string>("");
   const [tempProduct, setTempProduct] = React.useState<Product | null>(null);
   const [filter, setFilter] = React.useState<SelectValue<FilterKeys> | null>({
@@ -96,19 +99,27 @@ export const Products = ({ products }: Props) => {
             Add product
           </button>
 
-          <div className={styles.productsSelect}>
-            {/* todo: replace this width the dropdown component */}
-            <Select
-              isClearable
-              theme={{ backgroundColor: "#eeeeee" }}
-              onChange={setFilter}
-              value={filter}
-              options={Object.entries(filters).map(([key, value]) => ({
-                label: value,
-                value: key,
-              }))}
-            />
-          </div>
+          <Dropdown
+            width="200px"
+            onClose={() => setSelectOpen(false)}
+            isOpen={isSelectOpen}
+            autoFocus
+            closeOnClick
+            options={Object.entries(filters).map(([key, value]) => ({
+              name: value,
+              value,
+              onClick: () => setFilter({ label: value, value: key as FilterKeys }),
+            }))}
+          >
+            <button
+              style={{ width: "170px", height: "100%" }}
+              onClick={() => setSelectOpen((v) => !v)}
+              className="btn has-icon"
+            >
+              {filter?.label}{" "}
+              <ArrowIcon style={{ transform: isSelectOpen ? "rotate(-180deg)" : "" }} />
+            </button>
+          </Dropdown>
         </div>
       </div>
 

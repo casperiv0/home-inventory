@@ -85,7 +85,6 @@ export const styles = ({
     border: state.isFocused ? "2px solid #0a84ff" : `2px solid ${backgroundColor}`,
     boxShadow: "none",
     ":hover": {
-      borderColor: "none",
       boxShadow: "none",
     },
     ":focus": {
@@ -105,12 +104,5 @@ export const styles = ({
   input: (base) => ({
     ...base,
     color: "#222222",
-  }),
-  container: (base) => ({
-    ...base,
-    borderColor: "none",
-    ":hover": {
-      borderColor: "none",
-    },
   }),
 });

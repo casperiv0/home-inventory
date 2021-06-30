@@ -4,6 +4,7 @@ import styles from "./dropdown.module.scss";
 
 interface DropdownOption {
   name: string;
+  value?: string;
   onClick?: () => void;
 }
 
@@ -14,6 +15,7 @@ interface DropdownProps {
   isOpen: boolean;
   onClose: () => void;
 
+  closeOnClick?: boolean;
   width?: string;
   autoFocus?: boolean;
 }
@@ -21,6 +23,14 @@ interface DropdownProps {
 const Dropdown = (props: DropdownProps) => {
   const focusRef = React.useRef<HTMLButtonElement>(null);
   const onOutsideRef = useOnclickOutside(props.onClose);
+
+  function handleClick(v: DropdownOption) {
+    v.onClick?.();
+
+    if (props.closeOnClick) {
+      props.onClose();
+    }
+  }
 
   React.useEffect(() => {
     if (props.autoFocus) {
@@ -37,7 +47,11 @@ const Dropdown = (props: DropdownProps) => {
           {props.options.map((v, idx) => {
             return (
               <li key={v.name}>
-                <button ref={idx === 0 ? focusRef : null} onClick={v.onClick} className="btn">
+                <button
+                  ref={idx === 0 ? focusRef : null}
+                  onClick={handleClick.bind(null, v)}
+                  className="btn"
+                >
                   {v.name}
                 </button>
               </li>
