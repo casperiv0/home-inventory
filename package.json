@@ -18,7 +18,7 @@
     "@casper124578/eslint-config": "^0.0.13",
     "@casper124578/eslint-config-next": "^0.0.2",
     "@casper124578/eslint-config-react": "^0.0.5",
-    "eslint": "^7.28.0",
+    "eslint": "^7.29.0",
     "husky": "^6.0.0",
     "prettier": "^2.3.1",
     "pretty-quick": "^3.1.0",
