@@ -1,9 +1,11 @@
 .adminSidebar {
   width: 300px;
   min-width: 300px;
+  min-height: calc(100vh - 7rem);
+  max-height: calc(100vh - 7rem);
 
   position: sticky;
-  top: 5rem;
+  top: 3.5rem;
 
   padding: 0.5rem;
   border-radius: 0.4rem;

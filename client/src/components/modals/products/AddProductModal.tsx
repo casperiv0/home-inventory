@@ -179,10 +179,10 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
 
         <div className={styles.formGroup}>
           <div className={styles.formCheckboxGroup}>
-            <label htmlFor="ignore-quantity-warning">Ignore quantity warning</label>
+            <label htmlFor="add-product-ignore-quantity-warning">Ignore quantity warning</label>
             <input
               value={`${ignoreQuantityWarning}`}
-              id="ignore-quantity-warning"
+              id="add-product-ignore-quantity-warning"
               onChange={() => setIgnoreWarning((p) => !p)}
               type="checkbox"
             />

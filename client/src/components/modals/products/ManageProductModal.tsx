@@ -1,5 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import format from "date-fns/format";
 import { Modal } from "@components/Modal/Modal";
 import { ModalIds } from "@t/ModalIds";
 import styles from "css/forms.module.scss";
@@ -157,22 +158,22 @@ const ManageProductModal = ({
 
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
-            <label htmlFor="add-product-expire-date">Expiration Date (optional)</label>
+            <label htmlFor="manage-product-expire-date">Expiration Date (optional)</label>
             <input
-              id="add-product-expire-date"
+              id="manage-product-expire-date"
               type="date"
               className={styles.formInput}
-              value={expireDate}
+              value={expireDate && format(new Date(expireDate), "yyyy-MM-dd")}
               onChange={setter(setExpireDate)}
             />
           </div>
           <div className={styles.formGroup}>
-            <label htmlFor="add-product-created-at">Created at (optional)</label>
+            <label htmlFor="manage-product-created-at">Created at (optional)</label>
             <input
-              id="add-product-created-at"
+              id="manage-product-created-at"
               type="date"
               className={styles.formInput}
-              value={createdAt}
+              value={createdAt && format(new Date(createdAt), "yyyy-MM-dd")}
               onChange={setter(setCreatedAt)}
             />
           </div>
@@ -180,9 +181,11 @@ const ManageProductModal = ({
 
         <div className={styles.formGroup}>
           <div className={styles.formCheckboxGroup}>
-            <label htmlFor="custom-warn-quantity">custom {"'warn on quantity'"}</label>
+            <label htmlFor="manage-product-custom-warn-quantity">
+              custom {"'warn on quantity'"}
+            </label>
             <input
-              id="custom-warn-quantity"
+              id="manage-product-custom-warn-quantity"
               onChange={() => setWarnOnQuantity((p) => ({ checked: !p.checked, value: p.value }))}
               checked={warnOnQuantity.checked}
               type="checkbox"
@@ -191,9 +194,9 @@ const ManageProductModal = ({
 
           {warnOnQuantity.checked ? (
             <div style={{ marginBottom: "0", marginTop: "1rem" }} className={styles.formGroup}>
-              <label htmlFor="add-product-warn-quantity">Warn on quantity</label>
+              <label htmlFor="manage-product-warn-quantity">Warn on quantity</label>
               <input
-                id="add-product-warn-quantity"
+                id="manage-product-warn-quantity"
                 type="number"
                 className={styles.formInput}
                 value={warnOnQuantity.value}
@@ -207,10 +210,10 @@ const ManageProductModal = ({
 
         <div className={styles.formGroup}>
           <div className={styles.formCheckboxGroup}>
-            <label htmlFor="ignore-quantity-warning">Ignore quantity warning</label>
+            <label htmlFor="manage-product-ignore-quantity-warning">Ignore quantity warning</label>
             <input
               checked={ignoreQuantityWarning}
-              id="ignore-quantity-warning"
+              id="manage-product-ignore-quantity-warning"
               onChange={() => setIgnoreWarning((p) => !p)}
               type="checkbox"
             />

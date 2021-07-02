@@ -89,7 +89,7 @@ export const Products = ({ products }: Props) => {
                 },
               ]}
             >
-              <button onClick={() => setOpen((v) => !v)} className="btn icon-btn">
+              <button aria-label="More" onClick={() => setOpen((v) => !v)} className="btn icon-btn">
                 <DotsIcon height="25.6" width="25.6" />
               </button>
             </Dropdown>
