@@ -81,7 +81,7 @@ const IndexPage = ({ user, houses }: Props) => {
                 </Link>
 
                 {role?.role === UserRole.OWNER ? (
-                  <div>
+                  <div aria-label="Manage house">
                     <EditIcon
                       onClick={() => handleManageHouse(house)}
                       data-tip
@@ -90,7 +90,7 @@ const IndexPage = ({ user, houses }: Props) => {
 
                     <ReactToolTip
                       textColor="var(--dark)"
-                      backgroundColor="var(--hover-color)"
+                      backgroundColor="var(--tooltip-bg)"
                       effect="solid"
                       id="EditHouse"
                     >

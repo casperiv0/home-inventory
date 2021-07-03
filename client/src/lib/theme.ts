@@ -43,3 +43,7 @@ export function setThemeClass(t: Theme) {
     document.body.classList.remove("dark");
   }
 }
+
+export function getNewTheme(oldTheme: Theme): Theme {
+  return oldTheme === "light" ? "dark" : "light";
+}

@@ -58,7 +58,7 @@ export const ProductsTable = ({ products, currentFilter, showActions, onManageCl
 
                 <ReactToolTip
                   textColor="var(--dark)"
-                  backgroundColor="#bbbbbb"
+                  backgroundColor="var(--tooltip-bg)"
                   place="top"
                   id="ProductName"
                   effect="solid"

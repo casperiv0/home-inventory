@@ -57,10 +57,10 @@ const ManageHouseModal = ({ updateHouseById, deleteHouseById, house }: Props) =>
     <Modal title={`Managing ${house?.name}`} id={ModalIds.ManageHouse}>
       <form onSubmit={onSubmit}>
         <div className={styles.formGroup}>
-          <label htmlFor="add-house-name">Name</label>
+          <label htmlFor="manage-house-name">Name</label>
           <input
             ref={ref}
-            id="add-house-name"
+            id="manage-house-name"
             className={styles.formInput}
             value={name}
             onChange={setter(setName)}

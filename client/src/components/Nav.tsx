@@ -4,7 +4,7 @@ import styles from "css/nav.module.scss";
 import { useHouseId } from "@hooks/useHouseId";
 import { useHasAccess } from "@hooks/useHasAccess";
 import { UserRole } from "@t/User";
-import { getTheme, setThemeClass, Theme } from "@lib/theme";
+import { getNewTheme, getTheme, setTheme as setLocalTheme, Theme } from "@lib/theme";
 import { SunIcon } from "./icons/Sun";
 import { MoonIcon } from "./icons/Moon";
 import { classes } from "@utils/classes";
@@ -19,10 +19,10 @@ export const Nav = () => {
   }, []);
 
   function handleClick() {
-    const newT = theme === "light" ? "dark" : "light";
+    const newT = getNewTheme(theme);
 
     setTheme(newT);
-    setThemeClass(newT);
+    setLocalTheme(newT);
   }
 
   const houseId = useHouseId();
@@ -77,7 +77,11 @@ export const Nav = () => {
             )}
           </ul>
 
-          <button onClick={handleClick} className={classes("btn", "icon-btn", styles.navLink)}>
+          <button
+            aria-label={`Switch to ${getNewTheme(theme)} theme`}
+            onClick={handleClick}
+            className={classes("btn", "icon-btn", styles.navLink)}
+          >
             {theme === "dark" ? <SunIcon /> : <MoonIcon />}
           </button>
         </div>
