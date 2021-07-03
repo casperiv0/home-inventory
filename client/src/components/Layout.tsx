@@ -1,7 +1,9 @@
+import { useSelector } from "react-redux";
+import * as React from "react";
 import { Nav } from "./Nav";
 import styles from "css/layout.module.scss";
-import { useSelector } from "react-redux";
 import { State } from "@t/State";
+import { getTheme, setThemeClass } from "@lib/theme";
 
 interface Props {
   nav?: boolean;
@@ -10,6 +12,11 @@ interface Props {
 
 export const Layout: React.FC<Props> = ({ nav = true, showCurrentHouse, children }) => {
   const currentHouse = useSelector((state: State) => state.houses.house);
+
+  React.useEffect(() => {
+    const t = getTheme();
+    setThemeClass(t);
+  }, []);
 
   return (
     <>
