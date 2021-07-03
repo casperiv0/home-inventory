@@ -2,15 +2,17 @@ import { Styles, GroupTypeBase } from "react-select";
 
 export interface SelectTheme {
   backgroundColor?: string;
+  color?: string;
 }
 
 export const styles = ({
-  backgroundColor = "#bbbbbb",
+  backgroundColor = "var(--hover-color)",
+  color = "var(--dark)",
 }: SelectTheme): Partial<Styles<any, true, GroupTypeBase<any>>> | undefined => ({
   valueContainer: (base) => ({
     ...base,
     background: backgroundColor,
-    color: "#222222",
+    color,
     ":hover": {
       border: "none",
     },
@@ -20,19 +22,19 @@ export const styles = ({
     padding: "0.5rem",
     width: "100%",
     backgroundColor,
-    color: "#222222",
+    color,
     cursor: "pointer",
-    transition: "background-color 200ms",
+    transition: "filter 200ms",
     borderRadius: "0.2rem",
     marginTop: "0.2rem",
     ":hover": {
-      backgroundColor: "#cccccc",
+      filter: "brightness(80%)",
     },
   }),
   menu: (prov) => ({
     ...prov,
     width: "100%",
-    color: "#222222",
+    color,
     padding: "0.5rem",
     backgroundColor,
     boxShadow: "0 8px 16px rgba(0, 0, 0, 0.5)",
@@ -45,19 +47,19 @@ export const styles = ({
   }),
   noOptionsMessage: (base) => ({
     ...base,
-    color: "#222222",
+    color,
   }),
   multiValueLabel: (base) => ({
     ...base,
     backgroundColor: "#cccccc",
-    color: "#222222",
+    color,
     padding: "0.2rem",
     borderRadius: "2px 0 0 2px",
   }),
   multiValueRemove: (base) => ({
     ...base,
     backgroundColor: "#cccccc",
-    color: "#222222",
+    color,
     borderRadius: "0 2px 2px 0",
     cursor: "pointer",
     ":hover": {
@@ -67,17 +69,17 @@ export const styles = ({
   indicatorsContainer: (base) => ({
     ...base,
     backgroundColor,
-    color: "#222222",
+    color,
   }),
   clearIndicator: (base) => ({
     ...base,
     cursor: "pointer",
-    color: "#222222",
+    color,
   }),
   dropdownIndicator: (base) => ({
     ...base,
     cursor: "pointer",
-    color: "#222222",
+    color,
   }),
   control: (base, state) => ({
     ...base,
@@ -94,15 +96,15 @@ export const styles = ({
   }),
   placeholder: (base) => ({
     ...base,
-    color: "#222222",
+    color,
     opacity: "0.4",
   }),
   singleValue: (base) => ({
     ...base,
-    color: "#222222",
+    color,
   }),
   input: (base) => ({
     ...base,
-    color: "#222222",
+    color,
   }),
 });

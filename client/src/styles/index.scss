@@ -4,6 +4,20 @@
   --white: #ffffff;
   --red: #dc3545;
   --blue: #0a84ff;
+
+  --modal-bg: #f2f2f2;
+  --dropdown-bg: #d6d6d6;
+  --hover-color: #bbbbbb;
+}
+
+.dark {
+  --dark: #eeeeee;
+  --white: #111111;
+  --gray: #222222;
+
+  --modal-bg: #2f2f2f;
+  --hover-color: var(--gray);
+  --dropdown-bg: #1b1b1b;
 }
 
 *,
@@ -18,8 +32,11 @@
 
 html,
 body {
-  background: #fff;
+  background: var(--white);
   color: var(--dark);
+  min-height: 100vh;
+
+  transition: background 200ms, color 200ms;
 }
 
 a {
@@ -35,7 +52,7 @@ a {
   font-size: 1rem;
 
   border-radius: 0.3rem;
-  background: #eeeeee;
+  background: var(--gray);
   border: 1px solid transparent;
   cursor: pointer;
   transition: border 200ms;
@@ -83,7 +100,11 @@ a {
     color: #000000;
   }
   &.submit {
-    background: #bbbbbb;
+    filter: brightness(80%);
+
+    &:hover {
+      filter: brightness(75%);
+    }
   }
 }
 

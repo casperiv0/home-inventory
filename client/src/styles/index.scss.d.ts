@@ -2,6 +2,7 @@ export const bold: string;
 export const btn: string;
 export const closeAni: string;
 export const danger: string;
+export const dark: string;
 export const hasIcon: string;
 export const iconBtn: string;
 export const linkBtn: string;

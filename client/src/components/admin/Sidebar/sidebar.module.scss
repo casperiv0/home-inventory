@@ -36,10 +36,10 @@
   transition: background 200ms;
 
   &:hover {
-    background: #cccccc;
+    background: var(--modal-bg);
   }
 }
 
 .sidebarItemActive {
-  background: #cccccc;
+  background: var(--modal-bg);
 }

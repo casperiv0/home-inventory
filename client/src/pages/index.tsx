@@ -89,8 +89,8 @@ const IndexPage = ({ user, houses }: Props) => {
                     />
 
                     <ReactToolTip
-                      textColor="#2f2f2f"
-                      backgroundColor="#bbbbbb"
+                      textColor="var(--dark)"
+                      backgroundColor="var(--hover-color)"
                       effect="solid"
                       id="EditHouse"
                     >

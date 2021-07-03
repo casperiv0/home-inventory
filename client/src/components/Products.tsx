@@ -129,7 +129,7 @@ export const Products = ({ products }: Props) => {
           value={searchValue}
           onChange={setter(setSearchValue)}
           className={formStyles.formInput}
-          style={{ background: "#eeeeee", width: "100%" }}
+          style={{ background: "var(--gray)", width: "100%" }}
           placeholder="Find a product by its name"
         />
 
