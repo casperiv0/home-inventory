@@ -99,7 +99,7 @@ const ManageCategoryModal = ({ category, updateCategoryById, deleteCategoryById 
             Cancel
           </button>
 
-          <button disabled={loading} type="submit" className={styles.submitBtn}>
+          <button disabled={loading} type="submit" className="btn submit">
             {loading ? "loading.." : "Update category"}
           </button>
         </div>

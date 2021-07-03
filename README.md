@@ -4,7 +4,7 @@ A home inventory app to keep track of items in your home (food items, tech, medi
 
 ## Status
 
-- finished, not sure what todo with this project _yet_.
+- finished, not sure what to do with this project _yet_.
 
 ## Stack
 

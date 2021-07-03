@@ -200,12 +200,12 @@ router.post("/new-password", withAuth, async (req: IRequest, res) => {
   });
 });
 
-router.post("/logout", withAuth, async (req: IRequest, res) => {
+router.post("/logout", withAuth, async (req: IRequest, res: Response) => {
   req.userId = "";
 
   res.clearCookie(AuthConstants.cookieName);
 
-  return res.status(200);
+  return res.status(200).json({ status: "success" });
 });
 
 export const authRouter = router;

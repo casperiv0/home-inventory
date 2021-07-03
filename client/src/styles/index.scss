@@ -12,7 +12,6 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  // todo: setup Roboto font
   // todo: setup color variables
   font-family: "Roboto", sans-serif;
 }
@@ -46,14 +45,11 @@ a {
 
   &:disabled {
     cursor: not-allowed;
+    opacity: 0.8;
   }
 
   &:hover:enabled {
     filter: brightness(90%);
-  }
-
-  &:disabled {
-    cursor: not-allowed;
   }
 
   &:focus:enabled {
@@ -72,7 +68,7 @@ a {
   &.has-icon {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: 0.6rem;
   }
 
@@ -85,6 +81,9 @@ a {
   &.danger {
     background: var(--red);
     color: #000000;
+  }
+  &.submit {
+    background: #bbbbbb;
   }
 }
 

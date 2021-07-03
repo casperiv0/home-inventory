@@ -91,7 +91,7 @@ const ManageHouseModal = ({ updateHouseById, deleteHouseById, house }: Props) =>
           >
             Cancel
           </button>
-          <button disabled={loading} type="submit" className={styles.submitBtn}>
+          <button disabled={loading} type="submit" className="btn submit">
             {loading ? "updating.." : "Update"}
           </button>
         </div>

@@ -77,27 +77,3 @@
     outline: 2px solid var(--blue);
   }
 }
-
-.submitBtn {
-  padding: 0.5rem 0.8rem;
-  font-size: 1rem;
-  cursor: pointer;
-  background: #bbbbbb;
-
-  border: 1px solid transparent;
-  border-radius: 0.5rem;
-  transition: filter 200ms;
-  float: right;
-
-  &:hover:enabled {
-    filter: brightness(90%);
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-  }
-
-  &:focus:enabled {
-    outline: 2px solid var(--blue);
-  }
-}

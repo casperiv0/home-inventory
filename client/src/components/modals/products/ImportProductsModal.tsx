@@ -73,7 +73,7 @@ const ImportProductModal = ({ importProducts }: Props) => {
             Cancel
           </button>
 
-          <button disabled={loading || !file} type="submit" className={styles.submitBtn}>
+          <button disabled={loading || !file} type="submit" className="btn submit">
             {loading ? "importing.." : "Import"}
           </button>
         </div>

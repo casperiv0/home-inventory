@@ -82,7 +82,7 @@ const AddUserModal = ({ addUser }: Props) => {
             Cancel
           </button>
 
-          <button disabled={loading} type="submit" className={styles.submitBtn}>
+          <button disabled={loading} type="submit" className="btn submit">
             {loading ? "loading.." : "Submit"}
           </button>
         </div>

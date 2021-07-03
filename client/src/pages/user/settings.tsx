@@ -3,7 +3,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import Head from "next/head";
 
-import { checkAuth, updateUserSettings } from "@actions/auth";
+import { checkAuth, updateUserSettings, logout } from "@actions/auth";
 import { Layout } from "@components/Layout";
 import { useIsAuth } from "@hooks/useIsAuth";
 import { State } from "@t/State";
@@ -13,15 +13,19 @@ import { initializeStore } from "src/store/store";
 import formStyles from "css/forms.module.scss";
 import { setter } from "@lib/setter";
 import { RequestData } from "@lib/fetch";
+import { useRouter } from "next/router";
 
 interface Props {
   user: User | null;
 
+  logout: () => Promise<boolean>;
   updateUserSettings: (data: RequestData) => Promise<boolean>;
 }
 
-const SettingsPage = ({ user, updateUserSettings }: Props) => {
+const SettingsPage = ({ user, updateUserSettings, logout }: Props) => {
   useIsAuth();
+
+  const router = useRouter();
 
   const [email, setEmail] = React.useState("");
   const [name, setName] = React.useState("");
@@ -44,6 +48,12 @@ const SettingsPage = ({ user, updateUserSettings }: Props) => {
     await updateUserSettings({ name, email, password });
 
     setLoading(false);
+  }
+
+  async function handleLogout() {
+    await logout();
+
+    router.push("/auth/login");
   }
 
   return (
@@ -103,11 +113,18 @@ const SettingsPage = ({ user, updateUserSettings }: Props) => {
           />
         </div>
 
-        <div style={{ float: "right" }}>
-          <button
-            disabled={loading || !name || !email || !password}
-            className={formStyles.submitBtn}
-          >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            gap: "0.5rem",
+          }}
+        >
+          <button onClick={handleLogout} type="button" className="btn danger">
+            Logout
+          </button>
+          <button disabled={loading || !name || !email || !password} className="btn submit">
             {loading ? "saving.." : "Save settings"}
           </button>
         </div>
@@ -129,4 +146,4 @@ const mapToProps = (state: State) => ({
   user: state.auth.user,
 });
 
-export default connect(mapToProps, { updateUserSettings })(SettingsPage);
+export default connect(mapToProps, { updateUserSettings, logout })(SettingsPage);

@@ -71,7 +71,7 @@ const LoginPage = ({ authenticate }: Props) => {
           <button
             style={{ marginLeft: "1rem" }}
             disabled={isLoading}
-            className={styles.submitBtn}
+            className="btn submit"
             type="submit"
           >
             {isLoading ? "loading.." : "Login"}
