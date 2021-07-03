@@ -38,6 +38,11 @@
   }
 }
 
+.navLinksContainer {
+  display: flex;
+  align-items: center;
+}
+
 .navLinks {
   display: flex;
   list-style-type: none;

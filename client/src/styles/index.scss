@@ -35,6 +35,8 @@ body {
   background: var(--white);
   color: var(--dark);
   min-height: 100vh;
+
+  transition: background 200ms, color 200ms;
 }
 
 a {
