@@ -64,7 +64,8 @@
 .formInput {
   font-size: 1rem;
   padding: 0.5rem;
-  background: #bbbbbb;
+  background: var(--hover-color);
+  color: var(--dark);
 
   border: 1px solid transparent;
   border-radius: 0.3rem;
