@@ -15,6 +15,7 @@ import "css/index.scss";
 
 import { useStore } from "../store/store";
 import { RateLimitedModal } from "@components/modals/RateLimited";
+import { getTheme, setThemeClass } from "@lib/theme";
 
 const App: NextPage<AppProps> = ({ Component, pageProps }) => {
   const store = useStore(pageProps?.initialReduxState);
@@ -38,6 +39,11 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
       Router.events.off("routeChangeError", doneHandler);
     };
   });
+
+  React.useEffect(() => {
+    const t = getTheme();
+    setThemeClass(t);
+  }, []);
 
   return (
     <>

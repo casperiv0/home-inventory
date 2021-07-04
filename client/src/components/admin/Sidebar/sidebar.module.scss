@@ -36,10 +36,10 @@
   transition: background 200ms;
 
   &:hover {
-    background: var(--modal-bg);
+    background: var(--dropdown-bg);
   }
 }
 
 .sidebarItemActive {
-  background: var(--modal-bg);
+  background: var(--dropdown-bg);
 }

@@ -11,7 +11,7 @@
   --tooltip-bg: #bbbbbb;
 }
 
-.dark {
+.dark-mode {
   --dark: #eeeeee;
   --white: #111111;
   --gray: #222222;
@@ -28,7 +28,6 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  // todo: setup color variables
   font-family: "Roboto", sans-serif;
 }
 
@@ -104,7 +103,7 @@ a {
   &.submit {
     filter: brightness(80%);
 
-    &:hover {
+    &:hover:enabled {
       filter: brightness(75%);
     }
   }

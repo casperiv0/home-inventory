@@ -1,5 +1,9 @@
 export type Theme = "dark" | "light";
 
+export const ThemeClasses: Record<Theme, string> = {
+  dark: "dark-mode",
+  light: "light-mode",
+};
 export const SYS_THEME_MATCHER = "(prefers-color-scheme: dark)";
 export const STORAGE_KEY = "user-theme";
 
@@ -38,9 +42,9 @@ export function setThemeClass(t: Theme) {
   if (typeof window === "undefined") return;
 
   if (t === "dark") {
-    document.body.classList.add("dark");
+    document.body.classList.add(ThemeClasses["dark"]);
   } else {
-    document.body.classList.remove("dark");
+    document.body.classList.remove(ThemeClasses["dark"]);
   }
 }
 
