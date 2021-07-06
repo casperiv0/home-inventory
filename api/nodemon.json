@@ -1,5 +1,5 @@
 {
   "watch": ["**/*.ts"],
-  "exec": "node -r tsconfig-paths/register -r esbuild-register src/index.ts",
+  "exec": "node -r tsconfig-paths/register -r esbuild-register src/main.ts",
   "ext": "js ts"
 }

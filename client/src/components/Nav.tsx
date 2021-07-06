@@ -8,9 +8,11 @@ import { getNewTheme, getTheme, setTheme as setLocalTheme, Theme } from "@lib/th
 import { SunIcon } from "./icons/Sun";
 import { MoonIcon } from "./icons/Moon";
 import { classes } from "@utils/classes";
+import { ListIcon } from "./icons/List";
 
 export const Nav = () => {
   const [theme, setTheme] = React.useState<Theme>("light");
+  const ulRef = React.useRef<HTMLUListElement>(null);
 
   React.useEffect(() => {
     const t = getTheme();
@@ -18,11 +20,31 @@ export const Nav = () => {
     setTheme(t);
   }, []);
 
-  function handleClick() {
+  React.useEffect(() => {
+    const listItems = document.querySelectorAll("#navUlList li");
+
+    listItems.forEach((li) => {
+      li.addEventListener("click", () => {
+        ulRef.current?.classList.remove(styles.menuActive);
+      });
+    });
+  }, []);
+
+  function handleThemeClick() {
     const newT = getNewTheme(theme);
 
     setTheme(newT);
     setLocalTheme(newT);
+  }
+
+  function handleNavClick() {
+    const classList = ulRef.current?.classList;
+
+    if (classList?.contains(styles.menuActive)) {
+      classList.remove(styles.menuActive);
+    } else {
+      classList?.add(styles.menuActive);
+    }
   }
 
   const houseId = useHouseId();
@@ -38,7 +60,7 @@ export const Nav = () => {
         </div>
 
         <div className={styles.navLinksContainer}>
-          <ul className={styles.navLinks}>
+          <ul id="navUlList" ref={ulRef} className={styles.navLinks}>
             {houseId ? (
               <>
                 <li className={styles.navLink}>
@@ -78,8 +100,16 @@ export const Nav = () => {
           </ul>
 
           <button
+            aria-label="Open navigation menu"
+            onClick={handleNavClick}
+            className={classes("btn", "icon-btn", styles.menuBtn, styles.navLink)}
+          >
+            <ListIcon />
+          </button>
+
+          <button
             aria-label={`Switch to ${getNewTheme(theme)} theme`}
-            onClick={handleClick}
+            onClick={handleThemeClick}
             className={classes("btn", "icon-btn", styles.navLink)}
           >
             {theme === "dark" ? <SunIcon /> : <MoonIcon />}

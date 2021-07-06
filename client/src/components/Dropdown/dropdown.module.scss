@@ -10,7 +10,7 @@
   z-index: 10;
   position: absolute;
   top: 110%;
-  animation: openMenu 200ms;
+  animation: openDropdown 200ms;
 
   box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.2);
 
@@ -32,7 +32,7 @@
   }
 }
 
-@keyframes openMenu {
+@keyframes openDropdown {
   from {
     transform: translateY(10px);
     opacity: 0;
