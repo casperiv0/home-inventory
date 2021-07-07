@@ -8,7 +8,7 @@ import { GetServerSideProps } from "next";
 import { checkAuth } from "@actions/auth";
 import { State } from "@t/State";
 import { initializeStore } from "src/store/store";
-import { AdminLayout } from "@components/AdminLayout";
+import { AdminLayout } from "@components/Layout";
 import { getAllUsers } from "@actions/admin/users";
 import { User, UserRole } from "@t/User";
 import { openModal } from "@lib/modal";

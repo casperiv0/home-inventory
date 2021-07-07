@@ -1,33 +1,42 @@
 import Link from "next/link";
 import * as React from "react";
-import styles from "css/nav.module.scss";
+import styles from "./nav.module.scss";
 import { useHouseId } from "@hooks/useHouseId";
 import { useHasAccess } from "@hooks/useHasAccess";
 import { UserRole } from "@t/User";
 import { getNewTheme, getTheme, setTheme as setLocalTheme, Theme } from "@lib/theme";
-import { SunIcon } from "./icons/Sun";
-import { MoonIcon } from "./icons/Moon";
+import { SunIcon } from "icons/Sun";
+import { MoonIcon } from "icons/Moon";
+import { ListIcon } from "icons/List";
 import { classes } from "@utils/classes";
-import { ListIcon } from "./icons/List";
 
 export const Nav = () => {
   const [theme, setTheme] = React.useState<Theme>("light");
   const ulRef = React.useRef<HTMLUListElement>(null);
 
-  React.useEffect(() => {
-    const t = getTheme();
+  const houseId = useHouseId();
+  const { hasAccess } = useHasAccess(UserRole.ADMIN);
 
-    setTheme(t);
+  React.useEffect(() => {
+    setTheme(getTheme());
   }, []);
 
   React.useEffect(() => {
+    const handler = () => {
+      ulRef.current?.classList.remove(styles.menuActive);
+    };
+
     const listItems = document.querySelectorAll("#navUlList li");
 
     listItems.forEach((li) => {
-      li.addEventListener("click", () => {
-        ulRef.current?.classList.remove(styles.menuActive);
-      });
+      li.addEventListener("click", handler);
     });
+
+    return () => {
+      listItems.forEach((li) => {
+        li.removeEventListener("click", handler);
+      });
+    };
   }, []);
 
   function handleThemeClick() {
@@ -46,9 +55,6 @@ export const Nav = () => {
       classList?.add(styles.menuActive);
     }
   }
-
-  const houseId = useHouseId();
-  const { hasAccess } = useHasAccess(UserRole.ADMIN);
 
   return (
     <nav className={styles.navContainer}>

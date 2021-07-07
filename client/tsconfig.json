@@ -16,6 +16,7 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
+      "icons/*": ["./src/components/icons/*"],
       "@lib/*": ["./src/lib/*"],
       "@utils/*": ["./src/utils/*"],
       "@t/*": ["./src/interfaces/*"],

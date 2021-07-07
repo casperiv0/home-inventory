@@ -1,4 +1,4 @@
-import styles from "css/layout.module.scss";
+import styles from "./layout.module.scss";
 import { AdminSidebar } from "@components/admin/Sidebar/Sidebar";
 import { Layout } from "./Layout";
 

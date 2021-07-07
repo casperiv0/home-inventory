@@ -37,13 +37,15 @@ export const handleRequest = (
 
 /**
  * get the error message from the response error
- * @param {*} e The error
+ * @param {*} error The error
  */
-export const getErrorFromResponse = (e: AxiosError): string | null => {
-  if (e.response?.status === 429) {
+export const getErrorFromResponse = (e: unknown): string | null => {
+  const error = e as AxiosError;
+
+  if (error.response?.status === 429) {
     openModal(ModalIds.AlertRateLimited);
     return null;
   }
 
-  return e?.response?.data?.errors?.[0] ?? e?.response?.data?.error ?? NO_ERROR;
+  return error?.response?.data?.errors?.[0] ?? error?.response?.data?.error ?? NO_ERROR;
 };

@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import * as React from "react";
-import { Nav } from "./Nav";
-import styles from "css/layout.module.scss";
+import { Nav } from "@components/Nav";
+import styles from "./layout.module.scss";
 import { State } from "@t/State";
 
 interface Props {
