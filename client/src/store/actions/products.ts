@@ -90,6 +90,23 @@ export const deleteProductById =
     }
   };
 
+export const bulkDeleteProducts =
+  (houseId: string, productIds: string[]) => async (dispatch: Dispatch<UpdateProducts>) => {
+    try {
+      const res = await handleRequest(`/products/${houseId}/bulk`, "DELETE", { productIds });
+
+      dispatch({
+        type: "BULK_DELETE_PRODUCTS",
+        products: res.data.products,
+      });
+
+      return true;
+    } catch (e) {
+      toast.error(getErrorFromResponse(e));
+      return false;
+    }
+  };
+
 export const getStats =
   (houseId: string, cookie?: string) => async (dispatch: Dispatch<GetStats>) => {
     try {

@@ -350,6 +350,32 @@ router.put("/:houseId/:id", withAuth, withValidHouseId, async (req, res) => {
   }
 });
 
+router.delete("/:houseId/bulk", withAuth, withValidHouseId, async (req, res) => {
+  const body = req.body;
+  const houseId = req.params.houseId as string;
+
+  if (!body.productIds?.length) {
+    return res.status(400).json({
+      error: "productIds field must have at least 1 item",
+      status: "error",
+    });
+  }
+
+  await Promise.all(
+    body.productIds?.map(async (id: string) => {
+      await prisma.product.deleteMany({
+        where: {
+          id,
+          houseId,
+        },
+      });
+    }),
+  );
+
+  const products = await getProducts(req.params.houseId);
+  return res.json({ products });
+});
+
 router.delete("/:houseId/:id", withAuth, withValidHouseId, async (req, res) => {
   try {
     const id = req.params.id as string;

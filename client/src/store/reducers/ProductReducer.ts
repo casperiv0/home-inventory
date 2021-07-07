@@ -15,6 +15,7 @@ export default function ProductReducer(state = initState, action: Actions): Stat
     case "GET_ALL_PRODUCTS":
     case "GET_PRODUCTS_BY_CATEGORY":
     case "IMPORT_PRODUCTS":
+    case "BULK_DELETE_PRODUCTS":
     case "UPDATE_PRODUCT_BY_ID": {
       return {
         ...state,

@@ -53,7 +53,7 @@ https://github.com/Dev-CasperTheGhost/notey.app/blob/main/src/components/modal/s
 }
 
 .closeModal {
-  background: none;
+  background: var(--hover-color);
   border: none;
   cursor: pointer;
   padding: 0.6rem;
@@ -69,7 +69,7 @@ https://github.com/Dev-CasperTheGhost/notey.app/blob/main/src/components/modal/s
 
   &:hover,
   &:focus {
-    background: var(--hover-color);
+    filter: brightness(80%);
   }
 
   &:focus {
