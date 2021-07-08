@@ -17,7 +17,6 @@ services:
     container_name: "api"
 
     image: node:16
-    build: ./api
     command: "npm run dev:api"
     ports:
       - "3030:3030"
