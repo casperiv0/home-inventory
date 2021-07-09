@@ -40,7 +40,7 @@ const ProductsTableC = ({
   const houseId = useHouseId();
 
   React.useEffect(() => {
-    if (selectedRows.length === products.length) {
+    if (selectedRows.length >= 1 && selectedRows.length === products.length) {
       setSelectedType("ALL");
     } else {
       setSelectedType(null);
@@ -206,7 +206,7 @@ const ProductsTableC = ({
               style={{ paddingLeft: "0" }}
               className="btn link-btn"
             >
-              Delete selected items
+              Delete {selectedRows.length} items
             </button>
           ) : null}
 

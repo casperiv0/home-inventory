@@ -17,6 +17,7 @@ import ImportProductsModal from "@components/modals/products/ImportProductsModal
 import Dropdown from "@components/Dropdown/Dropdown";
 import { DotsIcon } from "icons/Dots";
 import { ArrowIcon } from "icons/Arrow";
+import { parseExport } from "@utils/parseExport";
 
 const AddProductModal = dynamic(() => import("@components/modals/products/AddProductModal"));
 const ManageProductModal = dynamic(() => import("@components/modals/products/ManageProductModal"));
@@ -80,8 +81,12 @@ export const Products = ({ products }: Props) => {
               options={[
                 {
                   name: "Export",
-                  onClick: () =>
-                    download(`products_${Date.now()}.json`, JSON.stringify(products, null, 2)),
+                  onClick: () => {
+                    download(
+                      `products_${Date.now()}.json`,
+                      JSON.stringify(parseExport(products), null, 2),
+                    );
+                  },
                 },
                 {
                   name: "Import",
