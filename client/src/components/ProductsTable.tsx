@@ -39,6 +39,18 @@ const ProductsTableC = ({
   const categories = useSelector((state: State) => state.admin.categories);
   const houseId = useHouseId();
 
+  React.useEffect(() => {
+    if (selectedRows.length === products.length) {
+      setSelectedType("ALL");
+    } else {
+      setSelectedType(null);
+    }
+
+    if (checkboxRef.current && selectedRows.length >= 1) {
+      checkboxRef.current.indeterminate = selectedRows.length !== products.length;
+    }
+  }, [selectedRows.length, products?.length]);
+
   const isRowSelected = React.useCallback(
     (id: string) => selectedRows.includes(id),
     [selectedRows],
