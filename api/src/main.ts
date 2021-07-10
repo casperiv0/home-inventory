@@ -11,7 +11,7 @@ import rateLimit from "express-rate-limit";
 
 import apiRouter from "./routes/api";
 import { logger } from "@utils/logger";
-import { notFoundMiddleware } from "@lib/middlewares";
+import { fileSizeLimit, notFoundMiddleware } from "@lib/middlewares";
 
 const server = express();
 
@@ -43,6 +43,7 @@ server.use(
     },
   }),
 );
+server.use(fileSizeLimit);
 
 server.use("/api", apiRouter, csurf({ cookie: true }));
 server.use(notFoundMiddleware);
