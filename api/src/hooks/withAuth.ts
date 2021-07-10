@@ -2,7 +2,7 @@ import { NextFunction, Response } from "express";
 import jwt from "jsonwebtoken";
 import { IRequest } from "@t/IRequest";
 import { AuthConstants } from "@lib/constants";
-import { prisma } from "@lib/prisma";
+import { getSessionUser } from "@lib/auth.lib";
 
 /**
  * check if someone is authenticated
@@ -21,11 +21,7 @@ export async function withAuth(
 
   try {
     const vToken = jwt.verify(token, secret);
-
-    const user = await prisma.user.findUnique({
-      where: { id: vToken as string },
-      select: { id: true },
-    });
+    const user = await getSessionUser(vToken as string);
 
     if (!user) {
       return res.status(401).json({

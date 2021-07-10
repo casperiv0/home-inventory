@@ -18,7 +18,7 @@ export async function withValidHouseId(req: IRequest, res: Response, next: NextF
       });
     }
 
-    const user = await prisma.user.findFirst({
+    const user = await prisma.user.findUnique({
       where: { id: req.userId },
       select: { houses: { select: { id: true } }, id: true },
     });

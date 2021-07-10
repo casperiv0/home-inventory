@@ -7,11 +7,13 @@ import { AuthConstants } from "@lib/constants";
 import {
   createSessionToken,
   createUserAndLinkHouse,
+  getSessionUser,
   setCookie,
   validateUserPassword,
 } from "@lib/auth.lib";
 import { withAuth } from "@hooks/withAuth";
 import { IRequest } from "@t/IRequest";
+import { redisDel, redisSet } from "@lib/redis";
 
 const router = Router();
 
@@ -101,17 +103,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/user", withAuth, async (req: IRequest, res) => {
-  const user = await prisma.user.findUnique({
-    where: { id: req.userId! },
-    select: {
-      id: true,
-      createdAt: true,
-      name: true,
-      email: true,
-      houseRoles: { select: { role: true, houseId: true, userId: true } },
-      houses: { select: { name: true, id: true } },
-    },
-  });
+  const user = await getSessionUser(req.userId!);
 
   return res.json({ user });
 });
@@ -154,6 +146,8 @@ router.put("/user", withAuth, async (req: IRequest, res: Response) => {
       houses: { select: { name: true, id: true } },
     },
   });
+
+  await redisSet(req.userId!, JSON.stringify(user));
 
   return res.json({ user });
 });
@@ -201,6 +195,8 @@ router.post("/new-password", withAuth, async (req: IRequest, res) => {
 });
 
 router.post("/logout", withAuth, async (req: IRequest, res: Response) => {
+  await redisDel(req.userId!);
+
   req.userId = "";
 
   res.clearCookie(AuthConstants.cookieName);

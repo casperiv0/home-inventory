@@ -2,15 +2,14 @@ import { UserRole } from "@prisma/client";
 import { NextFunction, Response } from "express";
 import { IRequest } from "@t/IRequest";
 import { prisma } from "@lib/prisma";
+import { getSessionUser } from "@lib/auth.lib";
 
 /**
  * check if the authenticated user has access to a route
  */
 export const withPermission =
   (providedRole: UserRole) => async (req: IRequest, res: Response, next: NextFunction) => {
-    const currentUser = await prisma.user.findUnique({
-      where: { id: req.userId! },
-    });
+    const currentUser = await getSessionUser(req.userId!);
 
     const currentHouse = await prisma.house.findUnique({
       where: { id: req.params.houseId },

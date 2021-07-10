@@ -16,12 +16,6 @@ router.use("/category", categoryRouter);
 router.use("/admin/users", usersRouter);
 router.use("/admin/categories", categoriesRouter);
 
-router.use("/", (_, res) => {
-  return res.json({
-    message: "Hello world",
-  });
-});
-
 router.use(notFoundMiddleware);
 
 export default router;

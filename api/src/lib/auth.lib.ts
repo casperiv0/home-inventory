@@ -4,6 +4,7 @@ import { CookieOptions, Response } from "express";
 import jwt from "jsonwebtoken";
 import { prisma } from "@lib/prisma";
 import { AuthConstants } from "./constants";
+import { redisGet, redisSet } from "./redis";
 
 export function createSessionToken(userId: string) {
   return jwt.sign(userId, process.env["JWT_SECRET"] as string);
@@ -31,6 +32,39 @@ export async function validateUserPassword(userId: string, passwordStr: string) 
   }
 
   return compareSync(passwordStr, data.password);
+}
+
+/**
+ * get the authenticated user from the db or redis cache
+ * @param userId The userId of the authenticated user
+ */
+export async function getSessionUser(
+  userId: string,
+): Promise<Omit<User, "password" | "houseId"> | null> {
+  const cache = await redisGet(userId);
+  if (!cache) {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        createdAt: true,
+        name: true,
+        email: true,
+        houseRoles: { select: { role: true, houseId: true, userId: true } },
+        houses: { select: { name: true, id: true } },
+      },
+    });
+
+    redisSet(userId, JSON.stringify(user));
+
+    return user;
+  }
+
+  try {
+    return JSON.parse(cache);
+  } catch {
+    return null;
+  }
 }
 
 export async function createUserAndLinkHouse(createdUser: User) {

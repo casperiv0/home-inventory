@@ -11,6 +11,11 @@ interface Props {
 
 export const Layout: React.FC<Props> = ({ nav = true, showCurrentHouse, children }) => {
   const currentHouse = useSelector((state: State) => state.houses.house);
+  const auth = useSelector((state: State) => state.auth);
+
+  if (!auth.isAuth) {
+    return <p>Not authenticated, redirecting...</p>;
+  }
 
   return (
     <>

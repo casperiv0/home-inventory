@@ -19,6 +19,7 @@
     "express-fileupload": "^1.2.1",
     "express-rate-limit": "^5.3.0",
     "helmet": "^4.6.0",
+    "ioredis": "^4.27.6",
     "jsonwebtoken": "^8.5.1",
     "yup": "^0.32.9"
   },
@@ -31,6 +32,7 @@
     "@types/express": "^4.17.12",
     "@types/express-fileupload": "^1.1.6",
     "@types/express-rate-limit": "^5.1.2",
+    "@types/ioredis": "^4.26.5",
     "@types/jsonwebtoken": "^8.5.3",
     "@types/node": "^16.0.0",
     "esbuild-register": "^2.6.0",
