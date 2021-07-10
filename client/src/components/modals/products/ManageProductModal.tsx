@@ -76,7 +76,7 @@ const ManageProductModal = ({
       name,
       price: Number(Number(price).toFixed(2)),
       quantity: Number(quantity),
-      expirationDate: expireDate,
+      expirationDate: expireDate || null,
       categoryId: category?.value ?? null,
       warnOnQuantity: warnOnQuantity.checked ? Number(warnOnQuantity.value) : null,
       ignoreQuantityWarning,

@@ -34,6 +34,7 @@ const ProductsTableC = ({
    */
   const [selectedRows, setSelectedRows] = React.useState<string[]>([]);
   const [selectedType, setSelectedType] = React.useState<"ALL" | null>(null);
+  const [loading, setLoading] = React.useState(false);
 
   const checkboxRef = React.useRef<HTMLInputElement>(null);
   const categories = useSelector((state: State) => state.admin.categories);
@@ -57,13 +58,19 @@ const ProductsTableC = ({
   );
 
   async function handleBulkDelete() {
-    setSelectedType(null);
-    setSelectedRows([]);
-
+    setLoading(true);
     const success = await bulkDeleteProducts!(houseId, selectedRows);
+    setLoading(false);
 
     if (success) {
       closeModal(ModalIds.AlertDeleteSelectedItems);
+
+      if (checkboxRef.current) {
+        setSelectedType(null);
+        setSelectedRows([]);
+
+        checkboxRef.current.indeterminate = false;
+      }
     }
   }
 
@@ -174,7 +181,7 @@ const ProductsTableC = ({
                 <td className={boldText("quantity") || boldText("quantityHigh")}>
                   {product.quantity}
                 </td>
-                <td className={boldText("expirationDate")}>{product.expirationDate ?? "N/A"}</td>
+                <td className={boldText("expirationDate")}>{product.expirationDate || "N/A"}</td>
                 <td>
                   {product.categoryId && category?.name ? (
                     <Link href={`/${houseId}/category/${category.name}`}>
@@ -221,7 +228,12 @@ const ProductsTableC = ({
             }
             actions={[
               { name: "Cancel", onClick: () => closeModal(ModalIds.AlertDeleteSelectedItems) },
-              { name: "Delete selected", onClick: handleBulkDelete, danger: true },
+              {
+                name: loading ? "deleting..." : "Delete selected",
+                onClick: handleBulkDelete,
+                danger: true,
+                disabled: loading,
+              },
             ]}
           />
         </>

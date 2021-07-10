@@ -61,19 +61,6 @@ a {
   text-decoration: none;
   color: var(--dark);
 
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.8;
-  }
-
-  &:hover:enabled {
-    filter: brightness(90%);
-  }
-
-  &:focus:enabled {
-    outline: 2px solid var(--blue);
-  }
-
   &.small {
     padding: 0.2rem 0.5rem;
   }
@@ -100,12 +87,26 @@ a {
     background: var(--red);
     color: #000000;
   }
+
   &.submit {
     filter: brightness(80%);
 
     &:hover:enabled {
       filter: brightness(75%);
     }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &:hover:enabled {
+    filter: brightness(90%);
+  }
+
+  &:focus:enabled {
+    outline: 2px solid var(--blue);
   }
 }
 

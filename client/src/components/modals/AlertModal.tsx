@@ -8,10 +8,14 @@ interface Props extends ModalProps {
   actions: ModalAction[];
 }
 
-export interface ModalAction {
+type ButtonProps = React.DetailedHTMLProps<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+>;
+
+export interface ModalAction extends ButtonProps {
   name: string;
   danger?: boolean;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export const AlertModal = (props: Props) => {
@@ -32,6 +36,7 @@ export const AlertModal = (props: Props) => {
               onClick={action.onClick}
               key={idx}
               className={`btn ${action.danger ? "danger" : ""}`}
+              {...action}
             >
               {action.name}
             </button>

@@ -8,7 +8,7 @@ export const createProductSchema = {
     .min(2, "Name must be at least 2 characters long."),
   quantity: yup.number().required(),
   price: yup.number().required(),
-  expirationDate: yup.string(),
+  expirationDate: yup.string().nullable(),
   categoryId: yup.string().nullable(),
   warnOnQuantity: yup.number().nullable(),
   ignoreQuantityWarning: yup.boolean().notRequired(),
