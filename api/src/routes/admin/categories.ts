@@ -8,7 +8,7 @@ import { withValidHouseId } from "@hooks/withValidHouseId";
 
 const router = Router();
 
-async function getCategories(houseId: string | undefined) {
+export async function getCategories(houseId: string | undefined) {
   return prisma.category.findMany({ where: { houseId } });
 }
 
@@ -142,6 +142,15 @@ router.delete(
       }
 
       await prisma.category.delete({ where: { id } });
+
+      await prisma.product.updateMany({
+        where: {
+          categoryId: id,
+        },
+        data: {
+          categoryId: null,
+        },
+      });
 
       const categories = await getCategories(req.params.houseId);
       return res.json({ categories });

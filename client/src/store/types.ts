@@ -21,7 +21,12 @@ export interface UpdateUsers {
 }
 
 export interface UpdateCategories {
-  type: "GET_ALL_CATEGORIES" | "UPDATE_CATEGORY_BY_ID" | "ADD_CATEGORY" | "DELETE_CATEGORY_BY_ID";
+  type:
+    | "GET_ALL_CATEGORIES"
+    | "UPDATE_CATEGORY_BY_ID"
+    | "ADD_CATEGORY"
+    | "DELETE_CATEGORY_BY_ID"
+    | "IMPORT_CATEGORIES";
   categories: Category[];
 }
 
