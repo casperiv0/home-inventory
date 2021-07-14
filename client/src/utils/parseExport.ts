@@ -1,11 +1,19 @@
+import { Category } from "@t/Category";
 import { Product } from "@t/Product";
 
-export function parseExport(products: Product[]) {
-  return products.map((p: Partial<Product>) => {
-    delete p.id;
-    delete p.houseId;
-    delete p.userId;
+export function parseExport(products: Product[], categories: Category[]) {
+  return {
+    products: products.map((p: Partial<Product>) => {
+      delete p.id;
+      delete p.houseId;
+      delete p.userId;
 
-    return p;
-  });
+      return p;
+    }),
+    categories: categories.map((c: Partial<Category>) => {
+      delete c.houseId;
+
+      return c;
+    }),
+  };
 }

@@ -26,4 +26,9 @@ module.exports = {
     return config;
   },
   cleanDistDir: true,
+  devIndicators: {
+    buildActivity: true,
+  },
+  optimizeFonts: true,
+  compress: true,
 };

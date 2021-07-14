@@ -18,6 +18,8 @@ import Dropdown from "@components/Dropdown/Dropdown";
 import { DotsIcon } from "icons/Dots";
 import { ArrowIcon } from "icons/Arrow";
 import { parseExport } from "@utils/parseExport";
+import { useSelector } from "react-redux";
+import { State } from "@t/State";
 
 const AddProductModal = dynamic(() => import("@components/modals/products/AddProductModal"));
 const ManageProductModal = dynamic(() => import("@components/modals/products/ManageProductModal"));
@@ -27,6 +29,7 @@ interface Props {
 }
 
 export const Products = ({ products }: Props) => {
+  const categories = useSelector((state: State) => state.admin.categories);
   const searchRef = React.useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -84,7 +87,7 @@ export const Products = ({ products }: Props) => {
                   onClick: () => {
                     download(
                       `products_${Date.now()}.json`,
-                      JSON.stringify(parseExport(products), null, 2),
+                      JSON.stringify(parseExport(products, categories), null, 2),
                     );
                   },
                 },
