@@ -1,7 +1,7 @@
 import { getErrorFromResponse, handleRequest, RequestData } from "@lib/fetch";
 import { Dispatch } from "react";
 import { toast } from "react-toastify";
-import { GetStats, UpdateProducts } from "../types";
+import { GetStats, UpdateCategories, UpdateProducts } from "../types";
 
 export const getAllProducts =
   (houseId: string, cookie?: string) =>
@@ -128,16 +128,22 @@ export const getStats =
   };
 
 export const importProducts =
-  (houseId: string, file: File) => async (dispatch: Dispatch<UpdateProducts>) => {
+  (houseId: string, file: File) =>
+  async (dispatch: Dispatch<UpdateProducts | UpdateCategories>) => {
     try {
       const fd = new FormData();
       fd.append("file", file, file.name);
 
-      const res = await handleRequest(`/products/${houseId}/import`, "POST", fd as any);
+      const res = await handleRequest(`/import/${houseId}`, "POST", fd as any);
 
       dispatch({
         type: "IMPORT_PRODUCTS",
         products: res.data.products,
+      });
+
+      dispatch({
+        type: "IMPORT_CATEGORIES",
+        categories: res.data.categories,
       });
 
       return true;

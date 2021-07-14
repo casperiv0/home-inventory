@@ -26,19 +26,19 @@ export const AlertModal = (props: Props) => {
       <p className={styles.alertModalDescription}>{props.description}</p>
 
       <div className={styles.alertModalActions}>
-        {props.actions.map((action, idx) => {
+        {props.actions.map(({ name, danger, onClick, ...rest }, idx) => {
           // spacer
-          if (!action.name) return <p key={idx} />;
+          if (!name) return <p key={idx} />;
 
           return (
             <button
               ref={idx === 0 ? ref : null}
-              onClick={action.onClick}
+              onClick={onClick}
               key={idx}
-              className={`btn ${action.danger ? "danger" : ""}`}
-              {...action}
+              className={`btn ${danger ? "danger" : ""}`}
+              {...rest}
             >
-              {action.name}
+              {name}
             </button>
           );
         })}

@@ -23,6 +23,7 @@ export default function AdminReducer(state = initState, action: Actions): State[
     case "GET_ALL_CATEGORIES":
     case "DELETE_CATEGORY_BY_ID":
     case "UPDATE_CATEGORY_BY_ID":
+    case "IMPORT_CATEGORIES":
     case "ADD_CATEGORY": {
       return {
         ...state,
