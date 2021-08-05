@@ -2,6 +2,15 @@
 
 A home inventory app to keep track of items in your home (food items, tech, medical supplies, etc.).
 
+## Features
+
+- beautiful UI
+- Great UX
+- Dark/light theme
+- Import/export products
+- Add users to other houses
+- Great sort options
+
 ## Status
 
 - finished, not sure what to do with this project _yet_.

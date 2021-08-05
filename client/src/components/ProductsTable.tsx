@@ -213,7 +213,7 @@ const ProductsTableC = ({
               style={{ paddingLeft: "0" }}
               className="btn link-btn"
             >
-              Delete {selectedRows.length} items
+              Delete {selectedRows.length} item{selectedRows.length === 1 ? "" : "s"}
             </button>
           ) : null}
 
