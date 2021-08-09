@@ -1,3 +1,3 @@
-export function classes(...classes: (string | boolean)[]) {
+export function classes(...classes: (string | boolean | number)[]) {
   return classes.join(" ");
 }

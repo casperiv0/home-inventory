@@ -76,7 +76,11 @@ const StatsCards = ({ stats }: Props) => {
               eating them!
             </p>
 
-            <ProductsTable currentFilter="expirationDate" products={soonToExpire ?? []} />
+            <ProductsTable
+              showPagination={false}
+              currentFilter="expirationDate"
+              products={soonToExpire ?? []}
+            />
           </>
         )}
       </div>
@@ -93,7 +97,11 @@ const StatsCards = ({ stats }: Props) => {
               the shop.
             </p>
 
-            <ProductsTable currentFilter="quantity" products={lowOnQuantity ?? []} />
+            <ProductsTable
+              showPagination={false}
+              currentFilter="quantity"
+              products={lowOnQuantity ?? []}
+            />
           </>
         )}
       </div>

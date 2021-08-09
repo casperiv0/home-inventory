@@ -7,15 +7,17 @@ import Link from "next/link";
 import { Product } from "@t/Product";
 import { State } from "@t/State";
 import { useHouseId } from "@hooks/useHouseId";
-import { FilterKeys } from "@lib/constants";
+import { FilterKeys, MAX_ITEMS_IN_TABLE } from "@lib/constants";
 import { closeModal, openModal } from "@lib/modal";
 import { AlertModal } from "./modals/AlertModal";
 import { ModalIds } from "@t/ModalIds";
 import { bulkDeleteProducts } from "@actions/products";
+import { Pagination } from "./Pagination/Pagination";
 
 interface Props {
   products: Product[];
   showActions?: boolean;
+  showPagination?: boolean;
   currentFilter?: FilterKeys | "expirationDate" | null;
 
   onManageClick?: (product: Product) => unknown;
@@ -26,6 +28,7 @@ const ProductsTableC = ({
   products,
   currentFilter,
   showActions,
+  showPagination = true,
   onManageClick,
   bulkDeleteProducts,
 }: Props) => {
@@ -35,22 +38,44 @@ const ProductsTableC = ({
   const [selectedRows, setSelectedRows] = React.useState<string[]>([]);
   const [selectedType, setSelectedType] = React.useState<"ALL" | null>(null);
   const [loading, setLoading] = React.useState(false);
+  const [currentPage, setCurrentPage] = React.useState<number>(0);
 
   const checkboxRef = React.useRef<HTMLInputElement>(null);
   const categories = useSelector((state: State) => state.admin.categories);
   const houseId = useHouseId();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const list = () => {
+    const end = currentPage * MAX_ITEMS_IN_TABLE;
+    let arr: Product[] = [];
+
+    for (let i = 0; i < products.length; i++) {
+      if (i % end === 0) {
+        arr = products.slice(end, end + MAX_ITEMS_IN_TABLE);
+      } else if (i === 0) {
+        arr = products.slice(0, MAX_ITEMS_IN_TABLE);
+      }
+    }
+
+    return arr;
+  };
+
   React.useEffect(() => {
-    if (selectedRows.length >= 1 && selectedRows.length === products.length) {
+    setSelectedType(null);
+    setSelectedRows([]);
+  }, [currentPage]);
+
+  React.useEffect(() => {
+    if (selectedRows.length >= 1 && selectedRows.length === list().length) {
       setSelectedType("ALL");
     } else {
       setSelectedType(null);
     }
 
     if (checkboxRef.current && selectedRows.length >= 1) {
-      checkboxRef.current.indeterminate = selectedRows.length !== products.length;
+      checkboxRef.current.indeterminate = selectedRows.length !== list().length;
     }
-  }, [selectedRows.length, products?.length]);
+  }, [selectedRows, list]);
 
   const isRowSelected = React.useCallback(
     (id: string) => selectedRows.includes(id),
@@ -76,12 +101,12 @@ const ProductsTableC = ({
 
   function handleCheckboxChange(productId: string) {
     if (productId === "ALL") {
-      if (selectedType === "ALL" && products.length === selectedRows.length) {
+      if (selectedType === "ALL" && list().length === selectedRows.length) {
         setSelectedType(null);
         setSelectedRows([]);
       } else {
         setSelectedType("ALL");
-        setSelectedRows(products.map((p) => p.id));
+        setSelectedRows(list().map((p) => p.id));
       }
     } else {
       setSelectedType(null);
@@ -121,7 +146,7 @@ const ProductsTableC = ({
         </thead>
 
         <tbody>
-          {products.map((product) => {
+          {list().map((product) => {
             const isSelected = isRowSelected(product.id);
 
             /**
@@ -205,6 +230,13 @@ const ProductsTableC = ({
         </tbody>
       </table>
 
+      {showPagination ? (
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          length={products.length}
+        />
+      ) : null}
       {showActions ? (
         <>
           {selectedRows.length > 0 ? (

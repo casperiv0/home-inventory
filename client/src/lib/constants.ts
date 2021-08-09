@@ -34,3 +34,5 @@ export const filters = {
 };
 
 export type FilterKeys = keyof typeof filters;
+
+export const MAX_ITEMS_IN_TABLE = 20;

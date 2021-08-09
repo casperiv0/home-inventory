@@ -7,7 +7,8 @@ import { useSelector } from "react-redux";
 import { useHouseId } from "./useHouseId";
 
 /**
- * return wether the authenticated user has access to a page.
+ * check if the authenticated user has access to a page based on their role.
+ * @param {UserRole} role The role of the authenticated user
  */
 export function useHasAccess(role: UserRole) {
   const auth = useSelector((state: State) => state.auth);

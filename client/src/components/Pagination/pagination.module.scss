@@ -1,0 +1,15 @@
+.paginationContainer {
+  margin-top: 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    margin: 0 0.3rem;
+
+    &.active {
+      outline: 2px solid var(--blue);
+    }
+  }
+}
