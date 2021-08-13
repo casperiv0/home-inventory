@@ -11,7 +11,7 @@
     "test-tsc": "tsc --noEmit"
   },
   "dependencies": {
-    "@casper124578/useful": "^0.0.14",
+    "@casper124578/useful": "^0.0.15",
     "axios": "^0.21.1",
     "cookie": "^0.4.1",
     "date-fns": "^2.23.0",
@@ -33,10 +33,10 @@
   "devDependencies": {
     "@types/cookie": "^0.4.1",
     "@types/nprogress": "^0.2.0",
-    "@types/react": "17.0.15",
+    "@types/react": "17.0.17",
     "@types/react-dom": "^17.0.9",
     "@types/react-select": "^4.0.17",
-    "concurrently": "^6.2.0",
+    "concurrently": "^6.2.1",
     "typed-scss-modules": "^4.1.1",
     "typescript": "4.3.5"
   }

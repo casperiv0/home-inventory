@@ -16,8 +16,8 @@
   "license": "MIT",
   "devDependencies": {
     "@casper124578/eslint-config": "^0.0.16",
-    "@casper124578/eslint-config-next": "^0.0.5",
-    "@casper124578/eslint-config-react": "^0.0.6",
+    "@casper124578/eslint-config-next": "^0.1.0",
+    "@casper124578/eslint-config-react": "^0.1.1",
     "eslint": "^7.32.0",
     "husky": "^7.0.1",
     "prettier": "^2.3.2",
