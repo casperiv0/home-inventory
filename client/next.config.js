@@ -1,7 +1,7 @@
 // @ts-check
 
 /**
- * @type {import("next/dist/next-server/server/config-shared").NextConfig}
+ * @type {import("next/dist/server/config-shared").NextConfig}
  */
 module.exports = {
   async redirects() {
@@ -26,9 +26,4 @@ module.exports = {
     return config;
   },
   cleanDistDir: true,
-  devIndicators: {
-    buildActivity: true,
-  },
-  optimizeFonts: true,
-  compress: true,
 };
