@@ -6,7 +6,7 @@
     "generate": "prisma generate"
   },
   "dependencies": {
-    "@casper124578/utils": "^1.0.0",
+    "@casper124578/utils": "^1.2.0",
     "@prisma/client": "^2.29.1",
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
@@ -35,7 +35,7 @@
     "@types/ioredis": "^4.26.7",
     "@types/jsonwebtoken": "^8.5.4",
     "@types/node": "^16.6.1",
-    "esbuild": "^0.12.20",
+    "esbuild": "^0.12.21",
     "esbuild-register": "^3.0.0",
     "nodemon": "^2.0.12",
     "prisma": "^2.29.1",
