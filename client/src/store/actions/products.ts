@@ -1,6 +1,6 @@
 import { getErrorFromResponse, handleRequest, RequestData } from "@lib/fetch";
 import { Dispatch } from "react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { GetStats, UpdateCategories, UpdateProducts } from "../types";
 
 export const getAllProducts =

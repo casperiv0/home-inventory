@@ -24,6 +24,10 @@ export const Pagination = ({ length, currentPage, setCurrentPage }: Props) => {
 
   const array = calculatePages();
 
+  if (array.length <= 1) {
+    return null;
+  }
+
   return (
     <div className={styles.paginationContainer}>
       {array.map((v, idx) => (

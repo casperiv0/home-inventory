@@ -5,10 +5,9 @@ import NProgress from "nprogress";
 import { AppProps } from "next/app";
 import { NextPage } from "next";
 import { Provider as ReduxProvider } from "react-redux";
-import { ToastContainer } from "react-toastify";
+import { Toaster } from "react-hot-toast";
 
 import "css/fonts.scss";
-import "react-toastify/dist/ReactToastify.css";
 import "css/nprogress.scss";
 import "css/table.scss";
 import "css/index.scss";
@@ -16,6 +15,16 @@ import "css/index.scss";
 import { useStore } from "../store/store";
 import { RateLimitedModal } from "@components/modals/RateLimited";
 import { getTheme, setThemeClass } from "@lib/theme";
+
+const toastStyles: React.CSSProperties = {
+  minWidth: "300px",
+  maxWidth: "95%",
+  padding: "0.5rem 0.8rem",
+  fontSize: "1rem",
+
+  background: "var(--modal-bg)",
+  color: "var(--dark)",
+};
 
 const App: NextPage<AppProps> = ({ Component, pageProps }) => {
   const store = useStore(pageProps?.initialReduxState);
@@ -51,7 +60,15 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <ToastContainer pauseOnFocusLoss={false} position="bottom-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: toastStyles,
+          error: {
+            style: { fontWeight: 500 },
+          },
+        }}
+      />
 
       <ReduxProvider store={store}>
         <Component {...pageProps} />

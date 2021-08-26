@@ -1,6 +1,6 @@
 import { getErrorFromResponse, handleRequest, RequestData } from "@lib/fetch";
 import { Dispatch } from "react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { GetHouseById, SetState, UpdateHouses } from "../types";
 
 export const getHouses =

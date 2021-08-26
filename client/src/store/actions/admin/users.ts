@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { getErrorFromResponse, handleRequest, RequestData } from "@lib/fetch";
 import { UpdateUsers } from "src/store/types";
 
