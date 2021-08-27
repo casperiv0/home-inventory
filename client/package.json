@@ -38,6 +38,6 @@
     "@types/react-select": "^4.0.17",
     "concurrently": "^6.2.1",
     "typed-scss-modules": "^4.1.1",
-    "typescript": "4.3.5"
+    "typescript": "4.4.2"
   }
 }
