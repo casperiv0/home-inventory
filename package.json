@@ -1,6 +1,7 @@
 {
   "name": "home-inventory",
-  "version": "0.0.0-alpha",
+  "version": "0.1.0",
+  "license": "MIT",
   "scripts": {
     "format:quick": "pretty-quick --staged --pattern \"**/*.{js,jsx,ts,tsx,md,css,json}\"",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,css,json}\" --ignore-path .gitignore",
@@ -13,11 +14,10 @@
     "test-tsc:api": "cd api && tsc --noEmit",
     "prepare": "husky install"
   },
-  "license": "MIT",
   "devDependencies": {
-    "@casper124578/eslint-config": "^0.0.16",
-    "@casper124578/eslint-config-next": "^0.1.0",
-    "@casper124578/eslint-config-react": "^0.1.1",
+    "@casper124578/eslint-config": "^0.0.17",
+    "@casper124578/eslint-config-next": "^0.1.1",
+    "@casper124578/eslint-config-react": "^0.1.2",
     "eslint": "^7.32.0",
     "husky": "^7.0.2",
     "prettier": "^2.3.2",
