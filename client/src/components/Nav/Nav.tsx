@@ -83,7 +83,7 @@ export const Nav = () => {
 
                 {hasAccess ? (
                   <li className={styles.navLink}>
-                    <Link href={`/${houseId}/admin/users`}>
+                    <Link href={`/${houseId}/admin`}>
                       <a>Admin</a>
                     </Link>
                   </li>

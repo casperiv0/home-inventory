@@ -5,6 +5,7 @@ export interface House {
   id: string;
   name: string;
   userId: string;
+  currency: string;
 
   users?: User[];
   products?: Product[];

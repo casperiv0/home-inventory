@@ -6,10 +6,11 @@ import { Statistics } from "@t/Statistics";
 import { ProductsTable } from "../ProductsTable";
 
 interface Props {
+  currency: string;
   stats: Statistics | null;
 }
 
-const StatsCards = ({ stats }: Props) => {
+const StatsCards = ({ stats, currency }: Props) => {
   const { lowOnQuantity, totalSpent, soonToExpire } = stats ?? {};
 
   const soonToExpireText =
@@ -47,7 +48,12 @@ const StatsCards = ({ stats }: Props) => {
           <h1>Total spent this month</h1>
 
           <p>
-            There was a total of <strong>€{totalSpent}</strong> spent this month.
+            There was a total of{" "}
+            <strong>
+              {currency}
+              {totalSpent}
+            </strong>{" "}
+            spent this month.
           </p>
         </div>
 
@@ -111,6 +117,7 @@ const StatsCards = ({ stats }: Props) => {
 
 const mapToProps = (state: State): Props => ({
   stats: state.products.stats,
+  currency: state.houses.house?.currency ?? "€",
 });
 
 export default connect(mapToProps)(StatsCards);

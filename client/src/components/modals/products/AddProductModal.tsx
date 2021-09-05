@@ -15,11 +15,12 @@ import { useRouter } from "next/router";
 import { setter } from "@lib/setter";
 
 interface Props {
+  currency: string;
   categories: Category[];
   addProduct: (houseId: string, data: RequestData) => Promise<boolean>;
 }
 
-const AddProductModal = ({ addProduct, categories }: Props) => {
+const AddProductModal = ({ addProduct, categories, currency }: Props) => {
   const [name, setName] = React.useState("");
   const [price, setPrice] = React.useState("");
   const [quantity, setQuantity] = React.useState("");
@@ -92,13 +93,14 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
 
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
-            <label htmlFor="add-product-price">Price (Euro)</label>
+            <label htmlFor="add-product-price">Price</label>
             <input
               id="add-product-price"
               type="text"
               className={styles.formInput}
               value={price}
               onChange={setter(setPrice)}
+              placeholder={currency}
             />
           </div>
           <div className={styles.formGroup}>
@@ -220,6 +222,7 @@ const AddProductModal = ({ addProduct, categories }: Props) => {
 
 const mapToProps = (state: State) => ({
   categories: state.admin.categories,
+  currency: state.houses.house?.currency ?? "€",
 });
 
 export default connect(mapToProps, { addProduct })(AddProductModal);

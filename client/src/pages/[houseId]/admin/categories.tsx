@@ -56,7 +56,7 @@ const CategoriesAdminPage = ({ categories }: Props) => {
         <title>Manage categories - Inventory</title>
       </Head>
 
-      <div style={{ marginTop: "1rem" }}>
+      <div>
         <div
           style={{
             display: "flex",

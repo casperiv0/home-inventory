@@ -43,6 +43,7 @@ model Product {
 model House {
   id         String      @id @default(uuid())
   name       String
+  currency   String      @default("€")
   users      User[]      @relation(fields: [userId], references: [id])
   userId     String
   products   Product[]

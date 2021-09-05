@@ -19,6 +19,7 @@ interface Props {
   showActions?: boolean;
   showPagination?: boolean;
   currentFilter?: FilterKeys | "expirationDate" | null;
+  currency?: string;
 
   onManageClick?: (product: Product) => unknown;
   bulkDeleteProducts?: (houseId: string, productIds: string[]) => Promise<boolean>;
@@ -29,6 +30,7 @@ const ProductsTableC = ({
   currentFilter,
   showActions,
   showPagination = true,
+  currency,
   onManageClick,
   bulkDeleteProducts,
 }: Props) => {
@@ -200,9 +202,13 @@ const ProductsTableC = ({
                   </ReactToolTip>
                 </td>
                 <td className={boldText("price") || boldText("priceHigh")}>
-                  €{product.price.toFixed(2)}
+                  {currency}
+                  {product.price.toFixed(2)}
                 </td>
-                <td>€{totalPricesAmount}</td>
+                <td>
+                  {currency}
+                  {totalPricesAmount}
+                </td>
                 <td className={boldText("quantity") || boldText("quantityHigh")}>
                   {product.quantity}
                 </td>
@@ -274,4 +280,10 @@ const ProductsTableC = ({
   );
 };
 
-export const ProductsTable: React.FC<Props> = connect(null, { bulkDeleteProducts })(ProductsTableC);
+const mapToProps = (state: State) => ({
+  currency: state.houses.house?.currency ?? "€",
+});
+
+export const ProductsTable: React.FC<Props> = connect(mapToProps, {
+  bulkDeleteProducts,
+})(ProductsTableC);

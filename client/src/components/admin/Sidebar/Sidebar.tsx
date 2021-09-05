@@ -18,6 +18,14 @@ export const AdminSidebar = () => {
     <nav className={styles.adminSidebar}>
       <ul className={styles.adminItems}>
         <li
+          onClick={() => push("")}
+          className={classes(styles.sidebarItem, activeRouter(`/${houseId}/admin`))}
+        >
+          <Link href={`/${houseId}/admin`}>
+            <a>General</a>
+          </Link>
+        </li>
+        <li
           onClick={() => push("users")}
           className={classes(styles.sidebarItem, activeRouter(`/${houseId}/admin/users`))}
         >

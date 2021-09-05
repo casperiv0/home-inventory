@@ -4,7 +4,7 @@ import { validateSchema } from "@casper124578/utils";
 import { withAuth } from "@hooks/withAuth";
 import { IRequest } from "@t/IRequest";
 import { prisma } from "@lib/prisma";
-import { createHouseSchema } from "@schemas/house.schema";
+import { createHouseSchema, updateHouseSchema } from "@schemas/house.schema";
 
 const router = Router();
 
@@ -18,6 +18,7 @@ async function returnHouseByUserId(userId: string | undefined) {
         select: {
           name: true,
           id: true,
+          currency: true,
           houseRoles: { select: { id: true, role: true, userId: true } },
           users: {
             select: { name: true },
@@ -135,7 +136,7 @@ router.put("/:id", withAuth, async (req: IRequest, res) => {
     const id = req.params.id as string;
     const body = req.body;
 
-    const [error] = await validateSchema(createHouseSchema, body);
+    const [error] = await validateSchema(updateHouseSchema, body);
 
     if (error) {
       return res.status(400).json({
@@ -158,6 +159,7 @@ router.put("/:id", withAuth, async (req: IRequest, res) => {
       },
       data: {
         name: body.name,
+        currency: body.currency,
       },
     });
 

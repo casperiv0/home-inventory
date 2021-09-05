@@ -55,7 +55,7 @@ const UsersAdminPage = ({ users }: Props) => {
         <title>Manage users - Inventory</title>
       </Head>
 
-      <div style={{ marginTop: "1rem" }}>
+      <div>
         <div
           style={{
             display: "flex",

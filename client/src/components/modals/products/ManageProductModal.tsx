@@ -18,6 +18,7 @@ import { setter } from "@lib/setter";
 
 interface Props {
   product: Product | null;
+  currency: string;
 
   categories: Category[];
   deleteProductById: (houseId: string, id: string) => Promise<boolean>;
@@ -29,6 +30,7 @@ const ManageProductModal = ({
   deleteProductById,
   categories,
   product,
+  currency,
 }: Props) => {
   const [name, setName] = React.useState("");
   const [price, setPrice] = React.useState("");
@@ -120,13 +122,14 @@ const ManageProductModal = ({
 
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
-            <label htmlFor="manage-product-price">Price (Euro)</label>
+            <label htmlFor="manage-product-price">Price</label>
             <input
               id="manage-product-price"
               type="text"
               className={styles.formInput}
               value={price}
               onChange={setter(setPrice)}
+              placeholder={currency}
             />
           </div>
           <div className={styles.formGroup}>
@@ -278,6 +281,7 @@ const ManageProductModal = ({
 
 const mapToProps = (state: State) => ({
   categories: state.admin.categories,
+  currency: state.houses.house?.currency ?? "€",
 });
 
 export default connect(mapToProps, { updateProductById, deleteProductById })(ManageProductModal);
