@@ -1,6 +1,7 @@
 import * as React from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 
 import { Product } from "@t/Product";
 import { SelectValue } from "@components/Select/Select";
@@ -18,7 +19,6 @@ import Dropdown from "@components/Dropdown/Dropdown";
 import { DotsIcon } from "icons/Dots";
 import { ArrowIcon } from "icons/Arrow";
 import { parseExport } from "@utils/parseExport";
-import { useSelector } from "react-redux";
 import { State } from "@t/State";
 
 const AddProductModal = dynamic(() => import("@components/modals/products/AddProductModal"));

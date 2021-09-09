@@ -1,6 +1,6 @@
 import Link from "next/link";
 import * as React from "react";
-import styles from "./nav.module.scss";
+import { useRouter } from "next/router";
 import { useHouseId } from "@hooks/useHouseId";
 import { useHasAccess } from "@hooks/useHasAccess";
 import { UserRole } from "@t/User";
@@ -9,10 +9,16 @@ import { SunIcon } from "icons/Sun";
 import { MoonIcon } from "icons/Moon";
 import { ListIcon } from "icons/List";
 import { classes } from "@utils/classes";
+import styles from "./nav.module.scss";
 
 export const Nav = () => {
   const [theme, setTheme] = React.useState<Theme>("light");
   const ulRef = React.useRef<HTMLUListElement>(null);
+  const router = useRouter();
+  const isActive = (str: "/[houseId]" | "/products" | "/admin") => {
+    const active = str === "/[houseId]" ? router.pathname === str : router.pathname.includes(str);
+    return active && styles.navLinkActive;
+  };
 
   const houseId = useHouseId();
   const { hasAccess } = useHasAccess(UserRole.ADMIN);
@@ -69,20 +75,20 @@ export const Nav = () => {
           <ul id="navUlList" ref={ulRef} className={styles.navLinks}>
             {houseId ? (
               <>
-                <li className={styles.navLink}>
+                <li className={classes(styles.navLink, isActive("/[houseId]"))}>
                   <Link href={`/${houseId}`}>
                     <a>Home</a>
                   </Link>
                 </li>
 
-                <li className={styles.navLink}>
+                <li className={classes(styles.navLink, isActive("/products"))}>
                   <Link scroll href={`/${houseId}/products`}>
                     <a>Products</a>
                   </Link>
                 </li>
 
                 {hasAccess ? (
-                  <li className={styles.navLink}>
+                  <li className={classes(styles.navLink, isActive("/admin"))}>
                     <Link href={`/${houseId}/admin`}>
                       <a>Admin</a>
                     </Link>
@@ -108,7 +114,7 @@ export const Nav = () => {
           <button
             aria-label="Open navigation menu"
             onClick={handleNavClick}
-            className={classes("btn", "icon-btn", styles.menuBtn, styles.navLink)}
+            className={classes("btn", "icon-btn", styles.menuBtn)}
           >
             <ListIcon />
           </button>

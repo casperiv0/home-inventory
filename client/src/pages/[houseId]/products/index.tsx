@@ -1,25 +1,21 @@
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import * as React from "react";
 import Head from "next/head";
 import { GetServerSideProps } from "next";
 
 import { Layout } from "@components/Layout";
-import { Product } from "@t/Product";
 import { State } from "@t/State";
 import { initializeStore } from "src/store/store";
 import { checkAuth } from "@actions/auth";
 import { getAllProducts } from "@actions/products";
 import { getAllCategories } from "@actions/admin/categories";
 import { getCurrentHouse } from "@actions/houses";
-import { Products } from "@components/Products";
+import { Products } from "@components/Products/Products";
 import { useIsAuth } from "@hooks/useIsAuth";
 import { useValidHouse } from "@hooks/useValidHouse";
 
-interface Props {
-  products: Product[];
-}
-
-const ProductsPage = ({ products }: Props) => {
+const ProductsPage = () => {
+  const products = useSelector((state: State) => state.products.products);
   useIsAuth();
   useValidHouse();
 
@@ -47,8 +43,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return { props: { initialReduxState: store.getState() } };
 };
 
-const mapToProps = (state: State): Props => ({
-  products: state.products.products,
-});
-
-export default connect(mapToProps)(ProductsPage);
+export default ProductsPage;

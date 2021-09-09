@@ -3,6 +3,7 @@ export const menuBtn: string;
 export const navContainer: string;
 export const navContent: string;
 export const navLink: string;
+export const navLinkActive: string;
 export const navLinks: string;
 export const navLinksContainer: string;
 export const navTitle: string;
