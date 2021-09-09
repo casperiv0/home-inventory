@@ -8,7 +8,7 @@ import { checkAuth } from "@actions/auth";
 import { getCurrentHouse } from "@actions/houses";
 import { getProductsByCategory } from "@actions/products";
 import { Layout } from "@components/Layout";
-import { Products } from "@components/Products";
+import { Products } from "@components/Products/Products";
 import { Product } from "@t/Product";
 import { State } from "@t/State";
 import { initializeStore } from "src/store/store";
