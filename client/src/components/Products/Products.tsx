@@ -9,7 +9,7 @@ import { sortProducts } from "@utils/sortProducts";
 import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
 import formStyles from "css/forms.module.scss";
-import { ProductsTable } from "@components/ProductsTable";
+import { ProductsTable } from "@components/views/ProductsTable";
 import styles from "./products.module.scss";
 import { setter } from "@lib/setter";
 import { FilterKeys, filters } from "@lib/constants";
@@ -20,6 +20,7 @@ import { DotsIcon } from "icons/Dots";
 import { ArrowIcon } from "icons/Arrow";
 import { parseExport } from "@utils/parseExport";
 import { State } from "@t/State";
+import { ProductsList } from "@components/views/ProductsList";
 
 const AddProductModal = dynamic(() => import("@components/modals/products/AddProductModal"));
 const ManageProductModal = dynamic(() => import("@components/modals/products/ManageProductModal"));
@@ -157,12 +158,16 @@ export const Products = ({ products }: Props) => {
       ) : filtered.length <= 0 ? (
         <p style={{ marginTop: "1rem" }}>No items were found with that search query.</p>
       ) : (
-        <ProductsTable
-          showActions
-          onManageClick={handleManage}
-          products={filtered}
-          currentFilter={filter?.value ?? null}
-        />
+        <div>
+          <ProductsTable
+            showActions
+            onManageClick={handleManage}
+            products={filtered}
+            currentFilter={filter?.value ?? null}
+          />
+
+          <ProductsList onManageClick={handleManage} showPagination={false} products={filtered} />
+        </div>
       )}
 
       <ImportProductsModal />

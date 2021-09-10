@@ -9,10 +9,10 @@ import { State } from "@t/State";
 import { useHouseId } from "@hooks/useHouseId";
 import { FilterKeys, MAX_ITEMS_IN_TABLE } from "@lib/constants";
 import { closeModal, openModal } from "@lib/modal";
-import { AlertModal } from "./modals/AlertModal";
+import { AlertModal } from "../modals/AlertModal";
 import { ModalIds } from "@t/ModalIds";
 import { bulkDeleteProducts } from "@actions/products";
-import { Pagination } from "./Pagination/Pagination";
+import { Pagination } from "../Pagination/Pagination";
 
 interface Props {
   products: Product[];

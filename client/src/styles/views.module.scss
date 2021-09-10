@@ -1,0 +1,30 @@
+.items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr));
+
+  gap: 1rem;
+}
+
+.item {
+  padding: 1rem;
+  border-radius: 0.5rem;
+
+  background: var(--gray);
+
+  .name {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+
+    margin: 1rem 0;
+
+    .bold {
+      font-weight: 500;
+    }
+  }
+}
