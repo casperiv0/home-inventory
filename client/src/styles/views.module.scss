@@ -1,13 +1,13 @@
 .items {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(16rem, 100%), 1fr));
 
   gap: 1rem;
 }
 
 .item {
   padding: 1rem;
-  border-radius: 0.5rem;
+  border-radius: 0.3rem;
 
   background: var(--gray);
 
