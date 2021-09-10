@@ -17,7 +17,6 @@ export function getViewType(): Views {
 
 /**
  * update the user's view type in localStorage.
- * @param t The new theme
  */
 export function setViewType(t: Views) {
   localStorage.setItem(VIEWS_KEY, String(t));
