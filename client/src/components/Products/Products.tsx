@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as view from "@lib/view";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
@@ -9,7 +10,7 @@ import { sortProducts } from "@utils/sortProducts";
 import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
 import formStyles from "css/forms.module.scss";
-import { ProductsTable } from "@components/ProductsTable";
+import { ProductsTable } from "@components/views/ProductsTable";
 import styles from "./products.module.scss";
 import { setter } from "@lib/setter";
 import { FilterKeys, filters } from "@lib/constants";
@@ -20,6 +21,7 @@ import { DotsIcon } from "icons/Dots";
 import { ArrowIcon } from "icons/Arrow";
 import { parseExport } from "@utils/parseExport";
 import { State } from "@t/State";
+import { ProductsList } from "@components/views/ProductsList";
 
 const AddProductModal = dynamic(() => import("@components/modals/products/AddProductModal"));
 const ManageProductModal = dynamic(() => import("@components/modals/products/ManageProductModal"));
@@ -35,6 +37,7 @@ export const Products = ({ products }: Props) => {
 
   const [isOpen, setOpen] = React.useState(false);
   const [isSelectOpen, setSelectOpen] = React.useState(false);
+  const [viewType, setViewType] = React.useState(view.Views.Table);
 
   const [searchValue, setSearchValue] = React.useState<string>("");
   const [tempProduct, setTempProduct] = React.useState<Product | null>(null);
@@ -69,6 +72,10 @@ export const Products = ({ products }: Props) => {
     return sortProducts(filter.value, items);
   }, [products, searchValue, filter]);
 
+  React.useEffect(() => {
+    setViewType(view.getViewType());
+  }, []);
+
   return (
     <>
       <div className={styles.productsHeader}>
@@ -94,6 +101,15 @@ export const Products = ({ products }: Props) => {
                 {
                   name: "Import",
                   onClick: () => openModal(ModalIds.ImportProducts),
+                },
+                {
+                  name: `Show as ${view.Views[view.getNewViewType(viewType)]}`,
+                  onClick: () => {
+                    setOpen(false);
+                    const newType = view.getNewViewType(viewType);
+                    setViewType(newType);
+                    view.setViewType(newType);
+                  },
                 },
               ]}
             >
@@ -124,7 +140,7 @@ export const Products = ({ products }: Props) => {
               onClick={() => setSelectOpen((v) => !v)}
               className="btn has-icon"
             >
-              {filter?.label}{" "}
+              {filter?.label}
               <ArrowIcon style={{ transform: isSelectOpen ? "rotate(-180deg)" : "" }} />
             </button>
           </Dropdown>
@@ -156,13 +172,15 @@ export const Products = ({ products }: Props) => {
         </p>
       ) : filtered.length <= 0 ? (
         <p style={{ marginTop: "1rem" }}>No items were found with that search query.</p>
-      ) : (
+      ) : viewType === view.Views.Table ? (
         <ProductsTable
           showActions
           onManageClick={handleManage}
           products={filtered}
           currentFilter={filter?.value ?? null}
         />
+      ) : (
+        <ProductsList onManageClick={handleManage} showPagination={false} products={filtered} />
       )}
 
       <ImportProductsModal />
