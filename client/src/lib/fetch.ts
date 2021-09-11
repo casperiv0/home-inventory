@@ -26,7 +26,7 @@ export const handleRequest = (
   return axios({
     url: `${process.env.NEXT_PUBLIC_PROD_ORIGIN}/api${path}`,
     method,
-    data: data ? data : null,
+    data: data ?? undefined,
     withCredentials: true,
     headers: {
       Session: parsedCookie,

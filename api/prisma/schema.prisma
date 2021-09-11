@@ -23,32 +23,50 @@ model User {
 }
 
 model Product {
-  id                    String   @id @default(uuid())
+  id                    String             @id @default(uuid())
   quantity              Int
-  warnOnQuantity        Int      @default(2)
-  ignoreQuantityWarning Boolean  @default(false)
+  warnOnQuantity        Int                @default(2)
+  ignoreQuantityWarning Boolean            @default(false)
   price                 Float
   prices                Float[]
   name                  String
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
   expirationDate        String?
-  createdBy             User     @relation(fields: [userId], references: [id])
+  createdBy             User               @relation(fields: [userId], references: [id])
   userId                String
   categoryId            String?
-  house                 House    @relation(fields: [houseId], references: [id])
+  house                 House              @relation(fields: [houseId], references: [id])
   houseId               String
+  ShoppingListItem      ShoppingListItem[]
 }
 
 model House {
-  id         String      @id @default(uuid())
-  name       String
-  currency   String      @default("€")
-  users      User[]      @relation(fields: [userId], references: [id])
-  userId     String
-  products   Product[]
-  categories Category[]
-  houseRoles HouseRole[]
+  id             String       @id @default(uuid())
+  name           String
+  currency       String       @default("€")
+  users          User[]       @relation(fields: [userId], references: [id])
+  userId         String
+  products       Product[]
+  categories     Category[]
+  houseRoles     HouseRole[]
+  shoppingList   ShoppingList? @relation(fields: [shoppingListId], references: [id])
+  shoppingListId String?
+}
+
+model ShoppingList {
+  id       String             @unique @default(uuid())
+  products ShoppingListItem[] @relation
+  House    House?
+}
+
+model ShoppingListItem {
+  id             String       @unique @default(uuid())
+  product        Product      @relation(fields: [productId], references: [id])
+  productId      String
+  completed      Boolean      @default(false)
+  ShoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id])
+  shoppingListId String
 }
 
 model Category {

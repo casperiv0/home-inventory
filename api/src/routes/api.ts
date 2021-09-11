@@ -7,6 +7,7 @@ import { notFoundMiddleware } from "@lib/middlewares";
 import { housesRouter } from "./houses";
 import { categoryRouter } from "./category";
 import { importRouter } from "./import";
+import { shoppingListRouter } from "./shopping-list";
 
 const router = Router();
 
@@ -17,6 +18,7 @@ router.use("/category", categoryRouter);
 router.use("/admin/users", usersRouter);
 router.use("/admin/categories", categoriesRouter);
 router.use("/import", importRouter);
+router.use("/shopping-list", shoppingListRouter);
 
 router.use(notFoundMiddleware);
 

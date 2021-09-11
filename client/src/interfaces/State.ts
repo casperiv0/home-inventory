@@ -4,6 +4,7 @@ import { Product } from "./Product";
 import { Statistics } from "./Statistics";
 import { House } from "./House";
 import { States } from "src/store/types";
+import { ShoppingList } from "./ShoppingList";
 
 export interface State {
   auth: {
@@ -23,5 +24,8 @@ export interface State {
     house: House | null;
     houses: House[];
     state: States;
+  };
+  shoppingList: {
+    shoppingList: ShoppingList | null;
   };
 }

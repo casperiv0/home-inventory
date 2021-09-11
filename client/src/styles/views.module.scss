@@ -8,6 +8,7 @@
 .item {
   padding: 1rem;
   border-radius: 0.3rem;
+  position: relative;
 
   background: var(--gray);
 
@@ -26,5 +27,22 @@
     .bold {
       font-weight: 500;
     }
+  }
+
+  &.checked {
+    transition: opacity 200ms;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .checkbox {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+
+    transform: scale(1.3);
   }
 }

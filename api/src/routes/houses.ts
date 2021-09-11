@@ -96,6 +96,11 @@ router.post("/", withAuth, async (req: IRequest, res) => {
       data: {
         name: body.name,
         userId: req.userId!,
+        shoppingList: {
+          create: {
+            products: {},
+          },
+        },
         houseRoles: {
           create: {
             role: UserRole.OWNER,

@@ -1,6 +1,7 @@
 import { Category } from "@t/Category";
 import { House } from "@t/House";
 import { Product } from "@t/Product";
+import { ShoppingList } from "@t/ShoppingList";
 import { Statistics } from "@t/Statistics";
 import { User } from "@t/User";
 
@@ -40,6 +41,11 @@ export interface UpdateProducts {
     | "IMPORT_PRODUCTS"
     | "BULK_DELETE_PRODUCTS";
   products: Product[];
+}
+
+export interface UpdateShoppingList {
+  type: "GET_SHOPPING_LIST" | "UPDATE_SHOPPING_LIST";
+  shoppingList: ShoppingList | null;
 }
 
 export interface GetStats {
