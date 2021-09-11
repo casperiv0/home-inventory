@@ -251,6 +251,12 @@ router.delete("/:houseId/bulk", withAuth, withValidHouseId, async (req, res) => 
 
   await Promise.all(
     body.productIds?.map(async (id: string) => {
+      await prisma.shoppingListItem.deleteMany({
+        where: {
+          productId: id,
+        },
+      });
+
       await prisma.product.deleteMany({
         where: {
           id,
@@ -283,6 +289,7 @@ router.delete("/:houseId/:id", withAuth, withValidHouseId, async (req, res) => {
       });
     }
 
+    await prisma.shoppingListItem.deleteMany({ where: { productId: id } });
     await prisma.product.delete({ where: { id } });
 
     const products = await getProducts(req.params.houseId);

@@ -82,6 +82,7 @@ const ProductsListC = ({
             const expirationDate = product.expirationDate
               ? format(new Date(product.expirationDate), "yyyy-MM-dd")
               : "N/A";
+            const prices = product.prices.reduce((ac, cv) => ac + cv, 0);
 
             return (
               <div className={styles.item} key={product.id}>
@@ -90,12 +91,12 @@ const ProductsListC = ({
                 <p className={styles.info}>
                   <span>
                     <span className={styles.bold}>Price: </span> {currency}
-                    {product.price}
+                    {Intl.NumberFormat().format(product.price)}
                   </span>
 
                   <span>
                     <span className={styles.bold}>Total Price: </span> {currency}
-                    {product.prices}
+                    {Intl.NumberFormat().format(prices)}
                   </span>
 
                   <span>

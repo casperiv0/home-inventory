@@ -159,10 +159,7 @@ const ProductsTableC = ({
             };
 
             const category = categories.find((c) => c.id === product.categoryId);
-
-            const totalPricesAmount = (product.prices ?? [])
-              ?.reduce((ac, curr) => ac + curr, 0)
-              .toFixed(2);
+            const totalPricesAmount = product.prices.reduce((ac, curr) => ac + curr, 0);
 
             return (
               <tr key={product.id}>
@@ -203,11 +200,11 @@ const ProductsTableC = ({
                 </td>
                 <td className={boldText("price") || boldText("priceHigh")}>
                   {currency}
-                  {product.price.toFixed(2)}
+                  {Intl.NumberFormat().format(product.price)}
                 </td>
                 <td>
                   {currency}
-                  {totalPricesAmount}
+                  {Intl.NumberFormat().format(totalPricesAmount)}
                 </td>
                 <td className={boldText("quantity") || boldText("quantityHigh")}>
                   {product.quantity}
