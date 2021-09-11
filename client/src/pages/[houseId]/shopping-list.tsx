@@ -9,7 +9,7 @@ import { Layout } from "@components/Layout";
 import { getCurrentHouse } from "@actions/houses";
 import { useIsAuth } from "@hooks/useIsAuth";
 import { useValidHouse } from "@hooks/useValidHouse";
-import { getShoppingList } from "@actions/shopping-list";
+import { deleteItemFromShoppingList, getShoppingList } from "@actions/shopping-list";
 import { ShoppingList, ShoppingListItem } from "@t/ShoppingList";
 import { State } from "@t/State";
 import { ProductsList } from "@components/views/ProductsList";
@@ -17,17 +17,20 @@ import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
 import { AddProductToShoppingListModal } from "@components/modals/shopping-list/AddProductToShoppingList";
 import { getAllProducts } from "@actions/products";
+import { useHouseId } from "@hooks/useHouseId";
 
 interface Props {
   shoppingList: ShoppingList | null;
+  deleteItemFromShoppingList: (houseId: string, id: string) => Promise<boolean>;
 }
 
-const HousePage = ({ shoppingList }: Props) => {
+const HousePage = ({ shoppingList, deleteItemFromShoppingList }: Props) => {
+  const houseId = useHouseId();
   useIsAuth();
   useValidHouse();
 
   async function handleDelete(item: ShoppingListItem) {
-    console.log(item);
+    await deleteItemFromShoppingList(houseId, item.id);
   }
 
   return (
@@ -81,4 +84,4 @@ const mapToProps = (state: State) => ({
   shoppingList: state.shoppingList.shoppingList,
 });
 
-export default connect(mapToProps)(HousePage);
+export default connect(mapToProps, { deleteItemFromShoppingList })(HousePage);

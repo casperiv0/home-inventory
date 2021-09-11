@@ -37,6 +37,23 @@ export const addProductToShoppingList =
     }
   };
 
+export const deleteItemFromShoppingList =
+  (houseId: string, id: string) => async (dispatch: Dispatch<UpdateShoppingList>) => {
+    try {
+      const res = await handleRequest(`/shopping-list/${houseId}/${id}`, "DELETE");
+
+      dispatch({
+        type: "UPDATE_SHOPPING_LIST",
+        shoppingList: res.data.shoppingList,
+      });
+
+      return true;
+    } catch (e) {
+      toast.error(getErrorFromResponse(e));
+      return false;
+    }
+  };
+
 // export const addProduct =
 //   (houseId: string, data: RequestData) =>
 //   async (dispatch: Dispatch<UpdateProducts>): Promise<boolean> => {

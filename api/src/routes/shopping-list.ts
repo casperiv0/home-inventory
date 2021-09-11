@@ -158,18 +158,19 @@ router.put("/:id", withAuth, async (req: IRequest, res) => {
   }
 });
 
-router.delete("/:id", withAuth, async (req: IRequest, res) => {
+router.delete("/:houseId/:id", withAuth, withValidHouseId, async (req: IRequest, res) => {
   try {
     const id = req.params.id as string;
 
-    await prisma.product.deleteMany({ where: { houseId: id } });
-    await prisma.category.deleteMany({ where: { houseId: id } });
-    await prisma.houseRole.deleteMany({ where: { houseId: id } });
-    await prisma.house.delete({ where: { id } });
+    await prisma.shoppingListItem.delete({
+      where: {
+        id,
+      },
+    });
 
-    const houses = await getShoppingList(req.userId);
+    const shoppingList = await getShoppingList(req.params.houseId!);
 
-    return res.json({ houses });
+    return res.json({ shoppingList });
   } catch (e) {
     console.error(e);
 
