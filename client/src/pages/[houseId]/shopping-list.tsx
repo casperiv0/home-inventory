@@ -10,7 +10,7 @@ import { getCurrentHouse } from "@actions/houses";
 import { useIsAuth } from "@hooks/useIsAuth";
 import { useValidHouse } from "@hooks/useValidHouse";
 import { getShoppingList } from "@actions/shopping-list";
-import { ShoppingList } from "@t/ShoppingList";
+import { ShoppingList, ShoppingListItem } from "@t/ShoppingList";
 import { State } from "@t/State";
 import { ProductsList } from "@components/views/ProductsList";
 import { openModal } from "@lib/modal";
@@ -26,7 +26,9 @@ const HousePage = ({ shoppingList }: Props) => {
   useIsAuth();
   useValidHouse();
 
-  console.log(shoppingList);
+  async function handleDelete(item: ShoppingListItem) {
+    console.log(item);
+  }
 
   return (
     <Layout showCurrentHouse>
@@ -48,8 +50,10 @@ const HousePage = ({ shoppingList }: Props) => {
             <p>There are no products in the shopping list yet.</p>
           ) : (
             <ProductsList
+              showDeleteButton
+              onDeleteClick={handleDelete}
               showManageButton={false}
-              products={shoppingList.products.map((v) => v.product)}
+              products={shoppingList.products}
             />
           )}
         </div>

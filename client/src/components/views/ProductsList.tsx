@@ -9,23 +9,29 @@ import { Product } from "@t/Product";
 import { State } from "@t/State";
 import { Pagination } from "@components/Pagination/Pagination";
 import styles from "css/views.module.scss";
+import { ShoppingListItem } from "@t/ShoppingList";
 
 interface Props {
-  products: Product[];
+  products: (Product | ShoppingListItem)[];
   showPagination?: boolean;
   currency?: string;
+
   showManageButton?: boolean;
+  showDeleteButton?: boolean;
 
   onManageClick?: (product: Product) => unknown;
+  onDeleteClick?: (product: ShoppingListItem) => unknown;
   bulkDeleteProducts?: (houseId: string, productIds: string[]) => Promise<boolean>;
 }
 
 const ProductsListC = ({
   showManageButton = true,
+  showDeleteButton,
   currency,
   products,
   showPagination,
   onManageClick,
+  onDeleteClick,
 }: Props) => {
   const categories = useSelector((state: State) => state.admin.categories);
   const houseId = useHouseId();
@@ -35,7 +41,7 @@ const ProductsListC = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const list = () => {
     const end = currentPage * MAX_ITEMS_IN_TABLE;
-    let arr: Product[] = [];
+    let arr: (Product | ShoppingListItem)[] = [];
 
     for (let i = 0; i < products.length; i++) {
       if (i % end === 0) {
@@ -69,7 +75,8 @@ const ProductsListC = ({
     <>
       <div style={{ marginTop: "1rem" }}>
         <ul className={styles.items}>
-          {list().map((product) => {
+          {list().map((item) => {
+            const product = "product" in item ? item.product : item;
             const category = categories.find((c) => c.id === product.categoryId);
 
             const expirationDate = product.expirationDate
@@ -114,6 +121,15 @@ const ProductsListC = ({
                 {showManageButton ? (
                   <button onClick={() => onManageClick?.(product)} className="btn submit">
                     Manage
+                  </button>
+                ) : null}
+
+                {showDeleteButton ? (
+                  <button
+                    onClick={() => onDeleteClick?.(item as ShoppingListItem)}
+                    className="btn danger"
+                  >
+                    Delete from list
                   </button>
                 ) : null}
               </div>
