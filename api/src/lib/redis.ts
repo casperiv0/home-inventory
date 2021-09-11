@@ -7,14 +7,14 @@ const redis = new Redis({
   password: process.env["REDIS_PASSWORD"],
 });
 
-export async function redisGet(key: string): Promise<string | null> {
+export async function get(key: string): Promise<string | null> {
   return redis.get(key);
 }
 
-export async function redisSet<T extends string>(key: string, data: T) {
+export async function set<T extends string>(key: string, data: T) {
   return redis.set(key, data);
 }
 
-export async function redisDel(key: string) {
+export async function del(key: string) {
   return redis.del(key);
 }

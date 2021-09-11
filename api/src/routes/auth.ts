@@ -1,3 +1,4 @@
+import * as redis from "@lib/redis";
 import { Response, Router } from "express";
 import { compareSync, genSaltSync, hashSync } from "bcryptjs";
 import { validateSchema } from "@casper124578/utils";
@@ -13,7 +14,6 @@ import {
 } from "@lib/auth.lib";
 import { withAuth } from "@hooks/withAuth";
 import { IRequest } from "@t/IRequest";
-import { redisDel, redisSet } from "@lib/redis";
 
 const router = Router();
 
@@ -147,7 +147,7 @@ router.put("/user", withAuth, async (req: IRequest, res: Response) => {
     },
   });
 
-  await redisSet(req.userId!, JSON.stringify(user));
+  await redis.set(req.userId!, JSON.stringify(user));
 
   return res.json({ user });
 });
@@ -195,7 +195,7 @@ router.post("/new-password", withAuth, async (req: IRequest, res) => {
 });
 
 router.post("/logout", withAuth, async (req: IRequest, res: Response) => {
-  await redisDel(req.userId!);
+  await redis.del(req.userId!);
 
   req.userId = "";
 
