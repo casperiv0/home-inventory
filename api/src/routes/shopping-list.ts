@@ -1,10 +1,8 @@
 import { Router } from "express";
-import { validateSchema } from "@casper124578/utils";
 import { withAuth } from "@hooks/withAuth";
 import { withValidHouseId } from "@hooks/withValidHouseId";
 import { IRequest } from "@t/IRequest";
 import { prisma } from "@lib/prisma";
-import { updateHouseSchema } from "@schemas/house.schema";
 
 const router = Router();
 
@@ -113,41 +111,32 @@ router.post("/:houseId", withAuth, withValidHouseId, async (req: IRequest, res) 
   }
 });
 
-router.put("/:id", withAuth, async (req: IRequest, res) => {
+router.put("/:houseId/:id", withAuth, withValidHouseId, async (req: IRequest, res) => {
   try {
     const id = req.params.id as string;
     const body = req.body;
 
-    const [error] = await validateSchema(updateHouseSchema, body);
+    const item = await prisma.shoppingListItem.findUnique({ where: { id } });
 
-    if (error) {
-      return res.status(400).json({
-        error: error.message,
-        status: "error",
-      });
-    }
-    const house = await prisma.house.findUnique({ where: { id } });
-
-    if (!house) {
+    if (!item) {
       return res.status(404).json({
-        error: "House was not found",
+        error: "item was not found",
         status: "error",
       });
     }
 
-    await prisma.house.update({
+    await prisma.shoppingListItem.update({
       where: {
         id,
       },
       data: {
-        name: body.name,
-        currency: body.currency,
+        completed: body.completed,
       },
     });
 
-    const houses = await getShoppingList(req.userId);
+    const shoppingList = await getShoppingList(req.params.houseId);
 
-    return res.json({ houses });
+    return res.json({ shoppingList });
   } catch (e) {
     console.error(e);
 
@@ -168,7 +157,7 @@ router.delete("/:houseId/:id", withAuth, withValidHouseId, async (req: IRequest,
       },
     });
 
-    const shoppingList = await getShoppingList(req.params.houseId!);
+    const shoppingList = await getShoppingList(req.params.houseId);
 
     return res.json({ shoppingList });
   } catch (e) {
