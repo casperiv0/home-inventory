@@ -14,12 +14,19 @@ interface Props {
   products: Product[];
   showPagination?: boolean;
   currency?: string;
+  showManageButton?: boolean;
 
   onManageClick?: (product: Product) => unknown;
   bulkDeleteProducts?: (houseId: string, productIds: string[]) => Promise<boolean>;
 }
 
-const ProductsListC = ({ currency, products, showPagination, onManageClick }: Props) => {
+const ProductsListC = ({
+  showManageButton = true,
+  currency,
+  products,
+  showPagination,
+  onManageClick,
+}: Props) => {
   const categories = useSelector((state: State) => state.admin.categories);
   const houseId = useHouseId();
 
@@ -104,9 +111,11 @@ const ProductsListC = ({ currency, products, showPagination, onManageClick }: Pr
                   </span>
                 </p>
 
-                <button onClick={() => onManageClick?.(product)} className="btn submit">
-                  Manage
-                </button>
+                {showManageButton ? (
+                  <button onClick={() => onManageClick?.(product)} className="btn submit">
+                    Manage
+                  </button>
+                ) : null}
               </div>
             );
           })}

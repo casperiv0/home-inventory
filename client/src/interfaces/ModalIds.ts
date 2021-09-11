@@ -19,4 +19,6 @@ export enum ModalIds {
   AlertRateLimited = "Alert_RateLimitedModal",
 
   AlertDeleteSelectedItems = "Alert_DeleteSelectedItems",
+
+  AddProductToShoppingList = "AddProductToShoppingListModal",
 }
