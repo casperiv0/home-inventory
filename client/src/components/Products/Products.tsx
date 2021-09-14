@@ -180,7 +180,12 @@ export const Products = ({ products }: Props) => {
           currentFilter={filter?.value ?? null}
         />
       ) : (
-        <ProductsList onManageClick={handleManage} showPagination={false} products={filtered} />
+        <ProductsList
+          showManageButton
+          onManageClick={handleManage}
+          showPagination={false}
+          products={filtered}
+        />
       )}
 
       <ImportProductsModal />

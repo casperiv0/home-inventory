@@ -29,7 +29,7 @@
     "redux": "^4.1.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",
-    "sass": "^1.39.0"
+    "sass": "^1.40.1"
   },
   "devDependencies": {
     "@types/cookie": "^0.4.1",
@@ -39,6 +39,6 @@
     "@types/react-select": "^4.0.17",
     "concurrently": "^6.2.1",
     "typed-scss-modules": "^4.1.1",
-    "typescript": "4.4.2"
+    "typescript": "4.4.3"
   }
 }
