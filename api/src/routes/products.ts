@@ -251,12 +251,6 @@ router.delete("/:houseId/bulk", withAuth, withValidHouseId, async (req, res) => 
 
   await Promise.all(
     body.productIds?.map(async (id: string) => {
-      await prisma.shoppingListItem.deleteMany({
-        where: {
-          productId: id,
-        },
-      });
-
       await prisma.product.deleteMany({
         where: {
           id,
@@ -273,13 +267,9 @@ router.delete("/:houseId/bulk", withAuth, withValidHouseId, async (req, res) => 
 router.delete("/:houseId/:id", withAuth, withValidHouseId, async (req, res) => {
   try {
     const id = req.params.id as string;
-    const houseId = req.params.houseId as string;
 
-    const product = await prisma.product.findFirst({
-      where: {
-        id,
-        houseId,
-      },
+    const product = await prisma.product.findUnique({
+      where: { id },
     });
 
     if (!product) {
@@ -289,7 +279,6 @@ router.delete("/:houseId/:id", withAuth, withValidHouseId, async (req, res) => {
       });
     }
 
-    await prisma.shoppingListItem.deleteMany({ where: { productId: id } });
     await prisma.product.delete({ where: { id } });
 
     const products = await getProducts(req.params.houseId);

@@ -17,7 +17,7 @@ model User {
   password   String
   createdAt  DateTime    @default(now())
   products   Product[]
-  houses     House[]     @relation(fields: [houseId], references: [id])
+  houses     House[]     @relation(fields: [houseId], references: [id], onDelete: Cascade)
   houseId    String?
   houseRoles HouseRole[]
 }
@@ -33,10 +33,10 @@ model Product {
   createdAt             DateTime           @default(now())
   updatedAt             DateTime           @updatedAt
   expirationDate        String?
-  createdBy             User               @relation(fields: [userId], references: [id])
+  createdBy             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId                String
   categoryId            String?
-  house                 House              @relation(fields: [houseId], references: [id])
+  house                 House              @relation(fields: [houseId], references: [id], onDelete: Cascade)
   houseId               String
   ShoppingListItem      ShoppingListItem[]
 }
@@ -45,12 +45,12 @@ model House {
   id             String       @id @default(uuid())
   name           String
   currency       String       @default("€")
-  users          User[]       @relation(fields: [userId], references: [id])
+  users          User[]       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId         String
   products       Product[]
   categories     Category[]
   houseRoles     HouseRole[]
-  shoppingList   ShoppingList? @relation(fields: [shoppingListId], references: [id])
+  shoppingList   ShoppingList? @relation(fields: [shoppingListId], references: [id], onDelete: Cascade)
   shoppingListId String?
 }
 
@@ -62,10 +62,10 @@ model ShoppingList {
 
 model ShoppingListItem {
   id             String       @unique @default(uuid())
-  product        Product      @relation(fields: [productId], references: [id])
+  product        Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId      String
   completed      Boolean      @default(false)
-  ShoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id])
+  ShoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id], onDelete: Cascade)
   shoppingListId String
 }
 
@@ -74,16 +74,16 @@ model Category {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  house     House    @relation(fields: [houseId], references: [id])
+  house     House    @relation(fields: [houseId], references: [id], onDelete: Cascade)
   houseId   String
 }
 
 model HouseRole {
   id      String   @id @default(uuid())
   role    UserRole @default(USER)
-  house   House    @relation(fields: [houseId], references: [id])
+  house   House    @relation(fields: [houseId], references: [id], onDelete: Cascade)
   houseId String
-  user    User     @relation(fields: [userId], references: [id])
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId  String
 }
 
