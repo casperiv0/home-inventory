@@ -18,6 +18,7 @@ interface DropdownProps {
   closeOnClick?: boolean;
   width?: string;
   autoFocus?: boolean;
+  style?: React.CSSProperties;
 }
 
 const Dropdown = (props: DropdownProps) => {
@@ -39,7 +40,7 @@ const Dropdown = (props: DropdownProps) => {
   }, [props.autoFocus, props.isOpen]);
 
   return (
-    <div ref={onOutsideRef} className={styles.dropdownContainer}>
+    <div style={props.style} ref={onOutsideRef} className={styles.dropdownContainer}>
       {props.children}
 
       {props.isOpen ? (

@@ -27,6 +27,7 @@ const AddHouseModal = ({ addHouse }: Props) => {
 
     if (success) {
       closeModal(ModalIds.AddHouse);
+      setName("");
     }
 
     setLoading(false);

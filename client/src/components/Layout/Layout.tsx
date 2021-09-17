@@ -3,6 +3,9 @@ import * as React from "react";
 import { Nav } from "@components/Nav";
 import styles from "./layout.module.scss";
 import { State } from "@t/State";
+import Dropdown from "@components/Dropdown/Dropdown";
+import { House } from "@t/House";
+import { useRouter } from "next/router";
 
 interface Props {
   nav?: boolean;
@@ -10,8 +13,19 @@ interface Props {
 }
 
 export const Layout: React.FC<Props> = ({ nav = true, showCurrentHouse, children }) => {
+  const [isOpen, setOpen] = React.useState(false);
+
   const currentHouse = useSelector((state: State) => state.houses.house);
+  const houses = useSelector((state: State) => state.houses.houses);
   const auth = useSelector((state: State) => state.auth);
+  const router = useRouter();
+
+  function redirect(house: House) {
+    const path = router.pathname.replace("[houseId]", house.id);
+
+    setOpen(false);
+    router.push(path);
+  }
 
   if (!auth.isAuth) {
     return <p>Not authenticated, redirecting...</p>;
@@ -25,9 +39,27 @@ export const Layout: React.FC<Props> = ({ nav = true, showCurrentHouse, children
         <div className={styles.content}>
           {showCurrentHouse && currentHouse ? (
             <div style={{ marginTop: "1rem" }}>
-              <p>
-                <strong>Current house:</strong> {currentHouse.name}
-              </p>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <strong>Current house:</strong>
+                <Dropdown
+                  style={{ marginLeft: "0.5rem" }}
+                  width="150px"
+                  onClose={() => setOpen(false)}
+                  isOpen={isOpen}
+                  options={houses.map((house) => ({
+                    name: house.name,
+                    onClick: () => redirect(house),
+                  }))}
+                >
+                  <button
+                    className="btn small"
+                    aria-label="More"
+                    onClick={() => setOpen((v) => !v)}
+                  >
+                    {currentHouse.name}
+                  </button>
+                </Dropdown>
+              </div>
             </div>
           ) : null}
 

@@ -23,11 +23,18 @@ export const getHouses =
   };
 
 export const getCurrentHouse =
-  (houseId: string, cookie?: string) => async (dispatch: Dispatch<GetHouseById | SetState>) => {
+  (houseId: string, cookie?: string) =>
+  async (dispatch: Dispatch<GetHouseById | UpdateHouses | SetState>) => {
     dispatch({ type: "SET_STATE", state: "LOADING" });
 
     try {
+      const housesRes = await handleRequest("/houses", "GET", { cookie });
       const res = await handleRequest(`/houses/${houseId}`, "GET", { cookie });
+
+      dispatch({
+        type: "GET_ALL_HOUSES",
+        houses: housesRes.data.houses,
+      });
 
       dispatch({
         type: "GET_HOUSE_BY_ID",
