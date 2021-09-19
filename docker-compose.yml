@@ -16,7 +16,8 @@ services:
   redis:
     container_name: "redis"
     image: redis
-    command: redis-server --requirepass ${REDIS_PASSWORD}
+    # command: redis-server --requirepass ${REDIS_PASSWORD}
+    command: redis-server
     env_file:
       - .env
     ports:
@@ -30,6 +31,7 @@ services:
   api:
     container_name: "api"
 
+    user: node
     image: node:16
     command: "npm run dev:api"
     ports:
