@@ -3,6 +3,7 @@ import * as view from "@lib/view";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
+import { useDownload } from "@casper124578/useful/hooks/useDownload";
 
 import { Product } from "@t/Product";
 import { SelectValue } from "@components/Select/Select";
@@ -14,7 +15,6 @@ import { ProductsTable } from "@components/views/ProductsTable";
 import styles from "./products.module.scss";
 import { setter } from "@lib/setter";
 import { FilterKeys, filters } from "@lib/constants";
-import { download } from "@utils/download";
 import ImportProductsModal from "@components/modals/products/ImportProductsModal";
 import Dropdown from "@components/Dropdown/Dropdown";
 import { DotsIcon } from "icons/Dots";
@@ -31,6 +31,7 @@ interface Props {
 }
 
 export const Products = ({ products }: Props) => {
+  const download = useDownload();
   const categories = useSelector((state: State) => state.admin.categories);
   const searchRef = React.useRef<HTMLInputElement>(null);
   const router = useRouter();
@@ -92,10 +93,10 @@ export const Products = ({ products }: Props) => {
                 {
                   name: "Export",
                   onClick: () => {
-                    download(
-                      `products_${Date.now()}.json`,
-                      JSON.stringify(parseExport(products, categories), null, 2),
-                    );
+                    download({
+                      filename: `products_${Date.now()}.json`,
+                      data: JSON.stringify(parseExport(products, categories), null, 2),
+                    });
                   },
                 },
                 {

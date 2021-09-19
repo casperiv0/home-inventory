@@ -1,11 +1,13 @@
 import { useSelector } from "react-redux";
 import * as React from "react";
+import { useRouter } from "next/router";
+
 import { Nav } from "@components/Nav";
-import styles from "./layout.module.scss";
 import { State } from "@t/State";
 import Dropdown from "@components/Dropdown/Dropdown";
 import { House } from "@t/House";
-import { useRouter } from "next/router";
+import { Loader } from "@components/Loader/Loader";
+import styles from "./layout.module.scss";
 
 interface Props {
   nav?: boolean;
@@ -28,7 +30,7 @@ export const Layout: React.FC<Props> = ({ nav = true, showCurrentHouse, children
   }
 
   if (!auth.isAuth) {
-    return <p>Not authenticated, redirecting...</p>;
+    return <Loader />;
   }
 
   return (
