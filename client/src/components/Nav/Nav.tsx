@@ -15,7 +15,7 @@ export const Nav = () => {
   const [theme, setTheme] = React.useState<Theme>("light");
   const ulRef = React.useRef<HTMLUListElement>(null);
   const router = useRouter();
-  const isActive = (str: "/[houseId]" | "/products" | "/admin") => {
+  const isActive = (str: "/[houseId]" | "/products" | "/admin" | "/shopping-list") => {
     const active = str === "/[houseId]" ? router.pathname === str : router.pathname.includes(str);
     return active && styles.navLinkActive;
   };
@@ -72,7 +72,12 @@ export const Nav = () => {
         </div>
 
         <div className={styles.navLinksContainer}>
-          <ul id="navUlList" ref={ulRef} className={styles.navLinks}>
+          <ul
+            style={{ minWidth: houseId && "360px" }}
+            id="navUlList"
+            ref={ulRef}
+            className={styles.navLinks}
+          >
             {houseId ? (
               <>
                 <li className={classes(styles.navLink, isActive("/[houseId]"))}>
@@ -84,6 +89,12 @@ export const Nav = () => {
                 <li className={classes(styles.navLink, isActive("/products"))}>
                   <Link scroll href={`/${houseId}/products`}>
                     <a>Products</a>
+                  </Link>
+                </li>
+
+                <li className={classes(styles.navLink, isActive("/shopping-list"))}>
+                  <Link scroll href={`/${houseId}/shopping-list`}>
+                    <a>Shopping List</a>
                   </Link>
                 </li>
 
