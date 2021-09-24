@@ -1,4 +1,5 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import { Modal } from "@components/Modal/Modal";
 import { ModalIds } from "@t/ModalIds";
 import styles from "css/forms.module.scss";
@@ -7,7 +8,6 @@ import useModalEvent from "src/hooks/useModalEvent";
 import { Select, SelectValue } from "@components/Select/Select";
 import { selectRoles } from "@lib/constants";
 import { RequestData } from "@lib/fetch";
-import { connect } from "react-redux";
 import { addUser } from "@actions/admin/users";
 import { useHouseId } from "@hooks/useHouseId";
 import { setter } from "@lib/setter";

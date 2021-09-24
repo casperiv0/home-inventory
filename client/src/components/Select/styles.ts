@@ -1,4 +1,4 @@
-import { Styles, GroupTypeBase } from "react-select";
+import { GroupBase, StylesConfig } from "react-select";
 
 export interface SelectTheme {
   backgroundColor?: string;
@@ -8,7 +8,7 @@ export interface SelectTheme {
 export const styles = ({
   backgroundColor = "var(--hover-color)",
   color = "var(--dark)",
-}: SelectTheme): Partial<Styles<any, true, GroupTypeBase<any>>> | undefined => ({
+}: SelectTheme): StylesConfig<unknown, boolean, GroupBase<unknown>> => ({
   valueContainer: (base) => ({
     ...base,
     background: backgroundColor,
@@ -107,4 +107,5 @@ export const styles = ({
     ...base,
     color,
   }),
+  menuPortal: (base) => ({ ...base, zIndex: 9999 }),
 });

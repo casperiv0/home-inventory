@@ -45,7 +45,7 @@ export const Select: React.FC<Props> = ({
       isSearchable
       isMulti={isMulti !== undefined ? isMulti : true}
       styles={styles(theme ?? {})}
-      onChange={onChange}
+      onChange={(newValue: any) => onChange(newValue)}
       options={options}
       defaultValue={defaultValue}
       closeMenuOnSelect={closeMenuOnSelect}
@@ -54,6 +54,8 @@ export const Select: React.FC<Props> = ({
       onMenuOpen={() => setMenuOpen(true)}
       onBlur={() => setMenuOpen(false)}
       isDisabled={disabled}
+      menuPortalTarget={document.body}
+      menuShouldScrollIntoView={false}
     />
   );
 };
