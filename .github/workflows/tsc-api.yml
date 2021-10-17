@@ -5,9 +5,6 @@ on: [push, pull_request]
 jobs:
   tsc-api:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./api
 
     strategy:
       matrix:
@@ -22,8 +19,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        run: npm install
+        run: yarn
       - name: Generate Prisma types
-        run: npm run generate
+        run: "yarn workspace @home-inventory/api generate"
       - name: Run test-tsc
-        run: npm run test-tsc
+        run: "yarn workspace @home-inventory/api test-tsc"
