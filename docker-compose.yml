@@ -32,7 +32,7 @@ services:
 
     user: node
     image: node:16
-    command: "npm run dev:api"
+    command: "yarn workspace @home-inventory/api dev"
     ports:
       - "3030:3030"
     expose:

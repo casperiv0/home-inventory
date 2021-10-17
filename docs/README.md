@@ -13,10 +13,7 @@ This is a simple README to show how you can setup this project locally
 ### Getting started
 
 1. Clone the repo: `git clone git@github.com:Dev-CasperTheGhost/home-inventory.git`
-2. Install the dependencies
-   - root: `npm install`
-   - client: `cd client && npm install`
-   - api: `cd api && npm install`
+2. Install the dependencies: `yarn`
 3. move the `.env.example` to `.env`: `cp .env.example .env`
 
 ### Development

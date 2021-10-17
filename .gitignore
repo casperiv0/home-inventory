@@ -33,3 +33,10 @@ yarn-error.log*
 # docker data
 .data
 config/
+
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

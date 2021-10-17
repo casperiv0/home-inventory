@@ -31,7 +31,7 @@ services:
     container_name: "api"
 
     image: node:16
-    command: "npm run start:api"
+    command: "yarn workspace @home-inventory/api start"
     ports:
       - "3030:3030"
     expose:
@@ -49,7 +49,7 @@ services:
   client:
     container_name: "client"
     image: node:16
-    command: "npm run start:client"
+    command: "yarn workspace @home-inventory/client start"
     ports:
       - "3000:3000"
     expose:
