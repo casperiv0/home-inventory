@@ -5,11 +5,11 @@ const ROLE = yup
   .required()
   .matches(/ADMIN|USER|OWNER/, "Role must match 'ADMIN' or 'USER'");
 
-export const updateUserSchema = {
+export const updateUserSchema = yup.object({
   role: ROLE,
-};
+});
 
-export const createUserSchema = {
+export const createUserSchema = yup.object({
   role: ROLE,
   email: yup.string().email().required(),
-};
+});

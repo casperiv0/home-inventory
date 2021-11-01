@@ -1,10 +1,12 @@
 import * as yup from "yup";
 
-export const categorySchema = {
-  name: yup.string().required().lowercase().max(255),
-};
+const CATEGORY_NAME = yup.string().required().lowercase().max(255);
 
-export const importCategorySchema = {
-  ...categorySchema,
+export const categorySchema = yup.object({
+  name: CATEGORY_NAME,
+});
+
+export const importCategorySchema = yup.object({
+  name: CATEGORY_NAME,
   id: yup.string().required(),
-};
+});
