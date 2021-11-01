@@ -40,7 +40,7 @@
     "esbuild": "^0.13.8",
     "esbuild-register": "^3.0.0",
     "nodemon": "^2.0.13",
-    "prisma": "^3.2.1",
+    "prisma": "^3.3.0",
     "ts-node": "^10.3.0",
     "tsconfig-paths": "^3.11.0",
     "typescript": "^4.4.4"
