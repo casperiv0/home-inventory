@@ -39,7 +39,7 @@
     "@types/node": "^16.11.6",
     "esbuild": "^0.13.12",
     "esbuild-register": "^3.0.0",
-    "nodemon": "^2.0.14",
+    "nodemon": "^2.0.15",
     "prisma": "^3.3.0",
     "ts-node": "^10.4.0",
     "tsconfig-paths": "^3.11.0",
