@@ -12,7 +12,7 @@
     "test-tsc": "tsc --noEmit"
   },
   "dependencies": {
-    "@casper124578/useful": "^1.4.1",
+    "@casper124578/useful": "^1.4.2",
     "axios": "^0.24.0",
     "cookie": "^0.4.1",
     "date-fns": "^2.25.0",
