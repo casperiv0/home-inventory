@@ -43,6 +43,6 @@
     "prisma": "^3.3.0",
     "ts-node": "^10.4.0",
     "tsconfig-paths": "^3.11.0",
-    "typescript": "^4.4.4"
+    "typescript": "^4.5.2"
   }
 }
