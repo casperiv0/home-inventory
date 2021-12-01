@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const createProductSchema = yup.object({
+export const createProductSchema = {
   name: yup
     .string()
     .required()
@@ -13,4 +13,4 @@ export const createProductSchema = yup.object({
   warnOnQuantity: yup.number().nullable(),
   ignoreQuantityWarning: yup.boolean().notRequired(),
   createdAt: yup.string().notRequired().nullable(),
-});
+};

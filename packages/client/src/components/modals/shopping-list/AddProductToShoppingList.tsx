@@ -58,7 +58,7 @@ const AddProductToShoppingListModalC = ({ addProductToShoppingList }: Props) => 
         >
           <button
             type="button"
-            onClick={() => closeModal(ModalIds.AddProduct)}
+            onClick={() => closeModal(ModalIds.AddProductToShoppingList)}
             className="btn link-btn"
           >
             Cancel
