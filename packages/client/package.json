@@ -12,10 +12,10 @@
     "test-tsc": "tsc --noEmit"
   },
   "dependencies": {
-    "@casper124578/useful": "^1.4.2",
+    "@casper124578/useful": "^1.4.4",
     "axios": "^0.24.0",
     "cookie": "^0.4.1",
-    "date-fns": "^2.27.0",
+    "date-fns": "^2.28.0",
     "next": "^12.0.7",
     "nprogress": "^0.2.0",
     "preact": "^10.5.15",
@@ -29,15 +29,15 @@
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
-    "sass": "^1.44.0"
+    "sass": "^1.45.2"
   },
   "devDependencies": {
     "@types/cookie": "^0.4.1",
     "@types/nprogress": "^0.2.0",
-    "@types/react": "17.0.37",
+    "@types/react": "17.0.38",
     "@types/react-dom": "^17.0.11",
-    "concurrently": "^6.4.0",
+    "concurrently": "^6.5.1",
     "typed-scss-modules": "^4.1.1",
-    "typescript": "4.5.3"
+    "typescript": "4.5.4"
   }
 }
