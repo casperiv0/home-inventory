@@ -21,7 +21,7 @@
     "express-fileupload": "^1.2.1",
     "express-rate-limit": "^6.0.3",
     "helmet": "^4.6.0",
-    "ioredis": "^4.28.2",
+    "ioredis": "^4.28.5",
     "jsonwebtoken": "^8.5.1",
     "yup": "^0.32.11"
   },
