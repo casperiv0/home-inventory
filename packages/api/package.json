@@ -3,9 +3,10 @@
   "name": "@home-inventory/api",
   "version": "0.0.0",
   "scripts": {
-    "dev": "prisma generate && nodemon",
-    "test-tsc": "tsc --noEmit",
-    "generate": "prisma generate"
+    "dev": "yarn prisma generate && yarn prisma migrate dev && nodemon",
+    "build": "yarn prisma generate",
+    "start": "yarn prisma migrate deploy && yarn ts-node --transpile-only -r tsconfig-paths/register -r esbuild-register ./src/main.ts",
+    "test-tsc": "tsc --noEmit"
   },
   "dependencies": {
     "@casper124578/utils": "^1.5.3",

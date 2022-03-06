@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "concurrently \"next dev\" \"npm run build:typed-css:watch\"",
     "build": "npm run build:typed-css && next build",
-    "build:typed-css": "tsm src --ignore \"**/table.scss\" --ignore \"**/nprogress.scss\" --ignore \"**/index.scss\"",
-    "build:typed-css:watch": "tsm src -w --ignore \"**/table.scss\" --ignore \"**/nprogress.scss\" --ignore \"**/index.scss\"",
+    "build:typed-css": "yarn typed-scss-modules src --ignore \"**/table.scss\" --ignore \"**/nprogress.scss\" --ignore \"**/index.scss\"",
+    "build:typed-css:watch": "yarn typed-scss-modules src -w --ignore \"**/table.scss\" --ignore \"**/nprogress.scss\" --ignore \"**/index.scss\"",
     "start": "next start",
     "prod": "npm run start",
     "test-tsc": "tsc --noEmit"
