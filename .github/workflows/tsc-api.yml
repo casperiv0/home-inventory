@@ -18,8 +18,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        run: yarn
+        run: yarn install --immutable
       - name: Generate Prisma types
-        run: "yarn workspace @home-inventory/api generate"
+        run: yarn workspace @home-inventory/api generate
       - name: Run test-tsc
-        run: "yarn workspace @home-inventory/api test-tsc"
+        run: yarn workspace @home-inventory/api test-tsc

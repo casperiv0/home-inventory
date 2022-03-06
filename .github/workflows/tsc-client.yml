@@ -18,6 +18,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        run: yarn
+        run: yarn install --immutable
       - name: Run test-tsc
-        run: "yarn workspace @home-inventory/client test-tsc"
+        run: yarn workspace @home-inventory/client test-tsc
