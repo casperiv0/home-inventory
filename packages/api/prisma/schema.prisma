@@ -17,7 +17,7 @@ model User {
   password   String
   createdAt  DateTime    @default(now())
   products   Product[]
-  houses     House[]     @relation(fields: [houseId], references: [id], onDelete: Cascade)
+  houses     House[]     @relation(references: [id])
   houseId    String?
   houseRoles HouseRole[]
 }
@@ -42,16 +42,16 @@ model Product {
 }
 
 model House {
-  id             String       @id @default(uuid())
+  id             String        @id @default(uuid())
   name           String
-  currency       String       @default("€")
-  users          User[]       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  currency       String        @default("€")
+  users          User[]        @relation(references: [id])
   userId         String
   products       Product[]
   categories     Category[]
   houseRoles     HouseRole[]
   shoppingList   ShoppingList? @relation(fields: [shoppingListId], references: [id], onDelete: Cascade)
-  shoppingListId String?
+  shoppingListId String?       @unique
 }
 
 model ShoppingList {
