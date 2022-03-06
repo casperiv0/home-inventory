@@ -10,6 +10,7 @@ import { MoonIcon } from "icons/Moon";
 import { ListIcon } from "icons/List";
 import { classes } from "@utils/classes";
 import styles from "./nav.module.scss";
+import { useSSRSafeId } from "@react-aria/ssr";
 
 export const Nav = () => {
   const [theme, setTheme] = React.useState<Theme>("light");
@@ -19,6 +20,9 @@ export const Nav = () => {
     const active = str === "/[houseId]" ? router.pathname === str : router.pathname.includes(str);
     return active && styles.navLinkActive;
   };
+
+  const themeId = useSSRSafeId();
+  const navMenuId = useSSRSafeId();
 
   const houseId = useHouseId();
   const { hasAccess } = useHasAccess(UserRole.ADMIN);
@@ -123,19 +127,25 @@ export const Nav = () => {
           </ul>
 
           <button
+            id={navMenuId}
             aria-label="Open navigation menu"
             onClick={handleNavClick}
             className={classes("btn", "icon-btn", styles.menuBtn)}
           >
-            <ListIcon />
+            <ListIcon aria-labelledby={navMenuId} />
           </button>
 
           <button
+            id={themeId}
             aria-label={`Switch to ${getNewTheme(theme)} theme`}
             onClick={handleThemeClick}
             className={classes("btn", "icon-btn", styles.navLink)}
           >
-            {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+            {theme === "dark" ? (
+              <SunIcon aria-labelledby={themeId} />
+            ) : (
+              <MoonIcon aria-labelledby={themeId} />
+            )}
           </button>
         </div>
       </div>

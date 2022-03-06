@@ -6,6 +6,7 @@ import { AppProps } from "next/app";
 import { NextPage } from "next";
 import { Provider as ReduxProvider } from "react-redux";
 import { Toaster } from "react-hot-toast";
+import { SSRProvider } from "@react-aria/ssr";
 
 import "css/fonts.scss";
 import "css/nprogress.scss";
@@ -55,7 +56,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
   }, []);
 
   return (
-    <>
+    <SSRProvider>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
@@ -75,7 +76,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
       </ReduxProvider>
 
       <RateLimitedModal />
-    </>
+    </SSRProvider>
   );
 };
 

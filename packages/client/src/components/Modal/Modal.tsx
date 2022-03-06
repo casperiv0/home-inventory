@@ -58,7 +58,7 @@ export const Modal: React.FC<ModalProps> = ({ id, title, children, ...rest }) =>
                 {title}
 
                 <button onClick={() => closeModal(id)} className={styles.closeModal}>
-                  <CloseIcon />
+                  <CloseIcon aria-label="Close modal" />
                 </button>
               </header>
               <div className={styles.modalBody}>{children}</div>

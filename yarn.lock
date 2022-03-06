@@ -24,6 +24,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.6.2":
+  version: 7.17.2
+  resolution: "@babel/runtime@npm:7.17.2"
+  dependencies:
+    regenerator-runtime: ^0.13.4
+  checksum: a48702d271ecc59c09c397856407afa29ff980ab537b3da58eeee1aeaa0f545402d340a1680c9af58aec94dfdcbccfb6abb211991b74686a86d03d3f6956cacd
+  languageName: node
+  linkType: hard
+
 "@casper124578/eslint-config-next@npm:^1.2.1":
   version: 1.2.1
   resolution: "@casper124578/eslint-config-next@npm:1.2.1"
@@ -294,6 +303,7 @@ __metadata:
   resolution: "@home-inventory/client@workspace:packages/client"
   dependencies:
     "@casper124578/useful": ^1.5.1
+    "@react-aria/ssr": ^3.1.2
     "@types/cookie": ^0.4.1
     "@types/nprogress": ^0.2.0
     "@types/react": 17.0.39
@@ -515,6 +525,17 @@ __metadata:
   version: 3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86
   resolution: "@prisma/engines@npm:3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86"
   checksum: 7faa8659dd72e70f9b24be291e3660d086d5b2ee1b6557bf783100a2efaf4f7087882196191c845f96c3953a55ea8bcb03110af98a18e803b90084c0c2211444
+  languageName: node
+  linkType: hard
+
+"@react-aria/ssr@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "@react-aria/ssr@npm:3.1.2"
+  dependencies:
+    "@babel/runtime": ^7.6.2
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0-rc.1
+  checksum: 86ba84fa3a7197b04cfbbd2d2f60d45d07345bd2a48d0d10b303d1bad98a652b58bf76b9d820f7b4dce063531e65ed268eb55cd974e11a5b4d125d28e638ba8b
   languageName: node
   linkType: hard
 
