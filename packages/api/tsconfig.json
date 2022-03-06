@@ -5,6 +5,7 @@
     "module": "ESNext",
     "esModuleInterop": true,
     "moduleResolution": "node",
+    "importHelpers": true,
 
     "outDir": "dist",
     "strict": true,
@@ -17,5 +18,8 @@
       "@schemas/*": ["./src/schemas/*"],
       "@t/*": ["./src/interfaces/*"]
     }
+  },
+  "ts-node": {
+    "swc": true
   }
 }

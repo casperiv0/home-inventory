@@ -1,12 +1,13 @@
-import React from "react";
+import type * as React from "react";
 
 type Set<T> = React.Dispatch<React.SetStateAction<T>>;
-type ChangeEvent<I> = React.ChangeEvent<I>;
+type ChangeEvent<E> = React.ChangeEvent<E>;
+type Input = HTMLInputElement | HTMLTextAreaElement;
 
-export const setter =
-  <T, I = HTMLInputElement>(setX: Set<T>) =>
-  (e: ChangeEvent<I>) => {
-    const value = (e.target as any).value;
-
-    setX(value as T);
+export function setter<T extends number | string | Date, E extends Input = HTMLInputElement>(
+  setX: Set<T>,
+) {
+  return function setterInner(e: ChangeEvent<E>) {
+    setX(e.target.value as T);
   };
+}
