@@ -1,4 +1,4 @@
-name: Check TS build (api)
+name: Check TS build (api & client)
 
 on: [push, pull_request]
 
@@ -21,7 +21,9 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --immutable
+
       - name: Generate Prisma types
         run: yarn workspace @home-inventory/api prisma generate
-      - name: Run test-tsc
-        run: yarn workspace @home-inventory/api test-tsc
+
+      - name: Run yarn turbo run test-tsc
+        run: yarn turbo run test-tsc

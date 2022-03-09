@@ -10,10 +10,11 @@
         ".next/**"
       ]
     },
-    "test": {
+    "test-tsc": {
       "dependsOn": [
-        "^build"
+        "^test-tsc"
       ],
+      "cache": false,
       "outputs": []
     },
     "lint": {
