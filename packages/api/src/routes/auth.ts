@@ -180,7 +180,7 @@ router.post("/new-password", withAuth, async (req: IRequest, res) => {
   }
   const user = await prisma.user.findUnique({ where: { id: req.userId! } });
 
-  const isOldPasswordCorrect = compareSync(oldPassword, user?.password!);
+  const isOldPasswordCorrect = compareSync(oldPassword, user!.password);
 
   if (!isOldPasswordCorrect) {
     return res.status(400).json({

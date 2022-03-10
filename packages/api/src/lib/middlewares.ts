@@ -30,7 +30,7 @@ export function fileSizeLimit(req: Request, res: Response, next: NextFunction) {
     });
   }
 
-  if (invalid === true) {
+  if (invalid) {
     return res.status(400).json({ error: "File size must be below 10MB." });
   }
 

@@ -15,6 +15,10 @@
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
-    }
+    },
+    "project": "./tsconfig.base.json"
+  },
+  "rules": {
+    "react/hook-use-state": "off"
   }
 }

@@ -27,7 +27,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@swc/core": "^1.2.148",
+    "@swc/core": "^1.2.152",
     "@swc/helpers": "^0.3.6",
     "@types/bcryptjs": "^2.4.2",
     "@types/compression": "^1.7.2",

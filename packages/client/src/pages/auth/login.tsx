@@ -26,7 +26,7 @@ const LoginPage = ({ authenticate }: Props) => {
 
     const success = await authenticate({ email, password }, true);
 
-    if (success === true) {
+    if (success) {
       router.push("/");
     }
 
