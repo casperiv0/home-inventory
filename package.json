@@ -18,7 +18,7 @@
   "devDependencies": {
     "@casper124578/eslint-config": "^3.0.0",
     "@casper124578/eslint-config-next": "^3.0.0",
-    "@casper124578/eslint-config-react": "^3.0.0",
+    "@casper124578/eslint-config-react": "^4.1.0",
     "@typescript-eslint/eslint-plugin": "latest",
     "eslint": "^8.10.0",
     "husky": "^7.0.4",
