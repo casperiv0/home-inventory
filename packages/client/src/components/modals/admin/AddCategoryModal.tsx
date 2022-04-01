@@ -12,7 +12,7 @@ import { useHouseId } from "@hooks/useHouseId";
 import { parseCategoryName } from "@utils/parseCategoryName";
 
 interface Props {
-  addCategory: (houseId: string, data: RequestData) => Promise<boolean>;
+  addCategory(houseId: string, data: RequestData): Promise<boolean>;
 }
 
 const AddCategoryModal = ({ addCategory }: Props) => {

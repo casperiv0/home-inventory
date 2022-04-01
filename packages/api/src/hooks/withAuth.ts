@@ -7,11 +7,7 @@ import { getSessionUser } from "@lib/auth.lib";
 /**
  * check if someone is authenticated
  */
-export async function withAuth(
-  req: IRequest,
-  res: Response,
-  next: NextFunction,
-): Promise<void | Response> {
+export async function withAuth(req: IRequest, res: Response, next: NextFunction) {
   const token = req.cookies[AuthConstants.cookieName] || req.headers.session;
   const secret = process.env["JWT_SECRET"] as string;
 

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { connect } from "react-redux";
 
 interface Props {
-  logout: () => Promise<boolean>;
+  logout(): Promise<boolean>;
 }
 
 const LogoutPage = ({ logout }: Props) => {

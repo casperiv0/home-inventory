@@ -21,7 +21,8 @@ export const handleRequest = <T = any>(
         cookie: string;
       },
 ): Promise<AxiosResponse<T>> => {
-  const parsedCookie = cookie.parse((data?.cookie as string) ?? "")?.["session-cookie"] ?? "";
+  const parsedCookie =
+    cookie.parse((data?.cookie as string | null) ?? "")?.["session-cookie"] ?? "";
 
   return axios({
     url: `${process.env.NEXT_PUBLIC_PROD_ORIGIN}/api${path}`,
@@ -55,5 +56,5 @@ export const getErrorFromResponse = (e: unknown): string | null => {
     return error.response?.data?.errors?.[0] ?? error.response?.data?.error ?? NO_ERROR;
   }
 
-  return error.message ?? NO_ERROR;
+  return error.message || NO_ERROR;
 };

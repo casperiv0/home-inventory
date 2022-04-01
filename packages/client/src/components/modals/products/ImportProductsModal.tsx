@@ -9,7 +9,7 @@ import { importProducts } from "@actions/products";
 import { useHouseId } from "@hooks/useHouseId";
 
 interface Props {
-  importProducts: (houseId: string, file: File) => Promise<boolean>;
+  importProducts(houseId: string, file: File): Promise<boolean>;
 }
 
 const ImportProductModal = ({ importProducts }: Props) => {

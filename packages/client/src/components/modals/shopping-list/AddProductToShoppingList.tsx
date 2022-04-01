@@ -10,7 +10,7 @@ import { addProductToShoppingList } from "@actions/shopping-list";
 import { useHouseId } from "@hooks/useHouseId";
 
 interface Props {
-  addProductToShoppingList: (houseId: string, productId: string) => Promise<boolean>;
+  addProductToShoppingList(houseId: string, productId: string): Promise<boolean>;
 }
 
 const AddProductToShoppingListModalC = ({ addProductToShoppingList }: Props) => {

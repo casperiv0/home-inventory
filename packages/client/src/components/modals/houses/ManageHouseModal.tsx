@@ -13,8 +13,8 @@ import { setter } from "@lib/setter";
 
 interface Props {
   house: House | null;
-  updateHouseById: (id: string, data: RequestData) => Promise<boolean>;
-  deleteHouseById: (id: string) => Promise<boolean>;
+  updateHouseById(id: string, data: RequestData): Promise<boolean>;
+  deleteHouseById(id: string): Promise<boolean>;
 }
 
 const ManageHouseModal = ({ updateHouseById, deleteHouseById, house }: Props) => {

@@ -22,16 +22,15 @@ interface Props {
   showManageButton?: boolean;
   showDeleteButton?: boolean;
 
-  onManageClick?: (product: Product) => unknown;
-  onDeleteClick?: (product: ShoppingListItem) => unknown;
-  bulkDeleteProducts?: (houseId: string, productIds: string[]) => Promise<boolean>;
-  updateItemInShoppingList?: (houseId: string, id: string, data: RequestData) => Promise<boolean>;
+  onManageClick?(product: Product): unknown;
+  onDeleteClick?(product: ShoppingListItem): unknown;
+  bulkDeleteProducts?(houseId: string, productIds: string[]): Promise<boolean>;
+  updateItemInShoppingList?(houseId: string, id: string, data: RequestData): Promise<boolean>;
 }
 
 const ProductsListC = ({ products, showPagination, ...props }: Props) => {
   const [currentPage, setCurrentPage] = React.useState<number>(0);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const list = () => {
     const end = currentPage * MAX_ITEMS_IN_TABLE;
     let arr: (Product | ShoppingListItem)[] = [];

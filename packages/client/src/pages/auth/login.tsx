@@ -10,7 +10,7 @@ import { RequestData } from "@lib/fetch";
 import { setter } from "@lib/setter";
 
 interface Props {
-  authenticate: (data: RequestData, login?: boolean) => Promise<boolean>;
+  authenticate(data: RequestData, login?: boolean): Promise<boolean>;
 }
 
 const LoginPage = ({ authenticate }: Props) => {

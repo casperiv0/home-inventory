@@ -15,8 +15,8 @@ import { parseCategoryName } from "@utils/parseCategoryName";
 
 interface Props {
   category: Category | null;
-  updateCategoryById: (houseId: string, id: string, data: RequestData) => Promise<boolean>;
-  deleteCategoryById: (houseId: string, id: string) => Promise<boolean>;
+  updateCategoryById(houseId: string, id: string, data: RequestData): Promise<boolean>;
+  deleteCategoryById(houseId: string, id: string): Promise<boolean>;
 }
 
 const ManageCategoryModal = ({ category, updateCategoryById, deleteCategoryById }: Props) => {

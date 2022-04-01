@@ -8,7 +8,7 @@ export interface SelectValue<TValue = string> {
 }
 
 interface Props {
-  onChange: (v: SelectValue<any>) => void;
+  onChange(v: SelectValue<any>): void;
   options: SelectProps["options"];
   defaultValue?: SelectProps["defaultValue"];
   value?: SelectProps["value"];
@@ -43,7 +43,7 @@ export const Select: React.FC<Props> = ({
       onFocus={onFocus ? onFocus : () => setMenuOpen(true)}
       value={value}
       isSearchable
-      isMulti={isMulti !== undefined ? isMulti : true}
+      isMulti={typeof isMulti !== "undefined" ? isMulti : true}
       styles={styles(theme ?? {})}
       onChange={(newValue: any) => onChange(newValue)}
       options={options}

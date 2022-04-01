@@ -19,7 +19,7 @@ import forms from "css/forms.module.scss";
 
 interface Props {
   house: House | null;
-  updateHouseById: (id: string, data: RequestData) => Promise<boolean>;
+  updateHouseById(id: string, data: RequestData): Promise<boolean>;
 }
 
 const AdminIndex = ({ house, updateHouseById }: Props) => {

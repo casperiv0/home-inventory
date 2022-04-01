@@ -17,7 +17,7 @@ import { setter } from "@lib/setter";
 interface Props {
   currency: string;
   categories: Category[];
-  addProduct: (houseId: string, data: RequestData) => Promise<boolean>;
+  addProduct(houseId: string, data: RequestData): Promise<boolean>;
 }
 
 const AddProductModal = ({ addProduct, categories, currency }: Props) => {
@@ -36,8 +36,8 @@ const AddProductModal = ({ addProduct, categories, currency }: Props) => {
   const ref = useModalEvent(ModalIds.AddProduct);
 
   const foundCategory = React.useMemo(() => {
-    return categories.find((c) => c.name === router.query?.name);
-  }, [categories, router.query?.name]);
+    return categories.find((c) => c.name === router.query.name);
+  }, [categories, router.query.name]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();

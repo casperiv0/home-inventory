@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { Response, Router } from "express";
 import { UploadedFile } from "express-fileupload";
 import { validateSchema } from "@casper124578/utils";
@@ -24,16 +25,16 @@ router.post("/:houseId", withAuth, withValidHouseId, async (req: IRequest, res: 
   /**
    * the file that was uploaded
    */
-  const file = files.file as UploadedFile;
+  const file = files.file as UploadedFile | null;
 
-  if (file.mimetype !== "application/json") {
+  if (file?.mimetype !== "application/json") {
     return res.status(400).json({ error: "invalid file type" });
   }
 
   /**
    * the raw data of the file
    */
-  const rawData = file?.data?.toString("utf8");
+  const rawData = file.data.toString("utf8");
 
   let data;
   const productsArr = [];
@@ -45,8 +46,8 @@ router.post("/:houseId", withAuth, withValidHouseId, async (req: IRequest, res: 
     data = null;
   }
 
-  const products = data?.products as Product | Product[];
-  const categories = data?.categories as Category[];
+  const products = data?.products as Product | Product[] | null;
+  const categories = data?.categories as Category[] | null;
 
   if (!products || !categories || !Array.isArray(categories)) {
     return res.status(400).json({

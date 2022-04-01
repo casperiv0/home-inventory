@@ -13,7 +13,7 @@ import { useHouseId } from "@hooks/useHouseId";
 import { setter } from "@lib/setter";
 
 interface Props {
-  addUser: (houseId: string, data: RequestData) => Promise<boolean>;
+  addUser(houseId: string, data: RequestData): Promise<boolean>;
 }
 
 const AddUserModal = ({ addUser }: Props) => {

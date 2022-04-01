@@ -18,8 +18,8 @@ import { useRouter } from "next/router";
 interface Props {
   user: User | null;
 
-  logout: () => Promise<boolean>;
-  updateUserSettings: (data: RequestData) => Promise<boolean>;
+  logout(): Promise<boolean>;
+  updateUserSettings(data: RequestData): Promise<boolean>;
 }
 
 const SettingsPage = ({ user, updateUserSettings, logout }: Props) => {

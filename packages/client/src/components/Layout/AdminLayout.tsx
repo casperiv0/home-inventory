@@ -7,7 +7,7 @@ export const AdminLayout: React.FC = ({ children }) => {
     <Layout showCurrentHouse>
       <div className={styles.adminContent}>
         <AdminSidebar />
-        <>{children}</>
+        {children}
       </div>
     </Layout>
   );

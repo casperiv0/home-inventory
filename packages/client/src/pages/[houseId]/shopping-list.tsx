@@ -21,7 +21,7 @@ import { useHouseId } from "@hooks/useHouseId";
 
 interface Props {
   shoppingList: ShoppingList | null;
-  deleteItemFromShoppingList: (houseId: string, id: string) => Promise<boolean>;
+  deleteItemFromShoppingList(houseId: string, id: string): Promise<boolean>;
 }
 
 const HousePage = ({ shoppingList, deleteItemFromShoppingList }: Props) => {

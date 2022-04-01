@@ -10,7 +10,7 @@ import useModalEvent from "@hooks/useModalEvent";
 import { setter } from "@lib/setter";
 
 interface Props {
-  addHouse: (data: RequestData) => Promise<boolean>;
+  addHouse(data: RequestData): Promise<boolean>;
 }
 
 const AddHouseModal = ({ addHouse }: Props) => {

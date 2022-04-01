@@ -5,7 +5,7 @@ import styles from "./dropdown.module.scss";
 interface DropdownOption {
   name: string;
   value?: string;
-  onClick?: () => void;
+  onClick?(): void;
 }
 
 interface DropdownProps {
@@ -13,7 +13,7 @@ interface DropdownProps {
   children: React.ReactNode;
 
   isOpen: boolean;
-  onClose: () => void;
+  onClose(): void;
 
   closeOnClick?: boolean;
   width?: string;

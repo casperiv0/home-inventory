@@ -16,8 +16,8 @@ import { getUserRole } from "@utils/getUserRole";
 
 interface Props {
   user: User | null;
-  updateUserById: (houseId: string, id: string, data: RequestData) => Promise<boolean>;
-  removeUserFromHouse: (houseId: string, id: string) => Promise<boolean>;
+  updateUserById(houseId: string, id: string, data: RequestData): Promise<boolean>;
+  removeUserFromHouse(houseId: string, id: string): Promise<boolean>;
 }
 
 const ManageUserModal = ({ user, updateUserById, removeUserFromHouse }: Props) => {

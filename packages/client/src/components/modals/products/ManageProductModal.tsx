@@ -21,8 +21,8 @@ interface Props {
   currency: string;
 
   categories: Category[];
-  deleteProductById: (houseId: string, id: string) => Promise<boolean>;
-  updateProductById: (houseId: string, id: string, data: RequestData) => Promise<boolean>;
+  deleteProductById(houseId: string, id: string): Promise<boolean>;
+  updateProductById(houseId: string, id: string, data: RequestData): Promise<boolean>;
 }
 
 const ManageProductModal = ({

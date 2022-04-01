@@ -21,8 +21,8 @@ interface Props {
   currentFilter?: FilterKeys | "expirationDate" | null;
   currency?: string;
 
-  onManageClick?: (product: Product) => unknown;
-  bulkDeleteProducts?: (houseId: string, productIds: string[]) => Promise<boolean>;
+  onManageClick?(product: Product): unknown;
+  bulkDeleteProducts?(houseId: string, productIds: string[]): Promise<boolean>;
 }
 
 const ProductsTableC = ({
