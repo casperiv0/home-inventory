@@ -12,7 +12,7 @@
     "test-tsc": "tsc --noEmit"
   },
   "dependencies": {
-    "@casper124578/useful": "^1.5.6",
+    "@casper124578/useful": "^2.0.0",
     "@react-aria/ssr": "^3.1.2",
     "axios": "^0.26.1",
     "cookie": "^0.4.2",
