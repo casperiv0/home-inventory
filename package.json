@@ -16,7 +16,7 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@casper124578/eslint-config": "^4.1.0",
+    "@casper124578/eslint-config": "^4.4.0",
     "@casper124578/eslint-config-next": "^4.1.0",
     "@casper124578/eslint-config-react": "^4.1.0",
     "@typescript-eslint/eslint-plugin": "latest",
