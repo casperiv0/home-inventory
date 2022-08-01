@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "license": "MIT",
   "private": true,
-  "packageManager": "yarn@3.2.0",
+  "packageManager": "yarn@3.2.2",
   "workspaces": [
     "apps/**"
   ],
   "scripts": {
-    "format:quick": "pretty-quick --staged --pattern \"packages/**/*.{js,jsx,ts,tsx,md,css,json}\"",
-    "format": "prettier --write \"packages/**/*.{js,jsx,ts,tsx,md,css,json}\" --ignore-path .gitignore",
+    "format:quick": "pretty-quick --staged --pattern \"apps/**/*.{js,jsx,ts,tsx,md,css,json}\"",
+    "format": "prettier --write \"apps/**/*.{js,jsx,ts,tsx,md,css,json}\" --ignore-path .gitignore",
     "lint": "yarn eslint . --ext .ts,.js,.tsx,.jsx",
     "dev": "yarn turbo run watch --parallel",
     "prepare": "husky install"

@@ -20,6 +20,8 @@
   },
   "rules": {
     "react/hook-use-state": "off",
-    "@typescript-eslint/default-param-last": "off"
+    "@typescript-eslint/default-param-last": "off",
+    "@next/next/no-server-import-in-page": "off",
+    "@typescript-eslint/no-redundant-type-constituents": "off"
   }
 }
