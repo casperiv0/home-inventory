@@ -1,5 +1,5 @@
-import { Product } from "./Product";
-import { User } from "./User";
+import type { Product } from "./Product";
+import type { User } from "./User";
 
 export interface House {
   id: string;

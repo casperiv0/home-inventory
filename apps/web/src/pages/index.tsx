@@ -1,17 +1,17 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import Head from "next/head";
-import { GetServerSideProps } from "next";
+import type { GetServerSideProps } from "next";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
 import { checkAuth } from "@actions/auth";
-import { State } from "@t/State";
+import type { State } from "@t/State";
 import { initializeStore } from "src/store/store";
 import { Layout } from "@components/Layout";
 import { User, UserRole } from "@t/User";
 import { getHouses } from "@actions/houses";
-import { House } from "@t/House";
+import type { House } from "@t/House";
 import styles from "css/houses.module.scss";
 import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";

@@ -21,7 +21,7 @@ interface Props {
   theme?: SelectTheme;
 }
 
-export const Select: React.FC<Props> = ({
+export const Select = ({
   onChange,
   onFocus,
   isMulti = false,
@@ -33,7 +33,7 @@ export const Select: React.FC<Props> = ({
   disabled,
   id,
   theme,
-}) => {
+}: Props) => {
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   return (

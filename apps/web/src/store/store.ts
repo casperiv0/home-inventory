@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { AppProps } from "next/app";
+import type { AppProps } from "next/app";
 import { applyMiddleware, createStore, Store } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";

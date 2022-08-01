@@ -1,4 +1,4 @@
-import { GetServerSideProps } from "next";
+import type { GetServerSideProps } from "next";
 import { connect } from "react-redux";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -9,8 +9,8 @@ import { getCurrentHouse } from "@actions/houses";
 import { getProductsByCategory } from "@actions/products";
 import { Layout } from "@components/Layout";
 import { Products } from "@components/Products/Products";
-import { Product } from "@t/Product";
-import { State } from "@t/State";
+import type { Product } from "@t/Product";
+import type { State } from "@t/State";
 import { initializeStore } from "src/store/store";
 import { useIsAuth } from "@hooks/useIsAuth";
 import { useValidHouse } from "@hooks/useValidHouse";

@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-import { GetServerSideProps } from "next";
+import type { GetServerSideProps } from "next";
 
 import { checkAuth } from "@actions/auth";
-import { State } from "@t/State";
+import type { State } from "@t/State";
 import { initializeStore } from "src/store/store";
 import { AdminLayout } from "@components/Layout";
 import { getAllUsers } from "@actions/admin/users";

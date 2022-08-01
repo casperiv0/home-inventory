@@ -7,7 +7,7 @@ import { closeModal } from "@lib/modal";
 import useModalEvent from "src/hooks/useModalEvent";
 import { Select, SelectValue } from "@components/Select/Select";
 import { selectRoles } from "@lib/constants";
-import { RequestData } from "@lib/fetch";
+import type { RequestData } from "@lib/fetch";
 import { addUser } from "@actions/admin/users";
 import { useHouseId } from "@hooks/useHouseId";
 import { setter } from "@lib/setter";

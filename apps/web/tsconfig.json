@@ -15,6 +15,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "baseUrl": ".",
+    "importsNotUsedAsValues": "error",
     "paths": {
       "icons/*": ["./src/components/icons/*"],
       "@lib/*": ["./src/lib/*"],

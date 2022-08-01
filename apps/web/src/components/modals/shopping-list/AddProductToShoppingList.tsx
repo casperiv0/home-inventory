@@ -3,7 +3,7 @@ import { connect, useSelector } from "react-redux";
 import { Modal } from "@components/Modal/Modal";
 import { Select, SelectValue } from "@components/Select/Select";
 import { ModalIds } from "@t/ModalIds";
-import { State } from "@t/State";
+import type { State } from "@t/State";
 import { closeModal } from "@lib/modal";
 import form from "css/forms.module.scss";
 import { addProductToShoppingList } from "@actions/shopping-list";

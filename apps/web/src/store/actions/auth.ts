@@ -1,7 +1,7 @@
-import { Dispatch } from "react";
+import type { Dispatch } from "react";
 import { toast } from "react-hot-toast";
 import { getErrorFromResponse, handleRequest, RequestData } from "@lib/fetch";
-import { Authenticate, SetAuthLoading } from "../types";
+import type { Authenticate, SetAuthLoading } from "../types";
 
 export const authenticate =
   (data: RequestData, login?: boolean) =>

@@ -1,4 +1,4 @@
-import { GetServerSideProps } from "next";
+import type { GetServerSideProps } from "next";
 import * as React from "react";
 import { connect } from "react-redux";
 import Head from "next/head";
@@ -6,13 +6,13 @@ import Head from "next/head";
 import { checkAuth, updateUserSettings, logout } from "@actions/auth";
 import { Layout } from "@components/Layout";
 import { useIsAuth } from "@hooks/useIsAuth";
-import { State } from "@t/State";
-import { User } from "@t/User";
+import type { State } from "@t/State";
+import type { User } from "@t/User";
 import { initializeStore } from "src/store/store";
 
 import formStyles from "css/forms.module.scss";
 import { setter } from "@lib/setter";
-import { RequestData } from "@lib/fetch";
+import type { RequestData } from "@lib/fetch";
 import { useRouter } from "next/router";
 
 interface Props {

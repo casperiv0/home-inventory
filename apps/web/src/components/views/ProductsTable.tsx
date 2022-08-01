@@ -4,8 +4,8 @@ import format from "date-fns/format";
 import { connect, useSelector } from "react-redux";
 import Link from "next/link";
 
-import { Product } from "@t/Product";
-import { State } from "@t/State";
+import type { Product } from "@t/Product";
+import type { State } from "@t/State";
 import { useHouseId } from "@hooks/useHouseId";
 import { FilterKeys, MAX_ITEMS_IN_TABLE } from "@lib/constants";
 import { closeModal, openModal } from "@lib/modal";
@@ -281,6 +281,6 @@ const mapToProps = (state: State) => ({
   currency: state.houses.house?.currency ?? "€",
 });
 
-export const ProductsTable: React.FC<Props> = connect(mapToProps, {
+export const ProductsTable = connect(mapToProps, {
   bulkDeleteProducts,
 })(ProductsTableC);

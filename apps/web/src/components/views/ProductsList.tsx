@@ -5,14 +5,14 @@ import Link from "next/link";
 
 import { useHouseId } from "@hooks/useHouseId";
 import { MAX_ITEMS_IN_TABLE } from "@lib/constants";
-import { Product } from "@t/Product";
-import { State } from "@t/State";
+import type { Product } from "@t/Product";
+import type { State } from "@t/State";
 import { Pagination } from "@components/Pagination/Pagination";
 import styles from "css/views.module.scss";
-import { ShoppingListItem } from "@t/ShoppingList";
+import type { ShoppingListItem } from "@t/ShoppingList";
 import { classes } from "@utils/classes";
 import { updateItemInShoppingList } from "@actions/shopping-list";
-import { RequestData } from "@lib/fetch";
+import type { RequestData } from "@lib/fetch";
 
 interface Props {
   products: (Product | ShoppingListItem)[];
@@ -171,6 +171,4 @@ const mapToProps = (state: State) => ({
   currency: state.houses.house?.currency ?? "€",
 });
 
-export const ProductsList: React.FC<Props> = connect(mapToProps, { updateItemInShoppingList })(
-  ProductsListC,
-);
+export const ProductsList = connect(mapToProps, { updateItemInShoppingList })(ProductsListC);

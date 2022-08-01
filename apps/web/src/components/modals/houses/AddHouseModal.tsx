@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { addHouse } from "@actions/houses";
 import { Modal } from "@components/Modal/Modal";
 import { ModalIds } from "@t/ModalIds";
-import { RequestData } from "@lib/fetch";
+import type { RequestData } from "@lib/fetch";
 import { closeModal } from "@lib/modal";
 import styles from "css/forms.module.scss";
 import useModalEvent from "@hooks/useModalEvent";

@@ -1,7 +1,7 @@
 import { getErrorFromResponse, handleRequest, RequestData } from "@lib/fetch";
-import { Dispatch } from "react";
+import type { Dispatch } from "react";
 import { toast } from "react-hot-toast";
-import { GetStats, UpdateCategories, UpdateProducts } from "../types";
+import type { GetStats, UpdateCategories, UpdateProducts } from "../types";
 
 export const getAllProducts =
   (houseId: string, cookie?: string) =>

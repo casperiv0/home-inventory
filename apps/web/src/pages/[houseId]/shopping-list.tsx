@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import Head from "next/head";
-import { GetServerSideProps } from "next";
+import type { GetServerSideProps } from "next";
 
 import { checkAuth } from "@actions/auth";
 import { initializeStore } from "src/store/store";
@@ -10,8 +10,8 @@ import { getCurrentHouse } from "@actions/houses";
 import { useIsAuth } from "@hooks/useIsAuth";
 import { useValidHouse } from "@hooks/useValidHouse";
 import { deleteItemFromShoppingList, getShoppingList } from "@actions/shopping-list";
-import { ShoppingList, ShoppingListItem } from "@t/ShoppingList";
-import { State } from "@t/State";
+import type { ShoppingList, ShoppingListItem } from "@t/ShoppingList";
+import type { State } from "@t/State";
 import { ProductsList } from "@components/views/ProductsList";
 import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";

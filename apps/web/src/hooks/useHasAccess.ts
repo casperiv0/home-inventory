@@ -1,6 +1,6 @@
 import { userRoles } from "@lib/constants";
-import { State } from "@t/State";
-import { UserRole } from "@t/User";
+import type { State } from "@t/State";
+import type { UserRole } from "@t/User";
 import { getUserRole } from "@utils/getUserRole";
 import React from "react";
 import { useSelector } from "react-redux";

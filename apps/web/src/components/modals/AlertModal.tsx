@@ -4,7 +4,7 @@ import styles from "@components/Modal/modal.module.scss";
 import useModalEvent from "@hooks/useModalEvent";
 
 interface Props extends ModalProps {
-  description: string | React.ReactFragment;
+  description: React.ReactNode;
   actions: ModalAction[];
 }
 

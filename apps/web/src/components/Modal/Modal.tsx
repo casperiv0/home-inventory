@@ -2,7 +2,7 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import { useMounted, usePortal } from "@casper124578/useful";
 import styles from "./modal.module.scss";
-import { ModalIds } from "@t/ModalIds";
+import type { ModalIds } from "@t/ModalIds";
 import { closeModal } from "@lib/modal";
 import { CloseIcon } from "@components/icons/Close";
 import { classes } from "@utils/classes";
@@ -11,10 +11,11 @@ export interface ModalProps {
   id: ModalIds;
   title: string;
   width?: string;
+  children?: React.ReactNode;
   [key: string]: unknown;
 }
 
-export const Modal: React.FC<ModalProps> = ({ id, title, children, ...rest }) => {
+export function Modal({ id, title, children, ...rest }: ModalProps) {
   const portalRef = usePortal(`Modal_Portal_${id}`);
   const isMounted = useMounted();
 
@@ -68,4 +69,4 @@ export const Modal: React.FC<ModalProps> = ({ id, title, children, ...rest }) =>
         portalRef!,
       )
     : null;
-};
+}

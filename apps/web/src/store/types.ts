@@ -1,9 +1,9 @@
-import { Category } from "@t/Category";
-import { House } from "@t/House";
-import { Product } from "@t/Product";
-import { ShoppingList } from "@t/ShoppingList";
-import { Statistics } from "@t/Statistics";
-import { User } from "@t/User";
+import type { Category } from "@t/Category";
+import type { House } from "@t/House";
+import type { Product } from "@t/Product";
+import type { ShoppingList } from "@t/ShoppingList";
+import type { Statistics } from "@t/Statistics";
+import type { User } from "@t/User";
 
 export interface SetAuthLoading {
   type: "SET_AUTH_LOADING";

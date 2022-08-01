@@ -1,8 +1,9 @@
+import type * as React from "react";
 import styles from "./layout.module.scss";
 import { AdminSidebar } from "@components/admin/Sidebar/Sidebar";
 import { Layout } from "./Layout";
 
-export const AdminLayout: React.FC = ({ children }) => {
+export function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <Layout showCurrentHouse>
       <div className={styles.adminContent}>
@@ -11,4 +12,4 @@ export const AdminLayout: React.FC = ({ children }) => {
       </div>
     </Layout>
   );
-};
+}

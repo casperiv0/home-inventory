@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import { authenticate } from "@actions/auth";
 import styles from "css/forms.module.scss";
-import { RequestData } from "@lib/fetch";
+import type { RequestData } from "@lib/fetch";
 import { setter } from "@lib/setter";
 
 interface Props {

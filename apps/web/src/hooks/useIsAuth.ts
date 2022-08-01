@@ -1,5 +1,5 @@
 import * as React from "react";
-import { State } from "@t/State";
+import type { State } from "@t/State";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 

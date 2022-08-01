@@ -1,10 +1,10 @@
-import { Category } from "./Category";
-import { User } from "./User";
-import { Product } from "./Product";
-import { Statistics } from "./Statistics";
-import { House } from "./House";
-import { States } from "src/store/types";
-import { ShoppingList } from "./ShoppingList";
+import type { Category } from "./Category";
+import type { User } from "./User";
+import type { Product } from "./Product";
+import type { Statistics } from "./Statistics";
+import type { House } from "./House";
+import type { States } from "src/store/types";
+import type { ShoppingList } from "./ShoppingList";
 
 export interface State {
   auth: {

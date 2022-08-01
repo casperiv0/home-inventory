@@ -18,4 +18,7 @@ module.exports = {
     legacyBrowsers: false,
   },
   cleanDistDir: true,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };

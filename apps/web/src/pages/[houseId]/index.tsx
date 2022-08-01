@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import Head from "next/head";
-import { GetServerSideProps } from "next";
+import type { GetServerSideProps } from "next";
 
 import { checkAuth } from "@actions/auth";
 import { initializeStore } from "src/store/store";

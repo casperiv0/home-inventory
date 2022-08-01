@@ -1,20 +1,20 @@
 import * as React from "react";
 import Head from "next/head";
-import { GetServerSideProps } from "next";
+import type { GetServerSideProps } from "next";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import { checkAuth } from "@actions/auth";
 import { getCurrentHouse, updateHouseById } from "@actions/houses";
 import { useIsAuth } from "@hooks/useIsAuth";
 import { useValidHouse } from "@hooks/useValidHouse";
-import { State } from "@t/State";
+import type { State } from "@t/State";
 import { UserRole } from "@t/User";
 import { initializeStore } from "src/store/store";
 import { useHasAccess } from "@hooks/useHasAccess";
 import { AdminLayout } from "@components/Layout";
-import { House } from "@t/House";
+import type { House } from "@t/House";
 import { setter } from "@lib/setter";
-import { RequestData } from "@lib/fetch";
+import type { RequestData } from "@lib/fetch";
 import forms from "css/forms.module.scss";
 
 interface Props {

@@ -1,5 +1,5 @@
-import { FilterKeys } from "@lib/constants";
-import { Product } from "@t/Product";
+import type { FilterKeys } from "@lib/constants";
+import type { Product } from "@t/Product";
 
 export function sortProducts(filter: FilterKeys, products: Product[]) {
   switch (filter) {

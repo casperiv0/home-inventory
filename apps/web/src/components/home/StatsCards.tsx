@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 
 import styles from "css/home.module.scss";
-import { State } from "@t/State";
-import { Statistics } from "@t/Statistics";
+import type { State } from "@t/State";
+import type { Statistics } from "@t/Statistics";
 import { ProductsTable } from "@components/views/ProductsTable";
 
 interface Props {

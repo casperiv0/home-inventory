@@ -1,20 +1,21 @@
-import { useSelector } from "react-redux";
 import * as React from "react";
+import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
 import { Nav } from "@components/Nav";
-import { State } from "@t/State";
+import type { State } from "@t/State";
 import Dropdown from "@components/Dropdown/Dropdown";
-import { House } from "@t/House";
+import type { House } from "@t/House";
 import { Loader } from "@components/Loader/Loader";
 import styles from "./layout.module.scss";
 
 interface Props {
+  children: React.ReactNode;
   nav?: boolean;
   showCurrentHouse?: boolean;
 }
 
-export const Layout: React.FC<Props> = ({ nav = true, showCurrentHouse, children }) => {
+export function Layout({ nav = true, showCurrentHouse, children }: Props) {
   const [isOpen, setOpen] = React.useState(false);
 
   const currentHouse = useSelector((state: State) => state.houses.house);
@@ -70,4 +71,4 @@ export const Layout: React.FC<Props> = ({ nav = true, showCurrentHouse, children
       </div>
     </>
   );
-};
+}

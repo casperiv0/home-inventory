@@ -1,5 +1,5 @@
-import { Category } from "@t/Category";
-import { Product } from "@t/Product";
+import type { Category } from "@t/Category";
+import type { Product } from "@t/Product";
 
 export function parseExport(products: Product[], categories: Category[]) {
   return {

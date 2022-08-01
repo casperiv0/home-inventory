@@ -41,7 +41,7 @@ export const handleRequest = <T = any>(
  * @param {unknown} error The error
  */
 export const getErrorFromResponse = (e: unknown): string | null => {
-  const error = (e instanceof Error ? e : null) as AxiosError | Error | null;
+  const error = (e instanceof Error ? e : null) as AxiosError<any> | Error | null;
 
   if (!error) {
     return NO_ERROR;

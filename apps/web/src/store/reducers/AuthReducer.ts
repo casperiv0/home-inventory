@@ -1,5 +1,5 @@
-import { State } from "@t/State";
-import { Authenticate, SetAuthLoading } from "../types";
+import type { State } from "@t/State";
+import type { Authenticate, SetAuthLoading } from "../types";
 
 type Actions = Authenticate | SetAuthLoading;
 

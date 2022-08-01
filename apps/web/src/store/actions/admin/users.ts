@@ -1,7 +1,7 @@
-import { Dispatch } from "react";
+import type { Dispatch } from "react";
 import { toast } from "react-hot-toast";
 import { getErrorFromResponse, handleRequest, RequestData } from "@lib/fetch";
-import { UpdateUsers } from "src/store/types";
+import type { UpdateUsers } from "src/store/types";
 
 export const getAllUsers =
   (houseId: string, cookie?: string) => async (dispatch: Dispatch<UpdateUsers>) => {

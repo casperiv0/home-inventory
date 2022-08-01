@@ -6,7 +6,7 @@ import { ModalIds } from "@t/ModalIds";
 import styles from "css/forms.module.scss";
 import { closeModal } from "@lib/modal";
 import useModalEvent from "src/hooks/useModalEvent";
-import { RequestData } from "@lib/fetch";
+import type { RequestData } from "@lib/fetch";
 import { addCategory } from "@actions/admin/categories";
 import { useHouseId } from "@hooks/useHouseId";
 import { parseCategoryName } from "@utils/parseCategoryName";

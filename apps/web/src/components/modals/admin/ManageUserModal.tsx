@@ -8,7 +8,7 @@ import { closeModal, openModal } from "@lib/modal";
 import { User, UserRole } from "@t/User";
 import { Select, SelectValue } from "@components/Select/Select";
 import { updateUserById, removeUserFromHouse } from "@actions/admin/users";
-import { RequestData } from "@lib/fetch";
+import type { RequestData } from "@lib/fetch";
 import { selectRoles } from "@lib/constants";
 import { AlertModal } from "../AlertModal";
 import { useHouseId } from "@hooks/useHouseId";

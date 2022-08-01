@@ -5,8 +5,8 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { useDownload } from "@casper124578/useful/hooks/useDownload";
 
-import { Product } from "@t/Product";
-import { SelectValue } from "@components/Select/Select";
+import type { Product } from "@t/Product";
+import type { SelectValue } from "@components/Select/Select";
 import { sortProducts } from "@utils/sortProducts";
 import { openModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
@@ -20,7 +20,7 @@ import Dropdown from "@components/Dropdown/Dropdown";
 import { DotsIcon } from "icons/Dots";
 import { ArrowIcon } from "icons/Arrow";
 import { parseExport } from "@utils/parseExport";
-import { State } from "@t/State";
+import type { State } from "@t/State";
 import { ProductsList } from "@components/views/ProductsList";
 
 const AddProductModal = dynamic(() => import("@components/modals/products/AddProductModal"));

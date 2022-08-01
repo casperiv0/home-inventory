@@ -1,4 +1,4 @@
-import { ModalIds } from "@t/ModalIds";
+import type { ModalIds } from "@t/ModalIds";
 
 /**
  * open a modal and dispatch the `modalOpen` event

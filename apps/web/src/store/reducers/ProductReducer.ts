@@ -1,5 +1,5 @@
-import { State } from "@t/State";
-import { GetStats, UpdateProducts } from "../types";
+import type { State } from "@t/State";
+import type { GetStats, UpdateProducts } from "../types";
 
 type Actions = UpdateProducts | GetStats;
 

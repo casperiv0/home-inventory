@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
 import * as React from "react";
 import Head from "next/head";
-import { GetServerSideProps } from "next";
+import type { GetServerSideProps } from "next";
 
 import { Layout } from "@components/Layout";
-import { State } from "@t/State";
+import type { State } from "@t/State";
 import { initializeStore } from "src/store/store";
 import { checkAuth } from "@actions/auth";
 import { getAllProducts } from "@actions/products";

@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { updateHouseById, deleteHouseById } from "@actions/houses";
 import { Modal } from "@components/Modal/Modal";
 import { ModalIds } from "@t/ModalIds";
-import { RequestData } from "@lib/fetch";
+import type { RequestData } from "@lib/fetch";
 import { closeModal, openModal } from "@lib/modal";
 import styles from "css/forms.module.scss";
 import useModalEvent from "@hooks/useModalEvent";
-import { House } from "@t/House";
+import type { House } from "@t/House";
 import { AlertModal } from "@components/modals/AlertModal";
 import { setter } from "@lib/setter";
 
