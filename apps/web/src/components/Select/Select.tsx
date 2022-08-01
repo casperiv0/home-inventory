@@ -21,7 +21,7 @@ interface Props {
   theme?: SelectTheme;
 }
 
-export const Select = ({
+export function Select({
   onChange,
   onFocus,
   isMulti = false,
@@ -33,7 +33,7 @@ export const Select = ({
   disabled,
   id,
   theme,
-}: Props) => {
+}: Props) {
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   return (
@@ -58,4 +58,4 @@ export const Select = ({
       menuShouldScrollIntoView={false}
     />
   );
-};
+}

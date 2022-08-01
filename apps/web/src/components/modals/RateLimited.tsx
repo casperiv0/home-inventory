@@ -2,7 +2,7 @@ import { closeModal } from "@lib/modal";
 import { ModalIds } from "@t/ModalIds";
 import { AlertModal, ModalAction } from "./AlertModal";
 
-export const RateLimitedModal = () => {
+export function RateLimitedModal() {
   return (
     <AlertModal
       id={ModalIds.AlertRateLimited}
@@ -15,4 +15,4 @@ export const RateLimitedModal = () => {
       style={{ zIndex: 999 }}
     />
   );
-};
+}

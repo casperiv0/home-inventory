@@ -18,7 +18,7 @@ export interface ModalAction extends ButtonProps {
   danger?: boolean;
 }
 
-export const AlertModal = (props: Props) => {
+export function AlertModal(props: Props) {
   const ref = useModalEvent<HTMLButtonElement>(props.id);
 
   return (
@@ -45,4 +45,4 @@ export const AlertModal = (props: Props) => {
       </div>
     </Modal>
   );
-};
+}

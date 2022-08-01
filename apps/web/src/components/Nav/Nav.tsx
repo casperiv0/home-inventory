@@ -12,7 +12,7 @@ import { classes } from "@utils/classes";
 import styles from "./nav.module.scss";
 import { useSSRSafeId } from "@react-aria/ssr";
 
-export const Nav = () => {
+export function Nav() {
   const [theme, setTheme] = React.useState<Theme>("light");
   const ulRef = React.useRef<HTMLUListElement>(null);
   const router = useRouter();
@@ -151,4 +151,4 @@ export const Nav = () => {
       </div>
     </nav>
   );
-};
+}

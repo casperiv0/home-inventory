@@ -30,7 +30,7 @@ interface Props {
   products: Product[];
 }
 
-export const Products = ({ products }: Props) => {
+export function Products({ products }: Props) {
   const download = useDownload();
   const categories = useSelector((state: State) => state.admin.categories);
   const searchRef = React.useRef<HTMLInputElement>(null);
@@ -194,4 +194,4 @@ export const Products = ({ products }: Props) => {
       <ManageProductModal product={tempProduct} />
     </>
   );
-};
+}

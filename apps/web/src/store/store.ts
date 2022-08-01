@@ -11,7 +11,7 @@ function initStore(initState: Record<string, unknown>): Store {
   return createStore(reducers, initState, composeWithDevTools(applyMiddleware(thunk)));
 }
 
-export const initializeStore = (preloadState: any = {}) => {
+export function initializeStore(preloadState: any = {}) {
   let _store = store ?? initStore(preloadState);
 
   if (preloadState && store) {
@@ -27,7 +27,7 @@ export const initializeStore = (preloadState: any = {}) => {
   if (!store) store = _store;
 
   return _store;
-};
+}
 
 export function useStore(initState: AppProps) {
   const store = useMemo(() => initializeStore(initState), [initState]);

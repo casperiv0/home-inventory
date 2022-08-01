@@ -1,6 +1,6 @@
 type Props = React.SVGAttributes<SVGElement>;
 
-export const ListIcon = (props: Props) => {
+export function ListIcon(props: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -16,4 +16,4 @@ export const ListIcon = (props: Props) => {
       />
     </svg>
   );
-};
+}

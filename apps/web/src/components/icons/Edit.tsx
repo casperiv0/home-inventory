@@ -1,6 +1,6 @@
 type Props = React.SVGAttributes<SVGElement>;
 
-export const EditIcon = (props: Props) => {
+export function EditIcon(props: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -17,4 +17,4 @@ export const EditIcon = (props: Props) => {
       />
     </svg>
   );
-};
+}

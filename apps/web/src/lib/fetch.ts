@@ -12,7 +12,7 @@ export type RequestData = Record<string, unknown>;
  * @param method The method for the request
  * @param data optional data for the request
  */
-export const handleRequest = <T = any>(
+export function handleRequest<T = any>(
   path: string,
   method: ALLOWED_METHODS,
   data?:
@@ -20,7 +20,7 @@ export const handleRequest = <T = any>(
     | {
         cookie: string;
       },
-): Promise<AxiosResponse<T>> => {
+): Promise<AxiosResponse<T>> {
   const parsedCookie =
     cookie.parse((data?.cookie as string | null) ?? "")?.["session-cookie"] ?? "";
 
@@ -34,13 +34,13 @@ export const handleRequest = <T = any>(
       "Content-Type": "application/json",
     },
   });
-};
+}
 
 /**
  * get the error message from the response error
  * @param {unknown} error The error
  */
-export const getErrorFromResponse = (e: unknown): string | null => {
+export function getErrorFromResponse(e: unknown): string | null {
   const error = (e instanceof Error ? e : null) as AxiosError<any> | Error | null;
 
   if (!error) {
@@ -57,4 +57,4 @@ export const getErrorFromResponse = (e: unknown): string | null => {
   }
 
   return error.message || NO_ERROR;
-};
+}

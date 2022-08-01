@@ -4,7 +4,7 @@ import type { ModalIds } from "@t/ModalIds";
  * open a modal and dispatch the `modalOpen` event
  * @param id
  */
-export const openModal = (id: ModalIds) => {
+export function openModal(id: ModalIds) {
   document.querySelector(`#${id}`)?.classList.add("modal-active");
   document.querySelector(`#style-${id}`)?.classList.remove("modal-closed");
   document.querySelector(`#style-${id}`)?.classList.add("modal-content-active");
@@ -14,12 +14,12 @@ export const openModal = (id: ModalIds) => {
     detail: id,
   });
   window.dispatchEvent(event);
-};
+}
 
-export const closeModal = (id: ModalIds) => {
+export function closeModal(id: ModalIds) {
   document.querySelector(`#style-${id}`)?.classList.replace("modal-content-active", "modal-closed");
 
   setTimeout(() => {
     document.querySelector(`#${id}`)?.classList.remove("modal-active");
   }, 105);
-};
+}

@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useHouseId } from "@hooks/useHouseId";
 import { classes } from "@utils/classes";
 
-export const AdminSidebar = () => {
+export function AdminSidebar() {
   const router = useRouter();
   const houseId = useHouseId();
   const activeRouter = (route: string) => (router.asPath === route ? styles.sidebarItemActive : "");
@@ -45,4 +45,4 @@ export const AdminSidebar = () => {
       </ul>
     </nav>
   );
-};
+}

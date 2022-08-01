@@ -9,7 +9,7 @@ interface Props {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const Pagination = ({ length, currentPage, setCurrentPage }: Props) => {
+export function Pagination({ length, currentPage, setCurrentPage }: Props) {
   function calculatePages(itemsPerPage = MAX_ITEMS_IN_TABLE) {
     const arr = [];
 
@@ -42,4 +42,4 @@ export const Pagination = ({ length, currentPage, setCurrentPage }: Props) => {
       ))}
     </div>
   );
-};
+}
