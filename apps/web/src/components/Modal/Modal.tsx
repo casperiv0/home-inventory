@@ -1,6 +1,6 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { useMounted, usePortal } from "@casper124578/useful/hooks";
+import { useMounted, usePortal } from "@casper124578/useful";
 import styles from "./modal.module.scss";
 import { ModalIds } from "@t/ModalIds";
 import { closeModal } from "@lib/modal";

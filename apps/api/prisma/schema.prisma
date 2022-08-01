@@ -17,7 +17,7 @@ model User {
   password   String
   createdAt  DateTime    @default(now())
   products   Product[]
-  houses     House[]     @relation(references: [id])
+  houses     House[]
   houseId    String?
   houseRoles HouseRole[]
 }
@@ -45,7 +45,7 @@ model House {
   id             String        @id @default(uuid())
   name           String
   currency       String        @default("€")
-  users          User[]        @relation(references: [id])
+  users          User[]
   userId         String
   products       Product[]
   categories     Category[]

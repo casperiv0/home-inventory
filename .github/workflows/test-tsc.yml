@@ -1,4 +1,4 @@
-name: Check TS build (api & client)
+name: Check TS build (api & web)
 
 on: [push, pull_request]
 
