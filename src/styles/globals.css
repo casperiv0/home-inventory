@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@media (min-width: 768px) {
+  .layout-main {
+    width: calc(100vw - 288px);
+  }
+}

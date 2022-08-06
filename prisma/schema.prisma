@@ -11,9 +11,9 @@ generator client {
 }
 
 model User {
-  id    String  @id @default(cuid())
-  email String  @unique
-  name  String
+  id       String  @id @default(cuid())
+  email    String  @unique
+  name     String
   imageUrl String?
 
   products   Product[]
@@ -22,6 +22,7 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+  House     House[]  @relation("owner")
 }
 
 model Product {
@@ -45,10 +46,11 @@ model Product {
 
 model House {
   id             String        @id @default(uuid())
-  name           String
+  name           String        @unique
   currency       String        @default("€")
   users          User[]
-  userId         String
+  ownerId        String
+  owner          User          @relation("owner", fields: [ownerId], references: [id])
   products       Product[]
   categories     Category[]
   houseRoles     HouseRole[]

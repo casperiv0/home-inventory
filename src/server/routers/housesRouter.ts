@@ -1,3 +1,4 @@
+import { UserRole } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { createRouter } from "server/createRouter";
 import { prisma } from "utils/prisma";
@@ -47,16 +48,27 @@ export const housesRouter = createRouter()
       return house;
     },
   })
-  .mutation("delete-user", {
-    async resolve({ ctx }) {
-      if (!ctx.session?.user?.email) {
-        throw new TRPCError({ code: "UNAUTHORIZED" });
-      }
+  .mutation("addHouse", {
+    input: z.object({
+      name: z.string().min(2),
+    }),
+    async resolve({ ctx, input }) {
+      const userId = ctx.dbUser!.id;
 
-      await prisma.user.delete({
-        where: { email: ctx.session.user.email },
+      const house = await prisma.house.create({
+        data: {
+          name: input.name,
+          ownerId: userId,
+          users: { connect: { id: userId } },
+          houseRoles: {
+            create: {
+              role: UserRole.OWNER,
+              userId: userId!,
+            },
+          },
+        },
       });
 
-      return { deleted: true };
+      return house;
     },
   });

@@ -40,7 +40,7 @@ export function Layout({ children }: LayoutProps) {
         <meta name="description" content="" />
       </Head>
 
-      <div className="md:flex">
+      <div className="md:flex justify-center">
         <main className="layout-main">{children}</main>
       </div>
     </>
