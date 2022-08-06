@@ -77,7 +77,7 @@ export default function HomePage() {
       </div>
 
       <Modal isOpen={isOpen} onOpenChange={handleClose}>
-        <Modal.Title>{tempHouse ? "Edit Income" : "Add new income"}</Modal.Title>
+        <Modal.Title>{tempHouse ? "Edit House" : "Add new house"}</Modal.Title>
 
         <div>
           <HouseForm onSubmit={handleClose} house={tempHouse} />

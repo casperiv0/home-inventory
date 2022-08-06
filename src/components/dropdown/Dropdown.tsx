@@ -30,7 +30,7 @@ export function Dropdown({ trigger, triggerKind = "trigger", children, extra, ..
         align="start"
         {...rest}
         className={classNames(
-          "z-50 p-1.5 rounded-sm shadow-lg dropdown-fade w-36 bg-tertiary",
+          "z-50 p-1.5 rounded-sm shadow-lg dropdown-fade w-36 bg-neutral-700",
           rest.className,
         )}
       >

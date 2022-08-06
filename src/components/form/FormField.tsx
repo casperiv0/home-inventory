@@ -37,7 +37,7 @@ export function FormField({ checkbox, children, label, className, errorMessage, 
   });
 
   return (
-    <div className={classNames("flex flex-col mb-3", className)}>
+    <div className={classNames("flex flex-col mb-3 w-full", className)}>
       <div
         className={classNames("flex", checkbox ? "flex-row items-center" : "flex-col", className)}
       >
