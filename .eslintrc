@@ -16,7 +16,7 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "project": "./tsconfig.base.json"
+    "project": "./tsconfig.json"
   },
   "rules": {
     "react/hook-use-state": "off",

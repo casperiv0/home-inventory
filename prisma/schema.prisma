@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id    String  @id @default(cuid())
+  email String  @unique
+  name  String
+  imageUrl String?
+
+  products   Product[]
+  houses     House[]
+  houseRoles HouseRole[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Product {
+  id                    String             @id @default(uuid())
+  quantity              Int
+  warnOnQuantity        Int                @default(2)
+  ignoreQuantityWarning Boolean            @default(false)
+  price                 Float
+  prices                Float[]
+  name                  String
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  expirationDate        String?
+  createdBy             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                String
+  categoryId            String?
+  house                 House              @relation(fields: [houseId], references: [id], onDelete: Cascade)
+  houseId               String
+  ShoppingListItem      ShoppingListItem[]
+}
+
+model House {
+  id             String        @id @default(uuid())
+  name           String
+  currency       String        @default("€")
+  users          User[]
+  userId         String
+  products       Product[]
+  categories     Category[]
+  houseRoles     HouseRole[]
+  shoppingList   ShoppingList? @relation(fields: [shoppingListId], references: [id], onDelete: Cascade)
+  shoppingListId String?       @unique
+}
+
+model ShoppingList {
+  id       String             @unique @default(uuid())
+  products ShoppingListItem[] @relation
+  House    House?
+}
+
+model ShoppingListItem {
+  id             String       @unique @default(uuid())
+  product        Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId      String
+  completed      Boolean      @default(false)
+  ShoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id], onDelete: Cascade)
+  shoppingListId String
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  house     House    @relation(fields: [houseId], references: [id], onDelete: Cascade)
+  houseId   String
+}
+
+model HouseRole {
+  id      String   @id @default(uuid())
+  role    UserRole @default(USER)
+  house   House    @relation(fields: [houseId], references: [id], onDelete: Cascade)
+  houseId String
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
+}
+
+enum UserRole {
+  OWNER
+  ADMIN
+  USER
+}
