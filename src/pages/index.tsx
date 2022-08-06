@@ -1,16 +1,25 @@
-import { UserRole } from "@prisma/client";
+import * as React from "react";
+import { type House, UserRole } from "@prisma/client";
 import { Button } from "components/ui/Button";
 import Head from "next/head";
 import Link from "next/link";
 import { trpc } from "utils/trpc";
-import { EditIcon } from "____/web/src/components/icons/Edit";
+import { Modal } from "components/modal/Modal";
+import { Pencil } from "react-bootstrap-icons";
+import { HouseForm } from "components/forms/HouseForm";
 
 export default function HomePage() {
   const userQuery = trpc.useQuery(["user.getSession"]);
   const housesQuery = trpc.useQuery(["houses.getUserHouses"]);
   const user = userQuery.data?.user;
 
-  const houseMutation = trpc.useMutation(["houses.addHouse"]);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [tempHouse, setTempHouse] = React.useState<House | null>(null);
+
+  function handleClose() {
+    setTempHouse(null);
+    setIsOpen(false);
+  }
 
   return (
     <>
@@ -26,15 +35,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <Button
-          onClick={() => {
-            houseMutation.mutate({
-              name: "New House",
-            });
-          }}
-        >
-          Add house
-        </Button>
+        <Button onClick={() => setIsOpen(true)}>Add house</Button>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
@@ -51,8 +52,15 @@ export default function HomePage() {
                 </Link>
 
                 {role?.role === UserRole.OWNER ? (
-                  <Button variant="transparent" size="xxs">
-                    <EditIcon aria-label="Manage house" />
+                  <Button
+                    onClick={() => {
+                      setIsOpen(true);
+                      setTempHouse(house);
+                    }}
+                    variant="transparent"
+                    size="xxs"
+                  >
+                    <Pencil aria-label="Manage house" />
                   </Button>
                 ) : null}
               </header>
@@ -67,6 +75,14 @@ export default function HomePage() {
           );
         })}
       </div>
+
+      <Modal isOpen={isOpen} onOpenChange={handleClose}>
+        <Modal.Title>{tempHouse ? "Edit Income" : "Add new income"}</Modal.Title>
+
+        <div>
+          <HouseForm onSubmit={handleClose} house={tempHouse} />
+        </div>
+      </Modal>
 
       {/* <ManageHouseModal house={tempHouse} />
       <AddHouseModal /> */}

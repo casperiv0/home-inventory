@@ -18,14 +18,9 @@ export const housesRouter = createRouter()
         where: {
           users: { some: { id: ctx.dbUser!.id } },
         },
-        select: {
-          name: true,
-          id: true,
-          currency: true,
+        include: {
           houseRoles: { select: { id: true, role: true, userId: true } },
-          users: {
-            select: { name: true },
-          },
+          users: { select: { name: true } },
           products: {
             select: {
               name: true,
@@ -70,5 +65,49 @@ export const housesRouter = createRouter()
       });
 
       return house;
+    },
+  })
+  .mutation("editHouse", {
+    input: z.object({
+      id: z.string().min(1),
+      name: z.string().min(2),
+    }),
+    async resolve({ ctx, input }) {
+      const house = await prisma.house.findFirst({
+        where: { id: input.id, users: { some: { id: ctx.dbUser!.id } } },
+      });
+
+      if (!house) {
+        throw new TRPCError({ code: "NOT_FOUND" });
+      }
+
+      const updatedHouse = await prisma.house.update({
+        where: { id: input.id },
+        data: {
+          name: input.name,
+        },
+      });
+
+      return updatedHouse;
+    },
+  })
+  .mutation("deleteHouse", {
+    input: z.object({
+      id: z.string().min(1),
+    }),
+    async resolve({ ctx, input }) {
+      const house = await prisma.house.findFirst({
+        where: { id: input.id, users: { some: { id: ctx.dbUser!.id } } },
+      });
+
+      if (!house) {
+        throw new TRPCError({ code: "NOT_FOUND" });
+      }
+
+      await prisma.house.delete({
+        where: { id: house.id },
+      });
+
+      return true;
     },
   });
