@@ -4,6 +4,17 @@ import { createRouter } from "server/createRouter";
 import { prisma } from "utils/prisma";
 import { z } from "zod";
 
+const housesInclude = {
+  houseRoles: { select: { id: true, role: true, userId: true } },
+  users: { select: { name: true } },
+  products: {
+    select: {
+      name: true,
+      id: true,
+    },
+  },
+};
+
 export const housesRouter = createRouter()
   .middleware(async ({ ctx, next }) => {
     if (!ctx.session || !ctx.dbUser) {
@@ -18,16 +29,7 @@ export const housesRouter = createRouter()
         where: {
           users: { some: { id: ctx.dbUser!.id } },
         },
-        include: {
-          houseRoles: { select: { id: true, role: true, userId: true } },
-          users: { select: { name: true } },
-          products: {
-            select: {
-              name: true,
-              id: true,
-            },
-          },
-        },
+        include: housesInclude,
       });
 
       return houses;
@@ -38,6 +40,7 @@ export const housesRouter = createRouter()
     async resolve({ ctx, input }) {
       const house = await prisma.house.findFirstOrThrow({
         where: { id: input.id, users: { some: { id: ctx.dbUser!.id } } },
+        include: housesInclude,
       });
 
       return house;

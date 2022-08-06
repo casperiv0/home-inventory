@@ -19,7 +19,8 @@
       "components/*": ["./src/components/*"],
       "types/*": ["./src/types/*"],
       "server/*": ["./src/server/*"],
-      "utils/*": ["./src/utils/*"]
+      "utils/*": ["./src/utils/*"],
+      "hooks/*": ["./src/hooks/*"]
     },
     "incremental": true,
 
