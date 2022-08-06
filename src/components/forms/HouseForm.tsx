@@ -8,6 +8,7 @@ import { Button } from "components/ui/Button";
 import { Loader } from "components/ui/Loader";
 import { trpc } from "utils/trpc";
 import { z } from "zod";
+import { classNames } from "utils/classNames";
 
 const schema = z.object({
   name: z.string().min(2),
@@ -70,7 +71,7 @@ export function HouseForm({ house, onSubmit }: Props) {
             <Input {...register("name")} />
           </FormField>
 
-          <footer className="mt-5 flex justify-between">
+          <footer className={classNames("mt-5 flex", house ? "justify-between" : "justify-end")}>
             {house ? (
               <Button variant="danger" type="button" onClick={() => setDeleteOpen(true)}>
                 Delete
