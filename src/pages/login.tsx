@@ -12,7 +12,7 @@ export default function LoginPage() {
       <header>
         <h1 className="text-4xl font-serif">Login</h1>
         <p className="mt-3 text-neutral-700">
-          Login to continue to manage your expenses, income and subscriptions
+          Login to continue. Once authenticated, you can manage your houses, products and more.
         </p>
       </header>
 

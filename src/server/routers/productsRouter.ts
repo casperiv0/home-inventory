@@ -12,16 +12,22 @@ export const productsRouter = createRouter()
     return next();
   })
   .middleware(async ({ ctx, next, rawInput }) => {
-    // todo: check if user has access to this house
+    const houseId =
+      rawInput &&
+      typeof rawInput === "object" &&
+      "houseId" in rawInput &&
+      (rawInput as Record<string, string>).houseId;
 
-    if (rawInput && typeof rawInput === "object" && "houseId" in rawInput) {
-      const house = await prisma.house.findFirst({
-        where: { id: (rawInput as any).houseId, users: { some: { id: ctx.dbUser!.id } } },
-      });
+    if (!houseId) {
+      throw new TRPCError({ code: "BAD_REQUEST", message: "Must include `houseId`" });
+    }
 
-      if (!house) {
-        throw new TRPCError({ code: "NOT_FOUND" });
-      }
+    const house = await prisma.house.findFirst({
+      where: { id: (rawInput as any).houseId, users: { some: { id: ctx.dbUser!.id } } },
+    });
+
+    if (!house) {
+      throw new TRPCError({ code: "NOT_FOUND" });
     }
 
     return next();

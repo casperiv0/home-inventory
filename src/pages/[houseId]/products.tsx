@@ -63,36 +63,40 @@ export default function HousePage() {
         <Button onClick={() => setIsOpen(true)}>Add Product</Button>
       </header>
 
-      <Table
-        options={{ sorting, setSorting }}
-        pagination={pagination}
-        data={productsQuery.data.items.map((product) => {
-          const totalPrice = product.prices.reduce((acc, price) => acc + price, 0);
+      {productsQuery.data.items.length <= 0 ? (
+        <p>This house does not have any products created yet.</p>
+      ) : (
+        <Table
+          options={{ sorting, setSorting }}
+          pagination={pagination}
+          data={productsQuery.data.items.map((product) => {
+            const totalPrice = product.prices.reduce((acc, price) => acc + price, 0);
 
-          return {
-            name: product.name,
-            price: product.price,
-            totalPrice,
-            quantity: product.quantity,
-            expirationDate: product.expirationDate
-              ? new Date(product.expirationDate).toDateString()
-              : "—",
-            actions: (
-              <Button size="xs" onClick={() => handleEditDelete(product)}>
-                Edit
-              </Button>
-            ),
-          };
-        })}
-        columns={[
-          { header: "Amount", accessorKey: "name" },
-          { header: "Price", accessorKey: "price" },
-          { header: "Total Price", accessorKey: "totalPrice" },
-          { header: "Quantity", accessorKey: "quantity" },
-          { header: "Expiration Date", accessorKey: "expirationDate" },
-          { header: "actions", accessorKey: "actions" },
-        ]}
-      />
+            return {
+              name: product.name,
+              price: product.price,
+              totalPrice,
+              quantity: product.quantity,
+              expirationDate: product.expirationDate
+                ? new Date(product.expirationDate).toDateString()
+                : "—",
+              actions: (
+                <Button size="xs" onClick={() => handleEditDelete(product)}>
+                  Edit
+                </Button>
+              ),
+            };
+          })}
+          columns={[
+            { header: "Amount", accessorKey: "name" },
+            { header: "Price", accessorKey: "price" },
+            { header: "Total Price", accessorKey: "totalPrice" },
+            { header: "Quantity", accessorKey: "quantity" },
+            { header: "Expiration Date", accessorKey: "expirationDate" },
+            { header: "actions", accessorKey: "actions" },
+          ]}
+        />
+      )}
 
       <Modal isOpen={isOpen} onOpenChange={handleClose}>
         <Modal.Title>{tempProduct ? "Edit Product" : "Add new product"}</Modal.Title>

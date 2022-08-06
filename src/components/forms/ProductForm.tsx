@@ -94,11 +94,15 @@ export function ProductForm({ houseId, product, onSubmit }: Props) {
 
           <div className="flex items-center justify-between gap-1">
             <FormField label="Price">
-              <Input placeholder="€" {...register("price", { valueAsNumber: true })} />
+              <Input
+                className="font-mono"
+                placeholder="€"
+                {...register("price", { valueAsNumber: true })}
+              />
             </FormField>
 
             <FormField label="Quantity">
-              <Input {...register("quantity", { valueAsNumber: true })} />
+              <Input className="font-mono" {...register("quantity", { valueAsNumber: true })} />
             </FormField>
           </div>
 

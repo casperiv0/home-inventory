@@ -31,9 +31,3 @@ html {
   font-stretch: 25% 151%;
   font-display: swap;
 }
-
-@media (min-width: 768px) {
-  .layout-main {
-    width: calc(100vw - 288px);
-  }
-}

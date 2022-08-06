@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { trpc } from "utils/trpc";
 import { Loader } from "./Loader";
+import { Navbar } from "./Navbar";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -40,9 +41,8 @@ export function Layout({ children }: LayoutProps) {
         <meta name="description" content="" />
       </Head>
 
-      <div className="md:flex justify-center">
-        <main className="layout-main">{children}</main>
-      </div>
+      <Navbar />
+      <main className="max-w-5xl mx-auto px-2 sm:px-6 lg:px-8 w-full">{children}</main>
     </>
   );
 }
