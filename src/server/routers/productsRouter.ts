@@ -1,7 +1,16 @@
 import { TRPCError } from "@trpc/server";
 import { createRouter } from "server/createRouter";
+import { createPrismaWhereFromFilters, getOrderByFromInput } from "utils/db-utils";
 import { prisma } from "utils/prisma";
 import { z } from "zod";
+
+export const TABLE_FILTER = z.object({
+  name: z.string(),
+  filterType: z.enum(["string", "date", "number", "enum"]),
+  content: z.string().or(z.number()).optional(),
+  type: z.enum(["equals", "contains", "lt", "gt"]).optional(),
+  options: z.array(z.string()).optional(),
+});
 
 export const productsRouter = createRouter()
   .middleware(async ({ ctx, next }) => {
@@ -37,6 +46,7 @@ export const productsRouter = createRouter()
       houseId: z.string(),
       page: z.number(),
       sorting: z.array(z.object({ id: z.string(), desc: z.boolean() })).optional(),
+      filters: z.array(TABLE_FILTER).optional(),
     }),
     async resolve({ input }) {
       const skip = input.page * 25;
@@ -48,8 +58,8 @@ export const productsRouter = createRouter()
         prisma.product.findMany({
           take: 25,
           skip,
-          // orderBy: getOrderByFromInput(input),
-          where: { houseId: input.houseId },
+          orderBy: input.sorting ? getOrderByFromInput(input) : { createdAt: "asc" },
+          where: { houseId: input.houseId, ...createPrismaWhereFromFilters(input.filters) },
         }),
       ]);
 
@@ -62,7 +72,7 @@ export const productsRouter = createRouter()
       name: z.string().min(2),
       price: z.number().min(1),
       quantity: z.number().min(1),
-      expireDate: z.date().optional().nullable(),
+      expireDate: z.date().or(z.string()).optional().nullable(),
     }),
     async resolve({ ctx, input }) {
       const existing = await prisma.product.findFirst({
@@ -112,7 +122,7 @@ export const productsRouter = createRouter()
       name: z.string().min(2),
       price: z.number().min(1),
       quantity: z.number().min(1),
-      expireDate: z.date().optional().nullable(),
+      expireDate: z.date().or(z.string()).optional().nullable(),
     }),
     async resolve({ input }) {
       const product = await prisma.product.findFirstOrThrow({

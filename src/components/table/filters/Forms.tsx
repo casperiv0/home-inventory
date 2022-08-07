@@ -35,7 +35,7 @@ export function TableFilterForms({
   };
 
   return (
-    <div className="p-3">
+    <div className="p-3 text-white">
       <Form defaultValues={defaultValues} onSubmit={handleFiltersSubmit}>
         {({ register, setValue }) => (
           <>
@@ -105,7 +105,6 @@ export function TableFilterForms({
                 }}
                 type="submit"
                 className="font-medium w-full flex items-center justify-center gap-2"
-                variant="accent"
                 disabled={isLoading}
               >
                 {isLoading ? <Loader size="sm" /> : null}

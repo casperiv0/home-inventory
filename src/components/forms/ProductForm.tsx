@@ -14,7 +14,7 @@ const schema = z.object({
   name: z.string().min(2),
   price: z.number().min(1),
   quantity: z.number().min(1),
-  expireDate: z.date().optional().nullable(),
+  expireDate: z.date().or(z.string()).optional().nullable(),
 });
 
 interface Props {
@@ -53,8 +53,6 @@ export function ProductForm({ houseId, product, onSubmit }: Props) {
   }
 
   async function handleSubmit(data: z.infer<typeof schema>) {
-    console.log({ data });
-
     if (product) {
       await editProduct.mutateAsync({
         id: product.id,
@@ -73,11 +71,15 @@ export function ProductForm({ houseId, product, onSubmit }: Props) {
     }
   }
 
+  const expirationDate = product?.expirationDate
+    ? new Date(product.expirationDate).toISOString().slice(0, 10)
+    : null;
+
   const defaultValues = {
     name: product?.name ?? "",
     price: product?.price ?? 0,
     quantity: product?.quantity ?? 0,
-    expireDate: product?.expirationDate ? new Date(product.expirationDate) : null,
+    expireDate: expirationDate,
     warnOnQuantity: product?.warnOnQuantity ?? 2,
     ignoreQuantityWarning: product?.ignoreQuantityWarning ?? false,
     createdAt: product?.createdAt ?? "",
@@ -86,8 +88,9 @@ export function ProductForm({ houseId, product, onSubmit }: Props) {
 
   return (
     <Form defaultValues={defaultValues} schema={schema} onSubmit={handleSubmit}>
-      {({ register }) => (
+      {({ register, getValues }) => (
         <>
+          {console.log(getValues())}
           <FormField label="name">
             <Input {...register("name")} />
           </FormField>

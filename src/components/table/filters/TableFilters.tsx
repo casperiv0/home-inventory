@@ -56,7 +56,7 @@ export function TableFilters({ query, filterTypes, filters, setFilters }: Props)
             trigger={
               <Button size="xxs" className="flex items-center gap-1">
                 <span className="font-medium">{filter.name}</span>
-                <span className="text-neutral-200">{filter.type}</span>
+                <span className="">{filter.type}</span>
                 <span className="font-medium">{filter.content}</span>
                 <ChevronDown className="w-3 h-3" />
               </Button>
@@ -76,7 +76,7 @@ export function TableFilters({ query, filterTypes, filters, setFilters }: Props)
       <Dropdown
         alignOffset={0}
         trigger={
-          <Button variant="accent" size="xxs" className="min-w-fit flex items-center gap-1">
+          <Button size="xxs" className="min-w-fit flex items-center gap-1">
             <Plus className="w-5 h-5" /> Add Filter
           </Button>
         }

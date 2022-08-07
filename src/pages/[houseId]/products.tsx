@@ -9,10 +9,12 @@ import { useTablePagination } from "hooks/useTablePagination";
 import type { Product } from "@prisma/client";
 import { Modal } from "components/modal/Modal";
 import { ProductForm } from "components/forms/ProductForm";
+import type { TableFilter } from "components/table/filters/TableFilters";
 
 export default function HousePage() {
   const [page, setPage] = React.useState<number>(0);
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [filters, setFilters] = React.useState<TableFilter[]>([]);
 
   const [isOpen, setIsOpen] = React.useState(false);
   const [tempProduct, setTempProduct] = React.useState<Product | null>(null);
@@ -23,10 +25,10 @@ export default function HousePage() {
   const houseQuery = trpc.useQuery(["houses.getHouseById", { id: houseId }]);
   const house = houseQuery.data;
 
-  const productsQuery = trpc.useQuery([
-    "products.getProductsByHouseId",
-    { houseId, page, sorting },
-  ]);
+  const productsQuery = trpc.useQuery(
+    ["products.getProductsByHouseId", { houseId, page, sorting, filters }],
+    { keepPreviousData: true },
+  );
 
   const pagination = useTablePagination({
     isLoading: productsQuery.isLoading,
@@ -63,11 +65,12 @@ export default function HousePage() {
         <Button onClick={() => setIsOpen(true)}>Add Product</Button>
       </header>
 
-      {productsQuery.data.items.length <= 0 ? (
+      {productsQuery.data.items.length <= 0 && !filters.length ? (
         <p>This house does not have any products created yet.</p>
       ) : (
         <Table
-          options={{ sorting, setSorting }}
+          query={productsQuery}
+          options={{ sorting, setSorting, filters, setFilters }}
           pagination={pagination}
           data={productsQuery.data.items.map((product) => {
             const totalPrice = product.prices.reduce((acc, price) => acc + price, 0);
@@ -88,12 +91,18 @@ export default function HousePage() {
             };
           })}
           columns={[
-            { header: "Amount", accessorKey: "name" },
+            { header: "Name", accessorKey: "name" },
             { header: "Price", accessorKey: "price" },
-            { header: "Total Price", accessorKey: "totalPrice" },
+            { header: "Total Price", accessorKey: "totalPrice", enableSorting: false },
             { header: "Quantity", accessorKey: "quantity" },
             { header: "Expiration Date", accessorKey: "expirationDate" },
             { header: "actions", accessorKey: "actions" },
+          ]}
+          filterTypes={[
+            { name: "name", filterType: "string" },
+            { name: "price", filterType: "number" },
+            { name: "quantity", filterType: "number" },
+            { name: "expirationDate", filterType: "date" },
           ]}
         />
       )}
