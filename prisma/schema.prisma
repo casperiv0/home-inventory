@@ -80,6 +80,8 @@ model Category {
   updatedAt DateTime @updatedAt
   house     House    @relation(fields: [houseId], references: [id], onDelete: Cascade)
   houseId   String
+
+  @@unique([name, houseId])
 }
 
 model HouseRole {

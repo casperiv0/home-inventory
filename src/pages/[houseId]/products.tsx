@@ -56,7 +56,7 @@ export default function HousePage() {
       <Head>
         <title>{`Products for ${house.name} - Home Inventory`}</title>
       </Head>
-      <header className="flex items-center justify-between mt-4 mb-10">
+      <header className="flex items-center justify-between mt-4 mb-5">
         <div>
           <h1 className="text-3xl md:text-4xl font-bold font-serif text-neutral-800">Products</h1>
           {/* <p className="mt-2 text-neutral-700"></p> */}

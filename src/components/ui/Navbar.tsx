@@ -35,9 +35,10 @@ export function Navbar() {
 
           <Dropdown
             side="left"
+            alignOffset={0}
             trigger={
-              <Button className="p-0 rounded-full overflow-hidden">
-                <Image src={user!.imageUrl!} width={40} height={40} />
+              <Button className="p-0 overflow-hidden">
+                <Image alt={user!.email} src={user!.imageUrl!} width={35} height={35} />
               </Button>
             }
           >
@@ -69,10 +70,10 @@ export function Navbar() {
           <li
             className={classNames(
               "hover:underline cursor-pointer",
-              router.asPath === `/${houseId}/settings/users` && "font-medium underline",
+              router.asPath === `/${houseId}/settings/categories` && "font-medium underline",
             )}
           >
-            <Link href={`/${houseId}/settings/users`}>
+            <Link href={`/${houseId}/settings/categories`}>
               <a>Settings</a>
             </Link>
           </li>

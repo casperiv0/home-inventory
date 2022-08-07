@@ -77,7 +77,7 @@ export function TableFilters({ query, filterTypes, filters, setFilters }: Props)
         alignOffset={0}
         trigger={
           <Button size="xxs" className="min-w-fit flex items-center gap-1">
-            <Plus className="w-5 h-5" /> Add Filter
+            <Plus aria-label="Add filter" className="w-5 h-5" /> Add Filter
           </Button>
         }
       >

@@ -24,7 +24,7 @@ CREATE TABLE "Product" (
     "name" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "expirationDate" TEXT,
+    "expirationDate" TIMESTAMP(3),
     "userId" TEXT NOT NULL,
     "categoryId" TEXT,
     "houseId" TEXT NOT NULL,
@@ -97,6 +97,9 @@ CREATE UNIQUE INDEX "ShoppingList_id_key" ON "ShoppingList"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ShoppingListItem_id_key" ON "ShoppingListItem"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Category_name_houseId_key" ON "Category"("name", "houseId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_HouseToUser_AB_unique" ON "_HouseToUser"("A", "B");
