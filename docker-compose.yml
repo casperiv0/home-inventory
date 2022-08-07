@@ -27,21 +27,21 @@ services:
       - redis-data:/data
       - redis-conf:/usr/local/etc/redis/redis.conf
 
-  api:
-    container_name: "api"
+  client-web:
+    container_name: "client-web"
 
     user: node
     image: node:16
-    command: "yarn workspace @home-inventory/api dev"
+    command: "npm run dev"
     ports:
-      - "3030:3030"
+      - "3000:3000"
     expose:
-      - 3030
+      - 3000
     volumes:
-      - .:/srv/api
+      - .:/srv/client-web
     env_file:
       - .env
-    working_dir: /srv/api
+    working_dir: /srv/client-web
     depends_on:
       - postgres
     networks:

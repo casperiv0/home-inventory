@@ -8,18 +8,17 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [16.x, 18.x]
 
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
-          cache: yarn
-          cache-dependency-path: yarn.lock
+          cache: npm
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: npm install
       - name: Run lint
-        run: yarn lint
+        run: npm run lint
