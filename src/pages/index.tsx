@@ -46,7 +46,7 @@ export default function HomePage() {
             <div key={house.id} className="p-4 rounded-sm bg-neutral-200">
               <header className="flex items-center justify-between mb-2">
                 <Link href={`/${house.id}`}>
-                  <a className="font-semibold" href={`/${house.id}`}>
+                  <a className="font-semibold text-xl" href={`/${house.id}`}>
                     <h1>{house.name}</h1>
                   </a>
                 </Link>
@@ -65,10 +65,10 @@ export default function HomePage() {
                 ) : null}
               </header>
 
-              <p>
+              <p className="text-sm">
                 <strong>Users:</strong> {house.users.length}
               </p>
-              <p>
+              <p className="text-sm">
                 <strong>Products:</strong> {house.products.length}
               </p>
             </div>

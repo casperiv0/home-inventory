@@ -88,9 +88,8 @@ export function ProductForm({ houseId, product, onSubmit }: Props) {
 
   return (
     <Form defaultValues={defaultValues} schema={schema} onSubmit={handleSubmit}>
-      {({ register, getValues }) => (
+      {({ register }) => (
         <>
-          {console.log(getValues())}
           <FormField label="name">
             <Input {...register("name")} />
           </FormField>
