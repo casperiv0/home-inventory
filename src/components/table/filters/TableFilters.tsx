@@ -57,7 +57,7 @@ export function TableFilters({ query, filterTypes, filters, setFilters }: Props)
               <Button size="xxs" className="flex items-center gap-1">
                 <span className="font-medium">{filter.name}</span>
                 <span className="">{filter.type}</span>
-                <span className="font-medium">{filter.content}</span>
+                <span className="font-medium">{filter.content?.toString()}</span>
                 <ChevronDown className="w-3 h-3" />
               </Button>
             }

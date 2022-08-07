@@ -51,9 +51,11 @@ export const productsRouter = createRouter()
     async resolve({ input }) {
       const skip = input.page * 25;
 
+      console.log({ where: createPrismaWhereFromFilters(input.filters) });
+
       const [totalCount, items] = await Promise.all([
         prisma.product.count({
-          where: { houseId: input.houseId },
+          where: { houseId: input.houseId, ...createPrismaWhereFromFilters(input.filters) },
         }),
         prisma.product.findMany({
           take: 25,
@@ -107,7 +109,7 @@ export const productsRouter = createRouter()
           quantity: input.quantity,
           houseId: input.houseId,
           userId: ctx.dbUser!.id,
-          expirationDate: input.expireDate?.toString(),
+          expirationDate: input.expireDate ? new Date(input.expireDate) : undefined,
           prices: [input.price * input.quantity],
         },
       });
@@ -135,7 +137,7 @@ export const productsRouter = createRouter()
           name: input.name,
           quantity: input.quantity,
           price: input.price,
-          expirationDate: input.expireDate?.toString(),
+          expirationDate: input.expireDate ? new Date(input.expireDate) : undefined,
 
           // input.price = for 1 item, times the quantity -> total amount for the product.
           prices: [input.price * input.quantity],

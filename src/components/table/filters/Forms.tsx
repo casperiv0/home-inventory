@@ -77,6 +77,29 @@ export function TableFilterForms({
               </div>
             ) : null}
 
+            {filterType === "date" ? (
+              <div className="mb-3">
+                <h3 className="font-serif font-semibold text-lg mb-3">Date Filter</h3>
+
+                <FormField checkbox label="Equals">
+                  <Input value="equals" className="w-10" type="radio" {...register("type")} />
+                </FormField>
+                <FormField checkbox label="Less than">
+                  <Input value="lt" className="w-10" type="radio" {...register("type")} />
+                </FormField>
+                <FormField checkbox label="Greater than">
+                  <Input value="gt" className="w-10" type="radio" {...register("type")} />
+                </FormField>
+
+                <Input
+                  className="font-mono"
+                  placeholder="0"
+                  type="date"
+                  {...register("content", { required: true })}
+                />
+              </div>
+            ) : null}
+
             {filterType === "string" ? (
               <div className="mb-3">
                 <h3 className="font-serif font-semibold text-lg mb-3">Text Filter</h3>
