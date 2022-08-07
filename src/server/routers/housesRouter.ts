@@ -46,6 +46,39 @@ export const housesRouter = createRouter()
       return house;
     },
   })
+  .query("getHouseStats", {
+    input: z.object({ id: z.string() }),
+    async resolve({ ctx, input }) {
+      const highAmount = new Date();
+      const lowAmount = new Date();
+      lowAmount.setMonth(highAmount.getMonth() - 1);
+
+      const twoDaysFromNow = new Date(Date.now() + 60 * 60 * 24 * 2 * 1000);
+
+      const house = await prisma.house.findFirstOrThrow({
+        where: { id: input.id, users: { some: { id: ctx.dbUser!.id } } },
+        include: housesInclude,
+      });
+
+      const [productsThisMonth, soonToExpire, lowOnQuantity] = await Promise.all([
+        prisma.product.findMany({
+          where: { houseId: house.id, createdAt: { gte: lowAmount, lte: highAmount } },
+        }),
+        prisma.product.findMany({
+          where: { houseId: house.id, expirationDate: { lte: twoDaysFromNow } },
+        }),
+        prisma.product.findMany({
+          where: { houseId: house.id, quantity: { lte: 2 } },
+        }),
+      ]);
+
+      const totalSpent = productsThisMonth
+        .flatMap((p) => p.prices)
+        .reduce((acc, cur) => acc + cur, 0);
+
+      return { totalSpent, soonToExpire, lowOnQuantity };
+    },
+  })
   .mutation("addHouse", {
     input: z.object({
       name: z.string().min(2),

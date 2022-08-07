@@ -1,9 +1,16 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { trpc } from "utils/trpc";
 
 export default function HousePage() {
   const router = useRouter();
   const houseId = router.query.houseId as string;
+
+  console.log({ query: router.query });
+
+  const statsQuery = trpc.useQuery(["houses.getHouseStats", { id: houseId }]);
+
+  console.log({ data: statsQuery.data });
 
   return (
     <div>
