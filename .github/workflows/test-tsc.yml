@@ -8,22 +8,21 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [16.x, 18.x]
 
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
-          cache: yarn
-          cache-dependency-path: yarn.lock
+          cache: npm
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: npm install
 
       - name: Generate Prisma types
-        run: yarn workspace @home-inventory/api prisma generate
+        run: npx prisma generate
 
       - name: Run yarn turbo run test-tsc
-        run: yarn turbo run test-tsc
+        run: npm run test-tsc

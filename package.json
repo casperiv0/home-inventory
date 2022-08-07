@@ -9,7 +9,8 @@
     "lint": "npx eslint . --ext .ts,.js,.tsx,.jsx",
     "dev": "npx prisma generate && npx prisma migrate dev && next dev",
     "build": "npx prisma generate && next build",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test-tsc": "npx tsc --noEmit"
   },
   "devDependencies": {
     "@casper124578/eslint-config": "^4.4.0",
