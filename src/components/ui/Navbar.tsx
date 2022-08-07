@@ -21,7 +21,6 @@ export function Navbar() {
   if (!user) {
     return null;
   }
-  console.log({ house });
 
   return (
     <nav className="max-w-5xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -46,38 +45,40 @@ export function Navbar() {
           </Dropdown>
         </div>
 
-        <ul className="flex gap-2 mb-5">
-          <li
-            className={classNames(
-              "hover:underline cursor-pointer",
-              router.asPath === `/${houseId}` && "font-medium underline",
-            )}
-          >
-            <Link href={`/${houseId}`}>
-              <a>Home</a>
-            </Link>
-          </li>
-          <li
-            className={classNames(
-              "hover:underline cursor-pointer",
-              router.asPath === `/${houseId}/products` && "font-medium underline",
-            )}
-          >
-            <Link href={`/${houseId}/products`}>
-              <a>Products</a>
-            </Link>
-          </li>
-          <li
-            className={classNames(
-              "hover:underline cursor-pointer",
-              router.asPath === `/${houseId}/settings/categories` && "font-medium underline",
-            )}
-          >
-            <Link href={`/${houseId}/settings/categories`}>
-              <a>Settings</a>
-            </Link>
-          </li>
-        </ul>
+        {house ? (
+          <ul className="flex gap-2 mb-5">
+            <li
+              className={classNames(
+                "hover:underline cursor-pointer",
+                router.asPath === `/${houseId}` && "font-medium underline",
+              )}
+            >
+              <Link href={`/${houseId}`}>
+                <a>Home</a>
+              </Link>
+            </li>
+            <li
+              className={classNames(
+                "hover:underline cursor-pointer",
+                router.asPath === `/${houseId}/products` && "font-medium underline",
+              )}
+            >
+              <Link href={`/${houseId}/products`}>
+                <a>Products</a>
+              </Link>
+            </li>
+            <li
+              className={classNames(
+                "hover:underline cursor-pointer",
+                router.asPath === `/${houseId}/settings/categories` && "font-medium underline",
+              )}
+            >
+              <Link href={`/${houseId}/settings/categories`}>
+                <a>Settings</a>
+              </Link>
+            </li>
+          </ul>
+        ) : null}
       </div>
     </nav>
   );

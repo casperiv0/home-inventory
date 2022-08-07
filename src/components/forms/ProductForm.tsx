@@ -9,12 +9,14 @@ import { Loader } from "components/ui/Loader";
 import { trpc } from "utils/trpc";
 import { z } from "zod";
 import { classNames } from "utils/classNames";
+import { Select } from "components/form/Select";
 
 const schema = z.object({
   name: z.string().min(2),
   price: z.number().min(1),
   quantity: z.number().min(1),
   expireDate: z.date().or(z.string()).optional().nullable(),
+  category: z.string().nullable().optional(),
 });
 
 interface Props {
@@ -25,6 +27,11 @@ interface Props {
 
 export function ProductForm({ houseId, product, onSubmit }: Props) {
   const [isDeleteOpen, setDeleteOpen] = React.useState(false);
+
+  const categoriesQuery = trpc.useQuery([
+    "categories.getCategoriesByHouseId",
+    { houseId, page: 0 },
+  ]);
 
   const context = trpc.useContext();
   const addProduct = trpc.useMutation(["products.addProduct"], {
@@ -110,6 +117,17 @@ export function ProductForm({ houseId, product, onSubmit }: Props) {
 
           <FormField optional label="Expire Date">
             <Input type="date" {...register("expireDate", { valueAsDate: true })} />
+          </FormField>
+
+          <FormField optional label="Category">
+            <Select {...register("category")}>
+              <option value="">None</option>
+              {categoriesQuery.data?.items.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </Select>
           </FormField>
 
           <footer className={classNames("mt-5 flex", product ? "justify-between" : "justify-end")}>

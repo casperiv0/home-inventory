@@ -59,7 +59,6 @@ export default function HousePage() {
       <header className="flex items-center justify-between mt-4 mb-5">
         <div>
           <h1 className="text-3xl md:text-4xl font-bold font-serif text-neutral-800">Products</h1>
-          {/* <p className="mt-2 text-neutral-700"></p> */}
         </div>
 
         <Button onClick={() => setIsOpen(true)}>Add Product</Button>
@@ -83,6 +82,7 @@ export default function HousePage() {
               expirationDate: product.expirationDate
                 ? new Date(product.expirationDate).toDateString()
                 : "—",
+              category: product.category?.name ?? "—",
               actions: (
                 <Button size="xs" onClick={() => handleEditDelete(product)}>
                   Edit
@@ -96,6 +96,7 @@ export default function HousePage() {
             { header: "Total Price", accessorKey: "totalPrice", enableSorting: false },
             { header: "Quantity", accessorKey: "quantity" },
             { header: "Expiration Date", accessorKey: "expirationDate" },
+            { header: "Category", accessorKey: "category" },
             { header: "actions", accessorKey: "actions" },
           ]}
           filterTypes={[

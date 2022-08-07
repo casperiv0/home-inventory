@@ -51,8 +51,6 @@ export const productsRouter = createRouter()
     async resolve({ input }) {
       const skip = input.page * 25;
 
-      console.log({ where: createPrismaWhereFromFilters(input.filters) });
-
       const [totalCount, items] = await Promise.all([
         prisma.product.count({
           where: { houseId: input.houseId, ...createPrismaWhereFromFilters(input.filters) },
@@ -62,6 +60,7 @@ export const productsRouter = createRouter()
           skip,
           orderBy: input.sorting ? getOrderByFromInput(input) : { createdAt: "asc" },
           where: { houseId: input.houseId, ...createPrismaWhereFromFilters(input.filters) },
+          include: { category: true },
         }),
       ]);
 
@@ -74,6 +73,7 @@ export const productsRouter = createRouter()
       name: z.string().min(2),
       price: z.number().min(1),
       quantity: z.number().min(1),
+      category: z.string().nullable().optional(),
       expireDate: z.date().or(z.string()).optional().nullable(),
     }),
     async resolve({ ctx, input }) {
@@ -110,6 +110,7 @@ export const productsRouter = createRouter()
           houseId: input.houseId,
           userId: ctx.dbUser!.id,
           expirationDate: input.expireDate ? new Date(input.expireDate) : undefined,
+          categoryId: input.category,
           prices: [input.price * input.quantity],
         },
       });
@@ -124,6 +125,7 @@ export const productsRouter = createRouter()
       name: z.string().min(2),
       price: z.number().min(1),
       quantity: z.number().min(1),
+      category: z.string().nullable().optional(),
       expireDate: z.date().or(z.string()).optional().nullable(),
     }),
     async resolve({ input }) {
@@ -138,6 +140,7 @@ export const productsRouter = createRouter()
           quantity: input.quantity,
           price: input.price,
           expirationDate: input.expireDate ? new Date(input.expireDate) : undefined,
+          categoryId: input.category,
 
           // input.price = for 1 item, times the quantity -> total amount for the product.
           prices: [input.price * input.quantity],

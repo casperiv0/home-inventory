@@ -47,8 +47,6 @@ export function createPrismaWhereFromFilters(
     const addMode = ["string"].includes(filter.filterType);
     const content = filter.filterType === "date" ? new Date(filter.content) : filter.content;
 
-    console.log({ content });
-
     const obj = {
       [filter.name]: {
         [filter.type]: content,
