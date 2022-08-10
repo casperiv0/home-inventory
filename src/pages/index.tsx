@@ -1,5 +1,5 @@
 import * as React from "react";
-import { type House, UserRole } from "@prisma/client";
+import { UserRole } from "@prisma/client";
 import { Button } from "components/ui/Button";
 import Head from "next/head";
 import Link from "next/link";
@@ -7,17 +7,19 @@ import { trpc } from "utils/trpc";
 import { Modal } from "components/modal/Modal";
 import { Pencil } from "react-bootstrap-icons";
 import { HouseForm } from "components/forms/HouseForm";
+import { useTemporaryItem } from "hooks/useTemporaryItem";
+import { useUser } from "hooks/queries/useUser";
 
 export default function HomePage() {
-  const userQuery = trpc.useQuery(["user.getSession"]);
+  const { user } = useUser();
   const housesQuery = trpc.useQuery(["houses.getUserHouses"]);
-  const user = userQuery.data?.user;
+  const houses = housesQuery.data ?? [];
 
   const [isOpen, setIsOpen] = React.useState(false);
-  const [tempHouse, setTempHouse] = React.useState<House | null>(null);
+  const [tempHouse, houseState] = useTemporaryItem(houses);
 
   function handleClose() {
-    setTempHouse(null);
+    houseState.setTempId(null);
     setIsOpen(false);
   }
 
@@ -39,7 +41,7 @@ export default function HomePage() {
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-        {housesQuery.data?.map((house) => {
+        {houses.map((house) => {
           const role = house.houseRoles.find((r) => r.userId === user?.id);
 
           return (
@@ -55,7 +57,7 @@ export default function HomePage() {
                   <Button
                     onClick={() => {
                       setIsOpen(true);
-                      setTempHouse(house);
+                      houseState.setTempId(house.id);
                     }}
                     variant="transparent"
                     size="xxs"
@@ -83,9 +85,6 @@ export default function HomePage() {
           <HouseForm onSubmit={handleClose} house={tempHouse} />
         </div>
       </Modal>
-
-      {/* <ManageHouseModal house={tempHouse} />
-      <AddHouseModal /> */}
     </>
   );
 }

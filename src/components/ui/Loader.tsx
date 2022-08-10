@@ -16,14 +16,14 @@ export function Loader({ fixed, size: _size = "lg" }: Props) {
 
   return (
     <div
-      className={classNames(fixed && "fixed inset-0 grid place-items-center z-50 bg-primary")}
+      className={classNames(fixed && "fixed inset-0 grid place-items-center z-50 bg-white")}
       aria-label="Loading..."
     >
       <svg
         role="status"
         className={classNames(
           size,
-          "mr-2 text-quaternary brightness-200 animate-spin fill-secondary",
+          "mr-2 text-neutral-800 brightness-200 animate-spin fill-neutral-300",
         )}
         viewBox="0 0 100 101"
         fill="none"

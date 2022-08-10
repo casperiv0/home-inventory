@@ -5,14 +5,15 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { trpc } from "utils/trpc";
 import { useTablePagination } from "hooks/useTablePagination";
-import type { Category } from "@prisma/client";
+import type { User } from "@prisma/client";
 import { Modal } from "components/modal/Modal";
 import type { SortingState } from "@tanstack/react-table";
-import { CategoryForm } from "components/forms/CategoryForm";
+// import { UserForm } from "components/forms/UserForm";
 import { useTemporaryItem } from "hooks/useTemporaryItem";
 import { useHouseById } from "hooks/queries/useHouse";
+import { getUserRole } from "hooks/useHasRole";
 
-export default function ManageCategoriesPage() {
+export default function ManageUsersPage() {
   const [page, setPage] = React.useState<number>(0);
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
@@ -22,61 +23,63 @@ export default function ManageCategoriesPage() {
   const houseId = router.query.houseId as string;
   const { house } = useHouseById();
 
-  const categoriesQuery = trpc.useQuery(["categories.getCategoriesByHouseId", { houseId, page }], {
+  const usersQuery = trpc.useQuery(["users.getUsersByHouseId", { houseId, page }], {
     keepPreviousData: true,
   });
-  const categories = categoriesQuery.data?.items ?? [];
-  const [tempCategory, categoriesState] = useTemporaryItem(categories);
+  const users = usersQuery.data?.items ?? [];
+  const [tempUser, usersState] = useTemporaryItem(users);
 
   const pagination = useTablePagination({
-    isLoading: categoriesQuery.isLoading,
+    isLoading: usersQuery.isLoading,
     page,
     setPage,
-    query: categoriesQuery,
+    query: usersQuery,
   });
 
   function handleClose() {
-    categoriesState.setTempId(null);
+    usersState.setTempId(null);
     setIsOpen(false);
   }
 
-  function handleEditDelete(category: Category) {
+  function handleEditDelete(user: User) {
     setIsOpen(true);
-    categoriesState.setTempId(category.id);
+    usersState.setTempId(user.id);
   }
 
-  if (!house || !categoriesQuery.data) {
+  if (!house || !usersQuery.data) {
     return null;
   }
 
   return (
     <>
       <Head>
-        <title>{`Categories for ${house.name} - Home Inventory`}</title>
+        <title>{`Users for ${house.name} - Home Inventory`}</title>
       </Head>
       <header className="flex items-center justify-between mt-4 mb-5">
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold font-serif text-neutral-800">Categories</h1>
+          <h1 className="text-3xl md:text-4xl font-bold font-serif text-neutral-800">Users</h1>
           <p className="mt-3 font-medium text-neutral-800">
-            A list of categories that can be appended to products.
+            A list of users that are connected with the current house.
           </p>
         </div>
 
-        <Button onClick={() => setIsOpen(true)}>Add Category</Button>
+        <Button onClick={() => setIsOpen(true)}>Add User</Button>
       </header>
 
-      {categoriesQuery.data.items.length <= 0 ? (
-        <p className="text-neutral-700">This house does not have any categories created yet.</p>
+      {usersQuery.data.items.length <= 0 ? (
+        <p className="text-neutral-700">This house does not have any users connected yet.</p>
       ) : (
         <Table
-          query={categoriesQuery}
+          query={usersQuery}
           options={{ sorting, setSorting }}
           pagination={pagination}
-          data={categoriesQuery.data.items.map((category) => {
+          data={usersQuery.data.items.map((user) => {
             return {
-              name: category.name,
+              name: user.name,
+              email: user.email,
+              role: <span className="font-mono">{getUserRole(user, house.id)?.role ?? "—"}</span>,
               actions: (
-                <Button size="xs" onClick={() => handleEditDelete(category)}>
+                <Button size="xs" onClick={() => handleEditDelete(user)}>
                   Edit
                 </Button>
               ),
@@ -84,17 +87,17 @@ export default function ManageCategoriesPage() {
           })}
           columns={[
             { header: "Name", accessorKey: "name" },
+            { header: "Email", accessorKey: "email" },
+            { header: "Role", accessorKey: "role" },
             { header: "actions", accessorKey: "actions" },
           ]}
         />
       )}
 
       <Modal isOpen={isOpen} onOpenChange={handleClose}>
-        <Modal.Title>{tempCategory ? "Edit Category" : "Add new category"}</Modal.Title>
+        <Modal.Title>{tempUser ? "Edit User" : "Add new user"}</Modal.Title>
 
-        <div>
-          <CategoryForm houseId={house.id} onSubmit={handleClose} category={tempCategory} />
-        </div>
+        <div>{/* <UserForm houseId={house.id} onSubmit={handleClose} user={tempUser} /> */}</div>
       </Modal>
     </>
   );

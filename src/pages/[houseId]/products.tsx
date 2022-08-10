@@ -10,6 +10,8 @@ import type { Product } from "@prisma/client";
 import { Modal } from "components/modal/Modal";
 import { ProductForm } from "components/forms/ProductForm";
 import type { TableFilter } from "components/table/filters/TableFilters";
+import { useTemporaryItem } from "hooks/useTemporaryItem";
+import { useHouseById } from "hooks/queries/useHouse";
 
 export default function HousePage() {
   const [page, setPage] = React.useState<number>(0);
@@ -17,18 +19,17 @@ export default function HousePage() {
   const [filters, setFilters] = React.useState<TableFilter[]>([]);
 
   const [isOpen, setIsOpen] = React.useState(false);
-  const [tempProduct, setTempProduct] = React.useState<Product | null>(null);
 
   const router = useRouter();
   const houseId = router.query.houseId as string;
 
-  const houseQuery = trpc.useQuery(["houses.getHouseById", { id: houseId }]);
-  const house = houseQuery.data;
-
+  const { house } = useHouseById();
   const productsQuery = trpc.useQuery(
     ["products.getProductsByHouseId", { houseId, page, sorting, filters }],
     { keepPreviousData: true },
   );
+  const products = productsQuery.data?.items ?? [];
+  const [tempProduct, productState] = useTemporaryItem(products);
 
   const pagination = useTablePagination({
     isLoading: productsQuery.isLoading,
@@ -38,13 +39,13 @@ export default function HousePage() {
   });
 
   function handleClose() {
-    setTempProduct(null);
+    productState.setTempId(null);
     setIsOpen(false);
   }
 
   function handleEditDelete(product: Product) {
     setIsOpen(true);
-    setTempProduct(product);
+    productState.setTempId(product.id);
   }
 
   if (!house || !productsQuery.data) {

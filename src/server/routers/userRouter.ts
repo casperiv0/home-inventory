@@ -1,14 +1,6 @@
-import { Prisma } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { createRouter } from "server/createRouter";
 import { prisma } from "utils/prisma";
-
-const defaultUserSelect = Prisma.validator<Prisma.UserSelect>()({
-  id: true,
-  email: true,
-  name: true,
-  imageUrl: true,
-});
 
 export const userRouter = createRouter()
   .middleware(async ({ ctx, next }) => {
@@ -22,7 +14,7 @@ export const userRouter = createRouter()
     async resolve({ ctx }) {
       const dbUser = await prisma.user.findUnique({
         where: { email: ctx.dbUser!.email },
-        select: defaultUserSelect,
+        include: { houseRoles: true },
       });
 
       return { session: ctx.session, user: dbUser };
