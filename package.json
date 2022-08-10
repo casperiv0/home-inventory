@@ -8,7 +8,8 @@
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,css,json}\" --ignore-path .gitignore",
     "lint": "npx eslint . --ext .ts,.js,.tsx,.jsx",
     "dev": "npx prisma generate && npx prisma migrate dev && next dev",
-    "build": "npx prisma generate && next build",
+    "build": "next build",
+    "build-deploy": "npx prisma migrate deploy && next build",
     "prepare": "husky install",
     "test-tsc": "npx tsc --noEmit"
   },
