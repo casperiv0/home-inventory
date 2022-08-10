@@ -60,7 +60,7 @@ export const housesRouter = createRouter()
         include: housesInclude,
       });
 
-      const [productsThisMonth, soonToExpire, lowOnQuantity] = await Promise.all([
+      const [productsLast30Days, soonToExpire, lowOnQuantity] = await Promise.all([
         prisma.product.findMany({
           where: { houseId: house.id, createdAt: { gte: lowAmount, lte: highAmount } },
         }),
@@ -72,11 +72,11 @@ export const housesRouter = createRouter()
         }),
       ]);
 
-      const totalSpent = productsThisMonth
+      const totalSpentLast30Days = productsLast30Days
         .flatMap((p) => p.prices)
         .reduce((acc, cur) => acc + cur, 0);
 
-      return { totalSpent, soonToExpire, lowOnQuantity };
+      return { totalSpentLast30Days, soonToExpire, lowOnQuantity };
     },
   })
   .mutation("addHouse", {

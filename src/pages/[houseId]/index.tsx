@@ -23,7 +23,7 @@ export default function HousePage() {
     return null;
   }
 
-  const { lowOnQuantity, soonToExpire, totalSpent } = statsQuery.data ?? {};
+  const { lowOnQuantity, soonToExpire, totalSpentLast30Days } = statsQuery.data ?? {};
   const currency = "€";
 
   const soonToExpireText =
@@ -64,13 +64,13 @@ export default function HousePage() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
         <div className="p-4 rounded-sm bg-neutral-200/70 shadow-md">
-          <h1 className="text-lg font-semibold mb-3">Total spent this month</h1>
+          <h1 className="text-lg font-semibold mb-3">Total spendings the last 30 days</h1>
 
           <p>
             There was a total of{" "}
             <strong>
               {currency}
-              {totalSpent}
+              {totalSpentLast30Days}
             </strong>{" "}
             spent this month.
           </p>
