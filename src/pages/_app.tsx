@@ -31,6 +31,10 @@ function getBaseUrl() {
     return `https://${process.env.VERCEL_URL}`;
   }
 
+  if (process.env.NEXT_PUBLIC_VERCEL_URL) {
+    return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
+  }
+
   if (process.env.NODE_ENV === "production") {
     return process.env.NEXT_PUBLIC_URL;
   }
