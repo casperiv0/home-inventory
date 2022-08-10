@@ -25,18 +25,12 @@ const MyApp = (({ Component, pageProps }: AppProps) => {
 }) as AppType;
 
 function getBaseUrl() {
-  console.log({ vercelURL: process.env.VERCEL_URL });
-
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
+  if (process.env.NEXT_PUBLIC_PROD_URL) {
+    return process.env.NEXT_PUBLIC_PROD_URL;
   }
 
   if (process.env.NEXT_PUBLIC_VERCEL_URL) {
     return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
-  }
-
-  if (process.env.NODE_ENV === "production") {
-    return process.env.NEXT_PUBLIC_URL;
   }
 
   // assume localhost
