@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { Product } from "@prisma/client";
+import type { Product, User } from "@prisma/client";
 import { Form } from "components/form/Form";
 import { FormField } from "components/form/FormField";
 import { Input } from "components/form/Input";
@@ -21,7 +21,7 @@ const schema = z.object({
 
 interface Props {
   houseId: string;
-  product?: Product | null;
+  product?: (Product & { createdBy: User }) | null;
   onSubmit?(data: z.infer<typeof schema>): void;
 }
 
@@ -129,7 +129,25 @@ export function ProductForm({ houseId, product, onSubmit }: Props) {
               ))}
             </Select>
           </FormField>
+          {product ? (
+            <>
+              <hr className="h-[3px] my-4 mt-6 bg-neutral-700 rounded-md" />
 
+              <div className="flex flex-col md:flex-row gap-2">
+                <FormField label="Created At">
+                  <Input disabled defaultValue={product.createdAt.toDateString()} />
+                </FormField>
+
+                <FormField label="Last Updated At">
+                  <Input disabled defaultValue={product.updatedAt.toDateString()} />
+                </FormField>
+              </div>
+
+              <FormField label="Created by">
+                <Input disabled defaultValue={product.createdBy.name} />
+              </FormField>
+            </>
+          ) : null}
           <footer className={classNames("mt-5 flex", product ? "justify-between" : "justify-end")}>
             {product ? (
               <Button variant="danger" type="button" onClick={() => setDeleteOpen(true)}>

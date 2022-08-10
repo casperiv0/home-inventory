@@ -84,7 +84,7 @@ export default function HousePage() {
                 ? new Date(product.expirationDate).toDateString()
                 : "—",
               category: product.category?.name ?? "—",
-              createdBy: product.createdBy.email,
+              createdBy: product.createdBy.name,
               actions: (
                 <Button size="xs" onClick={() => handleEditDelete(product)}>
                   Edit
