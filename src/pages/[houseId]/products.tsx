@@ -84,6 +84,7 @@ export default function HousePage() {
                 ? new Date(product.expirationDate).toDateString()
                 : "—",
               category: product.category?.name ?? "—",
+              createdBy: product.createdBy.email,
               actions: (
                 <Button size="xs" onClick={() => handleEditDelete(product)}>
                   Edit
@@ -98,6 +99,7 @@ export default function HousePage() {
             { header: "Quantity", accessorKey: "quantity" },
             { header: "Expiration Date", accessorKey: "expirationDate" },
             { header: "Category", accessorKey: "category" },
+            { header: "Created By", accessorKey: "createdBy", enableSorting: false },
             { header: "actions", accessorKey: "actions" },
           ]}
           filterTypes={[

@@ -44,7 +44,8 @@ export const usersRouter = createRouter()
     input: z.object({
       houseId: z.string(),
       name: z.string(),
-      email: z.string(),
+      email: z.string().email(),
+      role: z.nativeEnum(UserRole),
     }),
     async resolve({ input }) {
       const existing = await prisma.user.findUnique({
@@ -52,14 +53,35 @@ export const usersRouter = createRouter()
       });
 
       if (existing) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Name with that user already exists",
+        const updatedUser = await prisma.user.update({
+          where: { id: existing.id },
+          data: {
+            houses: { connect: { id: input.houseId } },
+            name: input.name,
+            houseRoles: {
+              create: {
+                houseId: input.houseId,
+                role: input.role,
+              },
+            },
+          },
         });
+
+        return updatedUser;
       }
 
       const user = await prisma.user.create({
-        data: { name: input.name, email: input.email, houses: { connect: { id: input.houseId } } },
+        data: {
+          name: input.name,
+          email: input.email,
+          houses: { connect: { id: input.houseId } },
+          houseRoles: {
+            create: {
+              houseId: input.houseId,
+              role: input.role,
+            },
+          },
+        },
       });
 
       return user;
@@ -70,17 +92,18 @@ export const usersRouter = createRouter()
       houseId: z.string(),
       id: z.string(),
       name: z.string(),
-      email: z.string(),
+      email: z.string().email(),
+      role: z.nativeEnum(UserRole),
     }),
     async resolve({ input }) {
-      const existing = await prisma.user.findUnique({
-        where: { email: input.email },
+      const existing = await prisma.user.findFirst({
+        where: { email: input.email, NOT: { id: input.id } },
       });
 
       if (existing) {
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: "Name with that user already exists",
+          message: "User with that email already exists",
         });
       }
 
@@ -97,7 +120,17 @@ export const usersRouter = createRouter()
 
       const updatedUser = await prisma.user.update({
         where: { id: input.id },
-        data: { email: input.email, name: input.name },
+        data: {
+          email: input.email,
+          name: input.name,
+          houseRoles: {
+            upsert: {
+              where: { id: String(houseRole?.id) },
+              create: { houseId: input.houseId, role: input.role },
+              update: { role: input.role },
+            },
+          },
+        },
       });
 
       return updatedUser;

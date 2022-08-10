@@ -12,6 +12,7 @@ import type { SortingState } from "@tanstack/react-table";
 import { useTemporaryItem } from "hooks/useTemporaryItem";
 import { useHouseById } from "hooks/queries/useHouse";
 import { getUserRole } from "hooks/useHasRole";
+import { UserForm } from "components/forms/UserForm";
 
 export default function ManageUsersPage() {
   const [page, setPage] = React.useState<number>(0);
@@ -97,7 +98,9 @@ export default function ManageUsersPage() {
       <Modal isOpen={isOpen} onOpenChange={handleClose}>
         <Modal.Title>{tempUser ? "Edit User" : "Add new user"}</Modal.Title>
 
-        <div>{/* <UserForm houseId={house.id} onSubmit={handleClose} user={tempUser} /> */}</div>
+        <div>
+          <UserForm houseId={house.id} onSubmit={handleClose} user={tempUser} />
+        </div>
       </Modal>
     </>
   );

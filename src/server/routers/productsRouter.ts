@@ -60,7 +60,7 @@ export const productsRouter = createRouter()
           skip,
           orderBy: input.sorting ? getOrderByFromInput(input) : { createdAt: "asc" },
           where: { houseId: input.houseId, ...createPrismaWhereFromFilters(input.filters) },
-          include: { category: true },
+          include: { category: true, createdBy: true },
         }),
       ]);
 
