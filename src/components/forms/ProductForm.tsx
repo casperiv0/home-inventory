@@ -15,7 +15,7 @@ const schema = z.object({
   name: z.string().min(2),
   price: z.number().min(1),
   quantity: z.number().min(1),
-  expireDate: z.date().or(z.string()).optional().nullable(),
+  expireDate: z.string().optional().nullable(),
   category: z.string().nullable().optional(),
 });
 
@@ -90,19 +90,19 @@ export function ProductForm({ houseId, product, onSubmit }: Props) {
     warnOnQuantity: product?.warnOnQuantity ?? 2,
     ignoreQuantityWarning: product?.ignoreQuantityWarning ?? false,
     createdAt: product?.createdAt ?? "",
-    category: product?.categoryId ?? "",
+    category: product?.categoryId ?? null,
   };
 
   return (
     <Form defaultValues={defaultValues} schema={schema} onSubmit={handleSubmit}>
-      {({ register }) => (
+      {({ register, errors }) => (
         <>
-          <FormField label="name">
+          <FormField errorMessage={errors.name} label="name">
             <Input {...register("name")} />
           </FormField>
 
           <div className="flex items-center justify-between gap-1">
-            <FormField label="Price">
+            <FormField errorMessage={errors.price} label="Price">
               <Input
                 className="font-mono"
                 placeholder="€"
@@ -110,16 +110,16 @@ export function ProductForm({ houseId, product, onSubmit }: Props) {
               />
             </FormField>
 
-            <FormField label="Quantity">
+            <FormField errorMessage={errors.quantity} label="Quantity">
               <Input className="font-mono" {...register("quantity", { valueAsNumber: true })} />
             </FormField>
           </div>
 
-          <FormField optional label="Expire Date">
-            <Input type="date" {...register("expireDate", { valueAsDate: true })} />
+          <FormField errorMessage={errors.expireDate} optional label="Expire Date">
+            <Input type="date" {...register("expireDate")} />
           </FormField>
 
-          <FormField optional label="Category">
+          <FormField errorMessage={errors.category} optional label="Category">
             <Select {...register("category")}>
               <option value="">None</option>
               {categoriesQuery.data?.items.map((category) => (

@@ -58,7 +58,7 @@ export function FormField({ checkbox, children, label, className, errorMessage, 
       </div>
 
       {errorMessage?.message ? (
-        <span {...errorMessageProps} className="mt-1 font-medium text-red-500">
+        <span {...errorMessageProps} className="mt-1 font-medium text-sm text-red-500">
           {errorMessage.message}
         </span>
       ) : null}

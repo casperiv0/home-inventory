@@ -110,7 +110,7 @@ export const productsRouter = createRouter()
           houseId: input.houseId,
           userId: ctx.dbUser!.id,
           expirationDate: input.expireDate ? new Date(input.expireDate) : undefined,
-          categoryId: input.category,
+          categoryId: input.category || null,
           prices: [input.price * input.quantity],
         },
       });
@@ -140,7 +140,7 @@ export const productsRouter = createRouter()
           quantity: input.quantity,
           price: input.price,
           expirationDate: input.expireDate ? new Date(input.expireDate) : undefined,
-          categoryId: input.category,
+          categoryId: input.category || null,
 
           // input.price = for 1 item, times the quantity -> total amount for the product.
           prices: [input.price * input.quantity],
