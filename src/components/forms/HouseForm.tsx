@@ -26,16 +26,19 @@ export function HouseForm({ house, onSubmit }: Props) {
   const addHouse = trpc.useMutation(["houses.addHouse"], {
     onSuccess: () => {
       context.invalidateQueries(["houses.getUserHouses"]);
+      context.invalidateQueries(["houses.getHouseById"]);
     },
   });
   const editHouse = trpc.useMutation(["houses.editHouse"], {
     onSuccess: () => {
       context.invalidateQueries(["houses.getUserHouses"]);
+      context.invalidateQueries(["houses.getHouseById"]);
     },
   });
   const deleteHouse = trpc.useMutation(["houses.deleteHouse"], {
     onSuccess: () => {
       context.invalidateQueries(["houses.getUserHouses"]);
+      context.invalidateQueries(["houses.getHouseById"]);
     },
   });
 
