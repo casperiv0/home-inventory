@@ -8,8 +8,8 @@ import { Button } from "components/ui/Button";
 import { Loader } from "components/ui/Loader";
 import { trpc } from "utils/trpc";
 import { z } from "zod";
-import { classNames } from "utils/classNames";
 import { Select } from "components/form/Select";
+import { FormFooter } from "components/form/FormFooter";
 
 const schema = z.object({
   name: z.string().min(2),
@@ -162,25 +162,12 @@ export function ProductForm({ houseId, product, onSubmit }: Props) {
             </>
           ) : null}
 
-          <footer className={classNames("mt-5 flex", product ? "justify-between" : "justify-end")}>
-            {product ? (
-              <Button variant="danger" type="button" onClick={() => setDeleteOpen(true)}>
-                Delete
-              </Button>
-            ) : null}
-
-            <div className="flex justify-end gap-2">
-              <Modal.Close>
-                <Button disabled={isLoading} type="reset">
-                  Cancel
-                </Button>
-              </Modal.Close>
-              <Button className="flex items-center gap-2" disabled={isLoading} type="submit">
-                {isLoading ? <Loader size="sm" /> : null}
-                {product ? "Save Changes" : "Add new product"}
-              </Button>
-            </div>
-          </footer>
+          <FormFooter
+            isLoading={isLoading}
+            item={product}
+            onDeleteClick={() => setDeleteOpen(true)}
+            submitText={product ? "Save Changes" : "Add new product"}
+          />
 
           <Modal isOpen={isDeleteOpen} onOpenChange={() => setDeleteOpen(false)}>
             <form onSubmit={handleDeleteProduct}>

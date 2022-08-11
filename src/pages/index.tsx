@@ -29,7 +29,7 @@ export default function HomePage() {
         <title>Home - Inventory</title>
       </Head>
 
-      <header className="flex items-center justify-between mt-4">
+      <header className="flex flex-col md:flex-row md:items-center justify-between mt-4">
         <div>
           <h1 className="text-3xl md:text-4xl font-bold font-serif text-neutral-800">Houses</h1>
           <p className="mt-2 text-neutral-700">
@@ -37,7 +37,9 @@ export default function HomePage() {
           </p>
         </div>
 
-        <Button onClick={() => setIsOpen(true)}>Add house</Button>
+        <Button className="mt-3 md:mt-0 w-fit" onClick={() => setIsOpen(true)}>
+          Add house
+        </Button>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">

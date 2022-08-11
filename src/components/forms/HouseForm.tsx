@@ -8,7 +8,7 @@ import { Button } from "components/ui/Button";
 import { Loader } from "components/ui/Loader";
 import { trpc } from "utils/trpc";
 import { z } from "zod";
-import { classNames } from "utils/classNames";
+import { FormFooter } from "components/form/FormFooter";
 
 const schema = z.object({
   name: z.string().min(2),
@@ -74,25 +74,12 @@ export function HouseForm({ house, onSubmit }: Props) {
             <Input {...register("name")} />
           </FormField>
 
-          <footer className={classNames("mt-5 flex", house ? "justify-between" : "justify-end")}>
-            {house ? (
-              <Button variant="danger" type="button" onClick={() => setDeleteOpen(true)}>
-                Delete
-              </Button>
-            ) : null}
-
-            <div className="flex justify-end gap-2">
-              <Modal.Close>
-                <Button disabled={isLoading} type="reset">
-                  Cancel
-                </Button>
-              </Modal.Close>
-              <Button className="flex items-center gap-2" disabled={isLoading} type="submit">
-                {isLoading ? <Loader size="sm" /> : null}
-                {house ? "Save Changes" : "Add new house"}
-              </Button>
-            </div>
-          </footer>
+          <FormFooter
+            isLoading={isLoading}
+            item={house}
+            onDeleteClick={() => setDeleteOpen(true)}
+            submitText={house ? "Save Changes" : "Add new house"}
+          />
 
           <Modal isOpen={isDeleteOpen} onOpenChange={() => setDeleteOpen(false)}>
             <form onSubmit={handleDeleteHouse}>

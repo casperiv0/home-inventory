@@ -54,12 +54,16 @@ export default function HousePage() {
         <title>{`${house.name} - Home Inventory`}</title>
       </Head>
 
-      <header className="flex items-center justify-between mt-4 mb-7">
+      <header className="flex flex-col md:flex-row md:items-center justify-between mt-4 mb-7">
         <h1 className="capitalize text-3xl md:text-4xl font-bold font-serif text-neutral-800">
           {house.name}
         </h1>
 
-        {hasAccess ? <Button onClick={() => setIsOpen(true)}>Manage House</Button> : null}
+        {hasAccess ? (
+          <Button className="mt-3 md:mt-0 w-fit" onClick={() => setIsOpen(true)}>
+            Manage House
+          </Button>
+        ) : null}
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">

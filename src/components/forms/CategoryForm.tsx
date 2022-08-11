@@ -8,7 +8,7 @@ import { Button } from "components/ui/Button";
 import { Loader } from "components/ui/Loader";
 import { trpc } from "utils/trpc";
 import { z } from "zod";
-import { classNames } from "utils/classNames";
+import { FormFooter } from "components/form/FormFooter";
 
 const schema = z.object({
   name: z.string().min(2),
@@ -80,26 +80,14 @@ export function CategoryForm({ houseId, category, onSubmit }: Props) {
             <Input {...register("name")} />
           </FormField>
 
-          <footer className={classNames("mt-5 flex", category ? "justify-between" : "justify-end")}>
-            {category ? (
-              <Button variant="danger" type="button" onClick={() => setDeleteOpen(true)}>
-                Delete
-              </Button>
-            ) : null}
+          <FormFooter
+            isLoading={isLoading}
+            item={category}
+            onDeleteClick={() => setDeleteOpen(true)}
+            submitText={category ? "Save Changes" : "Add new category"}
+          />
 
-            <div className="flex justify-end gap-2">
-              <Modal.Close>
-                <Button disabled={isLoading} type="reset">
-                  Cancel
-                </Button>
-              </Modal.Close>
-              <Button className="flex items-center gap-2" disabled={isLoading} type="submit">
-                {isLoading ? <Loader size="sm" /> : null}
-                {category ? "Save Changes" : "Add new category"}
-              </Button>
-            </div>
-          </footer>
-
+          {/* todo: make it's own component */}
           <Modal isOpen={isDeleteOpen} onOpenChange={() => setDeleteOpen(false)}>
             <form onSubmit={handleDeleteCategory}>
               <Modal.Title>Delete Category</Modal.Title>
