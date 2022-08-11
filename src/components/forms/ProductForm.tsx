@@ -3,13 +3,11 @@ import type { Product, User } from "@prisma/client";
 import { Form } from "components/form/Form";
 import { FormField } from "components/form/FormField";
 import { Input } from "components/form/Input";
-import { Modal } from "components/modal/Modal";
-import { Button } from "components/ui/Button";
-import { Loader } from "components/ui/Loader";
 import { trpc } from "utils/trpc";
 import { z } from "zod";
 import { Select } from "components/form/Select";
 import { FormFooter } from "components/form/FormFooter";
+import { DeletionModal } from "components/modal/DeletionModal";
 
 const schema = z.object({
   name: z.string().min(2),
@@ -169,31 +167,18 @@ export function ProductForm({ houseId, product, onSubmit }: Props) {
             submitText={product ? "Save Changes" : "Add new product"}
           />
 
-          <Modal isOpen={isDeleteOpen} onOpenChange={() => setDeleteOpen(false)}>
-            <form onSubmit={handleDeleteProduct}>
-              <Modal.Title>Delete Product</Modal.Title>
-              <Modal.Description>
-                Are you sure you want to delete this product? This action cannot be undone.
-              </Modal.Description>
-
-              <footer className="mt-5 flex justify-end gap-3">
-                <Modal.Close>
-                  <Button disabled={deleteProduct.isLoading} type="reset">
-                    Nope, Cancel
-                  </Button>
-                </Modal.Close>
-                <Button
-                  className="flex items-center gap-2"
-                  disabled={deleteProduct.isLoading}
-                  variant="danger"
-                  type="submit"
-                >
-                  {deleteProduct.isLoading ? <Loader size="sm" /> : null}
-                  Yes, delete product
-                </Button>
-              </footer>
-            </form>
-          </Modal>
+          <DeletionModal
+            isLoading={deleteProduct.isLoading}
+            isOpen={isDeleteOpen}
+            onOpenChange={() => setDeleteOpen(false)}
+            onConfirmDeleteClick={handleDeleteProduct}
+            text={{
+              title: "Delete Product",
+              description:
+                "Are you sure you want to delete this product? This action cannot be undone.",
+              yes: "Yes, delete product",
+            }}
+          />
         </>
       )}
     </Form>

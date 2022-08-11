@@ -3,12 +3,10 @@ import type { House } from "@prisma/client";
 import { Form } from "components/form/Form";
 import { FormField } from "components/form/FormField";
 import { Input } from "components/form/Input";
-import { Modal } from "components/modal/Modal";
-import { Button } from "components/ui/Button";
-import { Loader } from "components/ui/Loader";
 import { trpc } from "utils/trpc";
 import { z } from "zod";
 import { FormFooter } from "components/form/FormFooter";
+import { DeletionModal } from "components/modal/DeletionModal";
 
 const schema = z.object({
   name: z.string().min(2),
@@ -81,31 +79,18 @@ export function HouseForm({ house, onSubmit }: Props) {
             submitText={house ? "Save Changes" : "Add new house"}
           />
 
-          <Modal isOpen={isDeleteOpen} onOpenChange={() => setDeleteOpen(false)}>
-            <form onSubmit={handleDeleteHouse}>
-              <Modal.Title>Delete House</Modal.Title>
-              <Modal.Description>
-                Are you sure you want to delete this house? This action cannot be undone.
-              </Modal.Description>
-
-              <footer className="mt-5 flex justify-end gap-3">
-                <Modal.Close>
-                  <Button disabled={deleteHouse.isLoading} type="reset">
-                    Nope, Cancel
-                  </Button>
-                </Modal.Close>
-                <Button
-                  className="flex items-center gap-2"
-                  disabled={deleteHouse.isLoading}
-                  variant="danger"
-                  type="submit"
-                >
-                  {deleteHouse.isLoading ? <Loader size="sm" /> : null}
-                  Yes, delete house
-                </Button>
-              </footer>
-            </form>
-          </Modal>
+          <DeletionModal
+            isLoading={deleteHouse.isLoading}
+            isOpen={isDeleteOpen}
+            onOpenChange={() => setDeleteOpen(false)}
+            onConfirmDeleteClick={handleDeleteHouse}
+            text={{
+              title: "Delete House",
+              description:
+                "Are you sure you want to delete this house? This action cannot be undone.",
+              yes: "Yes, delete house",
+            }}
+          />
         </>
       )}
     </Form>

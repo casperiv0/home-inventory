@@ -3,12 +3,10 @@ import type { Category } from "@prisma/client";
 import { Form } from "components/form/Form";
 import { FormField } from "components/form/FormField";
 import { Input } from "components/form/Input";
-import { Modal } from "components/modal/Modal";
-import { Button } from "components/ui/Button";
-import { Loader } from "components/ui/Loader";
 import { trpc } from "utils/trpc";
 import { z } from "zod";
 import { FormFooter } from "components/form/FormFooter";
+import { DeletionModal } from "components/modal/DeletionModal";
 
 const schema = z.object({
   name: z.string().min(2),
@@ -87,32 +85,18 @@ export function CategoryForm({ houseId, category, onSubmit }: Props) {
             submitText={category ? "Save Changes" : "Add new category"}
           />
 
-          {/* todo: make it's own component */}
-          <Modal isOpen={isDeleteOpen} onOpenChange={() => setDeleteOpen(false)}>
-            <form onSubmit={handleDeleteCategory}>
-              <Modal.Title>Delete Category</Modal.Title>
-              <Modal.Description>
-                Are you sure you want to delete this category? This action cannot be undone.
-              </Modal.Description>
-
-              <footer className="mt-5 flex justify-end gap-3">
-                <Modal.Close>
-                  <Button disabled={deleteCategory.isLoading} type="reset">
-                    Nope, Cancel
-                  </Button>
-                </Modal.Close>
-                <Button
-                  className="flex items-center gap-2"
-                  disabled={deleteCategory.isLoading}
-                  variant="danger"
-                  type="submit"
-                >
-                  {deleteCategory.isLoading ? <Loader size="sm" /> : null}
-                  Yes, delete category
-                </Button>
-              </footer>
-            </form>
-          </Modal>
+          <DeletionModal
+            isLoading={deleteCategory.isLoading}
+            isOpen={isDeleteOpen}
+            onOpenChange={() => setDeleteOpen(false)}
+            onConfirmDeleteClick={handleDeleteCategory}
+            text={{
+              title: "Delete Category",
+              description:
+                "Are you sure you want to delete this category? This action cannot be undone.",
+              yes: "Yes, delete category",
+            }}
+          />
         </>
       )}
     </Form>
