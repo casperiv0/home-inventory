@@ -22,7 +22,7 @@
 
 ![manage-product](./screenshots/manage-product.png)
 
-## Login
+## Sign In
 
 ![login](./screenshots/login.png)
 
