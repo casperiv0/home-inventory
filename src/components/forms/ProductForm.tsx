@@ -16,7 +16,9 @@ const schema = z.object({
   price: z.number().min(1),
   quantity: z.number().min(1),
   expireDate: z.string().optional().nullable(),
+  createdAt: z.string().optional().nullable(),
   category: z.string().nullable().optional(),
+  ignoreQuantityWarning: z.boolean().optional().nullable(),
 });
 
 interface Props {
@@ -82,6 +84,10 @@ export function ProductForm({ houseId, product, onSubmit }: Props) {
     ? new Date(product.expirationDate).toISOString().slice(0, 10)
     : null;
 
+  const createdAt = product?.createdAt
+    ? new Date(product.createdAt).toISOString().slice(0, 10)
+    : null;
+
   const defaultValues = {
     name: product?.name ?? "",
     price: product?.price ?? 0,
@@ -89,7 +95,7 @@ export function ProductForm({ houseId, product, onSubmit }: Props) {
     expireDate: expirationDate,
     warnOnQuantity: product?.warnOnQuantity ?? 2,
     ignoreQuantityWarning: product?.ignoreQuantityWarning ?? false,
-    createdAt: product?.createdAt ?? "",
+    createdAt,
     category: product?.categoryId ?? null,
   };
 
@@ -115,9 +121,15 @@ export function ProductForm({ houseId, product, onSubmit }: Props) {
             </FormField>
           </div>
 
-          <FormField errorMessage={errors.expireDate} optional label="Expire Date">
-            <Input type="date" {...register("expireDate")} />
-          </FormField>
+          <div className="flex flex-col md:flex-row gap-2">
+            <FormField errorMessage={errors.expireDate} optional label="Expire Date">
+              <Input type="date" {...register("expireDate")} />
+            </FormField>
+
+            <FormField errorMessage={errors.createdAt} optional label="Created Date">
+              <Input type="date" {...register("createdAt")} />
+            </FormField>
+          </div>
 
           <FormField errorMessage={errors.category} optional label="Category">
             <Select {...register("category")}>
@@ -129,25 +141,27 @@ export function ProductForm({ houseId, product, onSubmit }: Props) {
               ))}
             </Select>
           </FormField>
+
+          <FormField checkbox label="Ignore quantity warning">
+            <Input {...register("ignoreQuantityWarning")} type="checkbox" />
+          </FormField>
+
           {product ? (
             <>
               <hr className="h-[3px] my-4 mt-6 bg-neutral-700 rounded-md" />
 
               <div className="flex flex-col md:flex-row gap-2">
-                <FormField label="Created At">
-                  <Input disabled defaultValue={product.createdAt.toDateString()} />
+                <FormField label="Created by">
+                  <Input disabled defaultValue={product.createdBy.name} />
                 </FormField>
 
                 <FormField label="Last Updated At">
                   <Input disabled defaultValue={product.updatedAt.toDateString()} />
                 </FormField>
               </div>
-
-              <FormField label="Created by">
-                <Input disabled defaultValue={product.createdBy.name} />
-              </FormField>
             </>
           ) : null}
+
           <footer className={classNames("mt-5 flex", product ? "justify-between" : "justify-end")}>
             {product ? (
               <Button variant="danger" type="button" onClick={() => setDeleteOpen(true)}>

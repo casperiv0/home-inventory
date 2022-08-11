@@ -74,7 +74,9 @@ export const productsRouter = createRouter()
       price: z.number().min(1),
       quantity: z.number().min(1),
       category: z.string().nullable().optional(),
-      expireDate: z.date().or(z.string()).optional().nullable(),
+      expireDate: z.string().optional().nullable(),
+      createdAt: z.string().optional().nullable(),
+      ignoreQuantityWarning: z.boolean().optional().nullable(),
     }),
     async resolve({ ctx, input }) {
       const existing = await prisma.product.findFirst({
@@ -110,8 +112,10 @@ export const productsRouter = createRouter()
           houseId: input.houseId,
           userId: ctx.dbUser!.id,
           expirationDate: input.expireDate ? new Date(input.expireDate) : undefined,
+          createdAt: input.createdAt ? new Date(input.createdAt) : undefined,
           categoryId: input.category || null,
           prices: [input.price * input.quantity],
+          ignoreQuantityWarning: input.ignoreQuantityWarning ?? false,
         },
       });
 
@@ -126,7 +130,9 @@ export const productsRouter = createRouter()
       price: z.number().min(1),
       quantity: z.number().min(1),
       category: z.string().nullable().optional(),
-      expireDate: z.date().or(z.string()).optional().nullable(),
+      expireDate: z.string().optional().nullable(),
+      createdAt: z.string().optional().nullable(),
+      ignoreQuantityWarning: z.boolean().optional().nullable(),
     }),
     async resolve({ input }) {
       const product = await prisma.product.findFirstOrThrow({
@@ -141,6 +147,8 @@ export const productsRouter = createRouter()
           price: input.price,
           expirationDate: input.expireDate ? new Date(input.expireDate) : undefined,
           categoryId: input.category || null,
+          createdAt: input.createdAt ? new Date(input.createdAt) : undefined,
+          ignoreQuantityWarning: input.ignoreQuantityWarning ?? false,
 
           // input.price = for 1 item, times the quantity -> total amount for the product.
           prices: [input.price * input.quantity],

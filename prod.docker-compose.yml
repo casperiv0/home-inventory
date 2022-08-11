@@ -13,43 +13,10 @@ services:
     volumes:
       - ./.data:/var/lib/postgresql/data
 
-  redis:
-    container_name: "@home-inventory/redis"
-    image: redis
-    command: redis-server --requirepass ${REDIS_PASSWORD}
-    env_file:
-      - .env
-    ports:
-      - "6379:6379"
-    networks:
-      - web
-    volumes:
-      - redis-data:/data
-      - redis-conf:/usr/local/etc/redis/redis.conf
-
-  api:
-    container_name: "@home-inventory/api"
-
-    image: node:16
-    command: "yarn workspace @home-inventory/api start"
-    ports:
-      - "3030:3030"
-    expose:
-      - 3030
-    volumes:
-      - .:/srv/api
-    env_file:
-      - .env
-    working_dir: /srv/api
-    depends_on:
-      - postgres
-    networks:
-      - web
-
   web:
     container_name: "@home-inventory/web"
     image: node:16
-    command: "yarn workspace @home-inventory/web start"
+    command: "npm run start"
     ports:
       - "3000:3000"
     expose:
@@ -58,15 +25,11 @@ services:
       - .:/srv/web
     working_dir: /srv/web
     depends_on:
-      - api
+      - postgres
     networks:
       - web
     env_file:
       - .env
-
-volumes:
-  redis-data:
-  redis-conf:
 
 networks:
   web:
