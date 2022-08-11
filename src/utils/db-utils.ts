@@ -20,8 +20,10 @@ export function getOrderByFromInput<T extends { sorting?: { desc: boolean; id: s
 }
 
 export function createOrderByObj(sort: { desc: boolean; id: string }) {
-  if (["month", "year"].includes(sort.id)) {
-    return { date: { [sort.id]: getSortingDir(sort) } };
+  if (sort.id.includes("-")) {
+    const [parent, child] = sort.id.split("-") as [string, string];
+
+    return { [parent]: { [child]: sort.desc ? "desc" : "asc" } };
   }
 
   return { [sort.id]: getSortingDir(sort) };

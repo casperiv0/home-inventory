@@ -83,7 +83,7 @@ export default function HousePage() {
               expirationDate: product.expirationDate
                 ? new Date(product.expirationDate).toDateString()
                 : "—",
-              category: product.category?.name ?? "—",
+              "category-name": product.category?.name ?? "—",
               createdBy: product.createdBy.name,
               actions: (
                 <Button size="xs" onClick={() => handleEditDelete(product)}>
@@ -98,7 +98,7 @@ export default function HousePage() {
             { header: "Total Price", accessorKey: "totalPrice", enableSorting: false },
             { header: "Quantity", accessorKey: "quantity" },
             { header: "Expiration Date", accessorKey: "expirationDate" },
-            { header: "Category", accessorKey: "category" },
+            { header: "Category", accessorKey: "category-name" },
             { header: "Created By", accessorKey: "createdBy", enableSorting: false },
             { header: "actions", accessorKey: "actions" },
           ]}
