@@ -26,16 +26,17 @@ model User {
 }
 
 model Product {
-  id                    String             @id @default(uuid())
+  id                    String             @id @default(cuid())
   quantity              Int
   warnOnQuantity        Int                @default(2)
   ignoreQuantityWarning Boolean            @default(false)
-  price                 Float
+  price                 Float?
   prices                Float[]
   name                  String
   createdAt             DateTime           @default(now())
   updatedAt             DateTime           @updatedAt
   expirationDate        DateTime?
+  description           String?
   createdBy             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId                String
   categoryId            String?
@@ -46,7 +47,7 @@ model Product {
 }
 
 model House {
-  id             String        @id @default(uuid())
+  id             String        @id @default(cuid())
   name           String        @unique
   currency       String        @default("€")
   users          User[]
@@ -60,13 +61,13 @@ model House {
 }
 
 model ShoppingList {
-  id       String             @unique @default(uuid())
+  id       String             @unique @default(cuid())
   products ShoppingListItem[] @relation
   House    House?
 }
 
 model ShoppingListItem {
-  id             String       @unique @default(uuid())
+  id             String       @unique @default(cuid())
   product        Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId      String
   completed      Boolean      @default(false)
@@ -75,7 +76,7 @@ model ShoppingListItem {
 }
 
 model Category {
-  id        String    @id @default(uuid())
+  id        String    @id @default(cuid())
   name      String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -87,7 +88,7 @@ model Category {
 }
 
 model HouseRole {
-  id      String   @id @default(uuid())
+  id      String   @id @default(cuid())
   role    UserRole @default(USER)
   house   House    @relation(fields: [houseId], references: [id], onDelete: Cascade)
   houseId String

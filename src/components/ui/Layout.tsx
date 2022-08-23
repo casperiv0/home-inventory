@@ -42,7 +42,7 @@ export function Layout({ children }: LayoutProps) {
       </Head>
 
       <Navbar />
-      <main className="max-w-5xl mx-auto px-2 sm:px-6 lg:px-8 w-full">{children}</main>
+      <main className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 w-full">{children}</main>
     </>
   );
 }

@@ -77,6 +77,7 @@ export const productsRouter = createRouter()
       expireDate: z.string().optional().nullable(),
       createdAt: z.string().optional().nullable(),
       ignoreQuantityWarning: z.boolean().optional().nullable(),
+      description: z.string().nullable().optional(),
     }),
     async resolve({ ctx, input }) {
       const existing = await prisma.product.findFirst({
@@ -116,6 +117,7 @@ export const productsRouter = createRouter()
           categoryId: input.category || null,
           prices: [input.price * input.quantity],
           ignoreQuantityWarning: input.ignoreQuantityWarning ?? false,
+          description: input.description,
         },
       });
 
@@ -133,6 +135,7 @@ export const productsRouter = createRouter()
       expireDate: z.string().optional().nullable(),
       createdAt: z.string().optional().nullable(),
       ignoreQuantityWarning: z.boolean().optional().nullable(),
+      description: z.string().nullable().optional(),
     }),
     async resolve({ input }) {
       const product = await prisma.product.findFirstOrThrow({
@@ -149,6 +152,7 @@ export const productsRouter = createRouter()
           categoryId: input.category || null,
           createdAt: input.createdAt ? new Date(input.createdAt) : undefined,
           ignoreQuantityWarning: input.ignoreQuantityWarning ?? false,
+          description: input.description,
 
           // input.price = for 1 item, times the quantity -> total amount for the product.
           prices: [input.price * input.quantity],

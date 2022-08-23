@@ -8,6 +8,7 @@ import { z } from "zod";
 import { Select } from "components/form/Select";
 import { FormFooter } from "components/form/FormFooter";
 import { DeletionModal } from "components/modal/DeletionModal";
+import { Textarea } from "components/form/Textarea";
 
 const schema = z.object({
   name: z.string().min(2),
@@ -17,6 +18,7 @@ const schema = z.object({
   createdAt: z.string().optional().nullable(),
   category: z.string().nullable().optional(),
   ignoreQuantityWarning: z.boolean().optional().nullable(),
+  description: z.string().optional().nullable(),
 });
 
 interface Props {
@@ -95,6 +97,7 @@ export function ProductForm({ houseId, product, onSubmit }: Props) {
     ignoreQuantityWarning: product?.ignoreQuantityWarning ?? false,
     createdAt,
     category: product?.categoryId ?? null,
+    description: product?.description ?? "",
   };
 
   return (
@@ -138,6 +141,10 @@ export function ProductForm({ houseId, product, onSubmit }: Props) {
                 </option>
               ))}
             </Select>
+          </FormField>
+
+          <FormField errorMessage={errors.description} optional label="Description">
+            <Textarea {...register("description")} />
           </FormField>
 
           <FormField checkbox label="Ignore quantity warning">

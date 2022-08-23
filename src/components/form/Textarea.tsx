@@ -13,9 +13,9 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, Props>(
       {...rest}
       className={classNames(
         twMerge(
-          "border-[1.5px] focus:border-accent max-h-[650px] resize-y",
-          "w-full p-1.5 px-2 rounded-sm outline-none transition-colors",
-          "bg-neutral-700 text-white",
+          "border-[1.5px] focus:border-accent",
+          "w-full p-1.5 px-3 rounded-sm outline-none transition-all",
+          "text-neutral-700",
           "disabled:cursor-not-allowed disabled:opacity-80 placeholder:opacity-50",
           rest.className,
           errorMessage ? "border-red-500 focus:border-red-700" : "border-gray-600",

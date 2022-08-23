@@ -13,12 +13,14 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(({ errorMessage, 
       {...rest}
       className={classNames(
         twMerge(
-          "border-[1.5px] focus:border-accent",
+          "border-[1.5px]",
           "w-full p-1.5 px-3 rounded-sm outline-none transition-all",
-          "bg-secondary text-neutral-700",
+          "text-neutral-700",
           "disabled:cursor-not-allowed disabled:opacity-80 placeholder:opacity-50",
           rest.className,
-          errorMessage ? "border-red-500 focus:border-red-700" : "border-gray-600",
+          errorMessage
+            ? "border-red-500 focus:border-red-700"
+            : "border-gray-600 focus:border-gray-800",
         ),
       )}
     />

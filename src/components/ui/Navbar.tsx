@@ -22,7 +22,7 @@ export function Navbar() {
   }
 
   return (
-    <nav className="max-w-5xl mx-auto px-2 sm:px-6 lg:px-8">
+    <nav className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
       <div>
         <div className="flex items-center justify-between h-16">
           <Link href="/">
