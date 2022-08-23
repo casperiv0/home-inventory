@@ -77,8 +77,8 @@ export default function HousePage() {
 
             return {
               name: product.name,
-              price: product.price,
-              totalPrice,
+              price: product.price || "—",
+              totalPrice: totalPrice || "—",
               quantity: product.quantity,
               expirationDate: product.expirationDate
                 ? new Date(product.expirationDate).toDateString()

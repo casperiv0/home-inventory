@@ -71,7 +71,10 @@ export const productsRouter = createRouter()
     input: z.object({
       houseId: z.string(),
       name: z.string().min(2),
-      price: z.number().min(1),
+      price: z
+        .any()
+        .refine((arg) => ([null, undefined, "", "0", 0].includes(arg) ? "null" : parseInt(arg, 10)))
+        .nullable(),
       quantity: z.number().min(1),
       category: z.string().nullable().optional(),
       expireDate: z.string().optional().nullable(),
@@ -129,7 +132,11 @@ export const productsRouter = createRouter()
       id: z.string().min(1),
       houseId: z.string().min(1),
       name: z.string().min(2),
-      price: z.number().min(1),
+      price: z
+        .any()
+        .refine((arg) =>
+          [null, undefined, "", "0", 0].includes(arg) ? "null" : parseInt(arg, 10),
+        ),
       quantity: z.number().min(1),
       category: z.string().nullable().optional(),
       expireDate: z.string().optional().nullable(),

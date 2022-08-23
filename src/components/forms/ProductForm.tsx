@@ -12,7 +12,10 @@ import { Textarea } from "components/form/Textarea";
 
 const schema = z.object({
   name: z.string().min(2),
-  price: z.number().min(1),
+  price: z
+    .any()
+    .refine((arg) => ([null, undefined, "", "0", 0].includes(arg) ? "null" : parseInt(arg, 10)))
+    .nullable(),
   quantity: z.number().min(1),
   expireDate: z.string().optional().nullable(),
   createdAt: z.string().optional().nullable(),
