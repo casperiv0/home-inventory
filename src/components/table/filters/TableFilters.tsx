@@ -98,7 +98,7 @@ export function TableFilters({ query, filterTypes, filters, setFilters }: Props)
                     isFilterAlreadySet && "pointer-events-none",
                   )}
                 >
-                  {filter.name}
+                  {filter.name.split(".")[0]}
                   <ChevronRight className="w-3 h-3" />
                 </Dropdown.SubTrigger>
               }

@@ -46,18 +46,43 @@ export function createPrismaWhereFromFilters(
   for (const filter of filters) {
     if (!filter.type || !filter.content) continue;
 
-    const addMode = ["string"].includes(filter.filterType);
+    const isStringType = ["string"].includes(filter.filterType);
+    const setObj = filter.name.split(".").length >= 2;
     const content = filter.filterType === "date" ? new Date(filter.content) : filter.content;
 
-    const obj = {
-      [filter.name]: {
-        [filter.type]: content,
-        mode: addMode ? Prisma.QueryMode.insensitive : undefined,
-      },
-    };
+    if (setObj) {
+      andClause.push(
+        createObj(filter.name, {
+          [filter.type]: content,
+          mode: isStringType ? Prisma.QueryMode.insensitive : undefined,
+        }),
+      );
+    } else {
+      const obj = {
+        [filter.name]: {
+          [filter.type]: content,
+          mode: isStringType ? Prisma.QueryMode.insensitive : undefined,
+        },
+      };
 
-    andClause.push(obj);
+      andClause.push(obj);
+    }
   }
 
   return { AND: andClause };
+}
+
+function createObj(name: string, value: any) {
+  const obj: Record<string, any> = {};
+
+  for (let i = 0; i < name.length; i++) {
+    const char = name[i];
+    if (char === ".") {
+      const parent = name.substring(0, i);
+      const child = name.substring(i + 1);
+      obj[parent] = { [child]: value };
+    }
+  }
+
+  return obj;
 }

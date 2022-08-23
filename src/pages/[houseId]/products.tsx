@@ -107,6 +107,7 @@ export default function HousePage() {
             { name: "price", filterType: "number" },
             { name: "quantity", filterType: "number" },
             { name: "expirationDate", filterType: "date" },
+            { name: "category.name", filterType: "string" },
           ]}
         />
       )}
