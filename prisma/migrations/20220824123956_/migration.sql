@@ -19,12 +19,13 @@ CREATE TABLE "Product" (
     "quantity" INTEGER NOT NULL,
     "warnOnQuantity" INTEGER NOT NULL DEFAULT 2,
     "ignoreQuantityWarning" BOOLEAN NOT NULL DEFAULT false,
-    "price" DOUBLE PRECISION NOT NULL,
+    "price" DOUBLE PRECISION,
     "prices" DOUBLE PRECISION[],
     "name" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "expirationDate" TIMESTAMP(3),
+    "description" TEXT,
     "userId" TEXT NOT NULL,
     "categoryId" TEXT,
     "houseId" TEXT NOT NULL,
@@ -87,6 +88,9 @@ CREATE TABLE "_HouseToUser" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Product_name_houseId_key" ON "Product"("name", "houseId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "House_name_key" ON "House"("name");
 
 -- CreateIndex
@@ -109,6 +113,9 @@ CREATE INDEX "_HouseToUser_B_index" ON "_HouseToUser"("B");
 
 -- AddForeignKey
 ALTER TABLE "Product" ADD CONSTRAINT "Product_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Product" ADD CONSTRAINT "Product_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Product" ADD CONSTRAINT "Product_houseId_fkey" FOREIGN KEY ("houseId") REFERENCES "House"("id") ON DELETE CASCADE ON UPDATE CASCADE;

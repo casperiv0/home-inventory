@@ -4,11 +4,11 @@ import { Loader } from "components/ui/Loader";
 import { classNames } from "utils/classNames";
 
 interface Props<T> {
-  item: T | null;
+  item?: T | null;
   isLoading?: boolean;
   submitText: string;
 
-  onDeleteClick(): void;
+  onDeleteClick?(): void;
 }
 
 export function FormFooter<T>({ isLoading, submitText, item, onDeleteClick }: Props<T>) {

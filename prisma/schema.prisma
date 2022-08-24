@@ -44,6 +44,8 @@ model Product {
   house                 House              @relation(fields: [houseId], references: [id], onDelete: Cascade)
   houseId               String
   ShoppingListItem      ShoppingListItem[]
+
+  @@unique([name, houseId])
 }
 
 model House {

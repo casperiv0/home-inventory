@@ -9,7 +9,7 @@
     "lint": "npx eslint . --ext .ts,.js,.tsx,.jsx",
     "dev": "npx prisma generate && npx prisma migrate dev && next dev",
     "build": "next build",
-    "build-deploy": "npx prisma migrate deploy && next build",
+    "build-deploy": "npx prisma migrate deploy && npx prisma generate && next build",
     "prepare": "husky install",
     "test-tsc": "npx tsc --noEmit"
   },

@@ -12,6 +12,21 @@ export const TABLE_FILTER = z.object({
   options: z.array(z.string()).optional(),
 });
 
+const ADD_PRODUCT_SCHEMA = z.object({
+  houseId: z.string(),
+  name: z.string().min(2),
+  price: z
+    .any()
+    .refine((arg) => ([null, undefined, "", "0", 0].includes(arg) ? "null" : parseInt(arg, 10)))
+    .nullable(),
+  quantity: z.number().min(1),
+  categoryId: z.string().nullable().optional(),
+  expireDate: z.string().optional().nullable(),
+  createdAt: z.string().optional().nullable(),
+  ignoreQuantityWarning: z.boolean().optional().nullable(),
+  description: z.string().nullable().optional(),
+});
+
 export const productsRouter = createRouter()
   .middleware(async ({ ctx, next }) => {
     if (!ctx.session || !ctx.dbUser) {
@@ -71,7 +86,7 @@ export const productsRouter = createRouter()
     input: z.object({
       houseId: z.string(),
     }),
-    resolve: async ({ input }) => {
+    async resolve({ input }) {
       const products = await prisma.product.findMany({
         where: { houseId: input.houseId },
         include: { category: true, createdBy: true },
@@ -81,20 +96,7 @@ export const productsRouter = createRouter()
     },
   })
   .mutation("addProduct", {
-    input: z.object({
-      houseId: z.string(),
-      name: z.string().min(2),
-      price: z
-        .any()
-        .refine((arg) => ([null, undefined, "", "0", 0].includes(arg) ? "null" : parseInt(arg, 10)))
-        .nullable(),
-      quantity: z.number().min(1),
-      category: z.string().nullable().optional(),
-      expireDate: z.string().optional().nullable(),
-      createdAt: z.string().optional().nullable(),
-      ignoreQuantityWarning: z.boolean().optional().nullable(),
-      description: z.string().nullable().optional(),
-    }),
+    input: ADD_PRODUCT_SCHEMA,
     async resolve({ ctx, input }) {
       const existing = await prisma.product.findFirst({
         where: { name: input.name, houseId: input.houseId },
@@ -130,7 +132,7 @@ export const productsRouter = createRouter()
           userId: ctx.dbUser!.id,
           expirationDate: input.expireDate ? new Date(input.expireDate) : undefined,
           createdAt: input.createdAt ? new Date(input.createdAt) : undefined,
-          categoryId: input.category || null,
+          categoryId: input.categoryId || null,
           prices: [input.price * input.quantity],
           ignoreQuantityWarning: input.ignoreQuantityWarning ?? false,
           description: input.description,
@@ -151,7 +153,7 @@ export const productsRouter = createRouter()
           [null, undefined, "", "0", 0].includes(arg) ? "null" : parseInt(arg, 10),
         ),
       quantity: z.number().min(1),
-      category: z.string().nullable().optional(),
+      categoryId: z.string().nullable().optional(),
       expireDate: z.string().optional().nullable(),
       createdAt: z.string().optional().nullable(),
       ignoreQuantityWarning: z.boolean().optional().nullable(),
@@ -169,7 +171,7 @@ export const productsRouter = createRouter()
           quantity: input.quantity,
           price: input.price,
           expirationDate: input.expireDate ? new Date(input.expireDate) : undefined,
-          categoryId: input.category || null,
+          categoryId: input.categoryId || null,
           createdAt: input.createdAt ? new Date(input.createdAt) : undefined,
           ignoreQuantityWarning: input.ignoreQuantityWarning ?? false,
           description: input.description,
@@ -180,6 +182,48 @@ export const productsRouter = createRouter()
       });
 
       return updatedProduct;
+    },
+  })
+  .mutation("importProductsFromFile", {
+    input: z.object({ houseId: z.string(), file: z.string() }),
+    async resolve({ input, ctx }) {
+      const json = JSON.parse(input.file);
+      const arraySchema = z.object({
+        products: z.array(ADD_PRODUCT_SCHEMA.omit({ houseId: true })),
+        categories: z.array(z.object({ id: z.string().nullable().optional(), name: z.string() })),
+      });
+
+      const data = await arraySchema.parseAsync(json);
+
+      await prisma.$transaction([
+        ...data.categories.map((category) =>
+          prisma.category.create({
+            data: { id: category.id ?? undefined, name: category.name, houseId: input.houseId },
+          }),
+        ),
+        ...data.products.map((product) => {
+          const createUpdateData = {
+            name: product.name,
+            price: product.price,
+            quantity: product.quantity,
+            houseId: input.houseId,
+            userId: ctx.dbUser!.id,
+            expirationDate: product.expireDate ? new Date(product.expireDate) : undefined,
+            createdAt: product.createdAt ? new Date(product.createdAt) : undefined,
+            categoryId: product.categoryId || null,
+            prices: [product.price * product.quantity],
+            ignoreQuantityWarning: product.ignoreQuantityWarning ?? false,
+            description: product.description,
+          };
+
+          return prisma.product.upsert({
+            where: { name_houseId: { houseId: input.houseId, name: product.name } },
+            create: createUpdateData,
+            update: createUpdateData,
+            include: { createdBy: true, category: true },
+          });
+        }),
+      ]);
     },
   })
   .mutation("deleteProduct", {

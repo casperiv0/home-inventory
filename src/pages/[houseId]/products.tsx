@@ -15,6 +15,7 @@ import { useHouseById } from "hooks/queries/useHouse";
 import { Dropdown } from "components/dropdown/Dropdown";
 import { ThreeDotsVertical } from "react-bootstrap-icons";
 import { useDownload } from "@casper124578/useful";
+import { ImportProductsForm } from "components/forms/ImportProductsForm";
 
 export default function HousePage() {
   const [page, setPage] = React.useState<number>(0);
@@ -22,6 +23,7 @@ export default function HousePage() {
   const [filters, setFilters] = React.useState<TableFilter[]>([]);
 
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isImportOpen, setImportOpen] = React.useState(false);
   const downloadProducts = useDownload();
 
   const router = useRouter();
@@ -87,7 +89,7 @@ export default function HousePage() {
             }
           >
             <Dropdown.Item onClick={handleExport}>Export</Dropdown.Item>
-            <Dropdown.Item disabled>Import from file</Dropdown.Item>
+            <Dropdown.Item onClick={() => setImportOpen(true)}>Import from file</Dropdown.Item>
           </Dropdown>
         </div>
       </header>
@@ -144,6 +146,14 @@ export default function HousePage() {
 
         <div>
           <ProductForm houseId={house.id} onSubmit={handleClose} product={tempProduct} />
+        </div>
+      </Modal>
+
+      <Modal isOpen={isImportOpen} onOpenChange={() => setImportOpen(false)}>
+        <Modal.Title>Import Products</Modal.Title>
+
+        <div>
+          <ImportProductsForm />
         </div>
       </Modal>
     </>
