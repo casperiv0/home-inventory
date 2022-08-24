@@ -67,6 +67,19 @@ export const productsRouter = createRouter()
       return { maxPages: Math.floor(totalCount / 25), items };
     },
   })
+  .query("getAllProducts", {
+    input: z.object({
+      houseId: z.string(),
+    }),
+    resolve: async ({ input }) => {
+      const products = await prisma.product.findMany({
+        where: { houseId: input.houseId },
+        include: { category: true, createdBy: true },
+      });
+
+      return products;
+    },
+  })
   .mutation("addProduct", {
     input: z.object({
       houseId: z.string(),

@@ -12,6 +12,9 @@ import { ProductForm } from "components/forms/ProductForm";
 import type { TableFilter } from "components/table/filters/TableFilters";
 import { useTemporaryItem } from "hooks/useTemporaryItem";
 import { useHouseById } from "hooks/queries/useHouse";
+import { Dropdown } from "components/dropdown/Dropdown";
+import { ThreeDotsVertical } from "react-bootstrap-icons";
+import { useDownload } from "@casper124578/useful";
 
 export default function HousePage() {
   const [page, setPage] = React.useState<number>(0);
@@ -19,6 +22,7 @@ export default function HousePage() {
   const [filters, setFilters] = React.useState<TableFilter[]>([]);
 
   const [isOpen, setIsOpen] = React.useState(false);
+  const downloadProducts = useDownload();
 
   const router = useRouter();
   const houseId = router.query.houseId as string;
@@ -31,6 +35,10 @@ export default function HousePage() {
   const products = productsQuery.data?.items ?? [];
   const [tempProduct, productState] = useTemporaryItem(products);
 
+  const allProductsQuery = trpc.useQuery(["products.getAllProducts", { houseId }], {
+    enabled: false,
+  });
+
   const pagination = useTablePagination({
     isLoading: productsQuery.isLoading,
     page,
@@ -41,6 +49,12 @@ export default function HousePage() {
   function handleClose() {
     productState.setTempId(null);
     setIsOpen(false);
+  }
+
+  async function handleExport() {
+    const d = await allProductsQuery.refetch();
+
+    downloadProducts({ data: JSON.stringify(d.data, null, 4), filename: "products.json" });
   }
 
   function handleEditDelete(product: Product) {
@@ -62,7 +76,20 @@ export default function HousePage() {
           <h1 className="text-3xl md:text-4xl font-bold font-serif text-neutral-800">Products</h1>
         </div>
 
-        <Button onClick={() => setIsOpen(true)}>Add Product</Button>
+        <div className="flex items-center gap-2">
+          <Button onClick={() => setIsOpen(true)}>Add Product</Button>
+          <Dropdown
+            side="left"
+            trigger={
+              <Button className="p-1.5 border-2">
+                <ThreeDotsVertical className="h-4 w-4 " />
+              </Button>
+            }
+          >
+            <Dropdown.Item onClick={handleExport}>Export</Dropdown.Item>
+            <Dropdown.Item disabled>Import from file</Dropdown.Item>
+          </Dropdown>
+        </div>
       </header>
 
       {productsQuery.data.items.length <= 0 && !filters.length ? (
