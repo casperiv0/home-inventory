@@ -9,11 +9,15 @@ A home inventory app to keep track of items in your home (food items, tech, medi
 - Dark/light theme
 - Add users to other houses
 - Great sort & filter options
-- ~~Import/export products~~
+- Import/export products
+
+## Screenshots
+
+[View Screenshots here](./docs/SCREENSHOTS.md)
 
 ## Status
 
-- New version in full development.
+- New version ready for production use.
 
 ## Stack
 
