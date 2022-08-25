@@ -31,13 +31,13 @@ export default function HomePage() {
 
       <header className="flex flex-col md:flex-row md:items-center justify-between mt-4">
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold font-serif text-neutral-800">Houses</h1>
-          <p className="mt-2 text-neutral-700">
+          <h1 className="text-3xl md:text-4xl font-bold font-serif">Houses</h1>
+          <p className="mt-2 text-neutral-400">
             Below you can find all the houses you are a part of.
           </p>
         </div>
 
-        <Button className="mt-3 md:mt-0 w-fit" onClick={() => setIsOpen(true)}>
+        <Button variant="accent" className="mt-3 md:mt-0 w-fit" onClick={() => setIsOpen(true)}>
           Add house
         </Button>
       </header>
@@ -47,7 +47,7 @@ export default function HomePage() {
           const role = house.houseRoles.find((r) => r.userId === user?.id);
 
           return (
-            <div key={house.id} className="p-4 rounded-sm bg-neutral-200">
+            <div key={house.id} className="p-6 rounded-sm bg-secondary shadow-md">
               <header className="flex items-center justify-between mb-2">
                 <Link href={`/${house.id}`}>
                   <a className="font-semibold text-xl" href={`/${house.id}`}>
@@ -64,7 +64,7 @@ export default function HomePage() {
                     variant="transparent"
                     size="xxs"
                   >
-                    <Pencil aria-label="Manage house" />
+                    <Pencil className="fill-neutral-400" aria-label="Manage house" />
                   </Button>
                 ) : null}
               </header>

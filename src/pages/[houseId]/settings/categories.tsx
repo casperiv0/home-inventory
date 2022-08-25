@@ -56,8 +56,8 @@ export default function ManageCategoriesPage() {
       </Head>
       <header className="flex items-center justify-between mt-4 mb-5">
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold font-serif text-neutral-800">Categories</h1>
-          <p className="mt-3 font-medium text-neutral-800">
+          <h1 className="text-3xl md:text-4xl font-bold font-serif">Categories</h1>
+          <p className="mt-3 font-medium text-neutral-400">
             A list of categories that can be appended to products.
           </p>
         </div>
@@ -66,7 +66,7 @@ export default function ManageCategoriesPage() {
       </header>
 
       {categoriesQuery.data.items.length <= 0 ? (
-        <p className="text-neutral-700">This house does not have any categories created yet.</p>
+        <p className="text-neutral-400">This house does not have any categories created yet.</p>
       ) : (
         <Table
           query={categoriesQuery}

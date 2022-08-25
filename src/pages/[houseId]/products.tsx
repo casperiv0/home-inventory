@@ -75,12 +75,13 @@ export default function HousePage() {
       </Head>
       <header className="flex items-center justify-between mt-4 mb-5">
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold font-serif text-neutral-800">Products</h1>
+          <h1 className="text-3xl md:text-4xl font-bold font-serif">Products</h1>
         </div>
 
         <div className="flex items-center gap-2">
           <Button onClick={() => setIsOpen(true)}>Add Product</Button>
           <Dropdown
+            alignOffset={0}
             side="left"
             trigger={
               <Button className="p-1.5 border-2">

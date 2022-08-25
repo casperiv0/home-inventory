@@ -8,8 +8,9 @@ export type ButtonProps = JSX.IntrinsicElements["button"] & {
 };
 
 export const buttonVariants = {
-  default: "bg-neutral-700 enabled:hover:brightness-110 transition shadow-sm text-white",
-  dropdown: "bg-neutral-800/60 enabled:hover:bg-neutral-800 transition shadow-sm text-white",
+  accent: "bg-accent enabled:hover:brightness-110 transition shadow-sm text-black",
+  default: "bg-secondary enabled:hover:brightness-110 transition shadow-sm text-white",
+  dropdown: "bg-tertiary enabled:hover:bg-secondary transition shadow-sm text-white",
   danger: "bg-red-800 enabled:hover:bg-red-700 transition shadow-sm text-white",
   transparent: "bg-transparent transition text-neutral-700",
 };

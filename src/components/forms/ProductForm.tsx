@@ -107,7 +107,7 @@ export function ProductForm({ houseId, product, onSubmit }: Props) {
     <Form defaultValues={defaultValues} schema={schema} onSubmit={handleSubmit}>
       {({ register, errors }) => (
         <>
-          <FormField errorMessage={errors.name} label="name">
+          <FormField errorMessage={errors.name} label="Name">
             <Input {...register("name")} />
           </FormField>
 

@@ -12,7 +12,7 @@ export function TableRow<TData extends RowData>({ isSelected, row, idx }: Props<
     <tr
       className={classNames(
         "border-b-2 border-secondary",
-        "hover:bg-secondary/60",
+        "hover:bg-secondary/30",
         isSelected && "brightness-150",
         "transition",
       )}

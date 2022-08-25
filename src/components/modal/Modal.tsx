@@ -13,10 +13,10 @@ export function Modal({ children, isOpen, onOpenChange }: Props) {
   return (
     <Dialog.Dialog open={isOpen} onOpenChange={onOpenChange}>
       <Dialog.Portal>
-        <Dialog.Overlay className="z-40 fixed inset-0 bg-neutral-500/50 modal-overlay" />
+        <Dialog.Overlay className="z-40 fixed inset-0 bg-primary/50 modal-overlay" />
         <Dialog.Content
           onPointerDownOutside={(e) => e.preventDefault()}
-          className="z-50 rounded-sm bg-neutral-100 drop-shadow-2xl p-5 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-[600px] max-h-[85vh] modal-content overflow-auto"
+          className="z-50 rounded-sm bg-tertiary drop-shadow-2xl p-5 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-[600px] max-h-[85vh] modal-content overflow-auto"
         >
           {children}
 
@@ -36,7 +36,7 @@ Modal.Title = ({ children }: { children: React.ReactNode }) => (
 );
 
 Modal.Description = ({ children }: { children: React.ReactNode }) => (
-  <Dialog.Description className="text-base my-3 mb-5 text-neutral-700 w-[90%]">
+  <Dialog.Description className="text-base my-3 mb-5 text-neutral-300 w-[90%]">
     {children}
   </Dialog.Description>
 );

@@ -29,22 +29,24 @@ export default function HousePage() {
   const soonToExpireText =
     soonToExpire?.length === 1 ? (
       <>
-        There is <strong>1</strong> item that is going to expire soon.
+        There is <span className="font-mono font-medium">1</span> item that is going to expire soon.
       </>
     ) : (
       <>
-        There are <strong>{soonToExpire?.length}</strong> items that are going to expire soon.
+        There are <span className="font-mono font-medium">{soonToExpire?.length}</span> items that
+        are going to expire soon.
       </>
     );
 
   const lowOnQuantityText =
     lowOnQuantity?.length === 1 ? (
       <>
-        There is <strong>1</strong> item that is low on quantity.
+        There is <span className="font-mono font-medium">1</span> item that is low on quantity.
       </>
     ) : (
       <>
-        There are <strong>{lowOnQuantity?.length}</strong> items that are low on quantity.
+        There are <span className="font-mono font-medium">{lowOnQuantity?.length}</span> items that
+        are low on quantity.
       </>
     );
 
@@ -55,9 +57,7 @@ export default function HousePage() {
       </Head>
 
       <header className="flex flex-col md:flex-row md:items-center justify-between mt-4 mb-7">
-        <h1 className="capitalize text-3xl md:text-4xl font-bold font-serif text-neutral-800">
-          {house.name}
-        </h1>
+        <h1 className="capitalize text-3xl md:text-4xl font-bold font-serif">{house.name}</h1>
 
         {hasAccess ? (
           <Button className="mt-3 md:mt-0 w-fit" onClick={() => setIsOpen(true)}>
@@ -67,33 +67,33 @@ export default function HousePage() {
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
-        <div className="p-4 rounded-sm bg-neutral-200/70 shadow-md">
+        <div className="p-4 rounded-sm bg-secondary shadow-md">
           <h1 className="text-lg font-semibold mb-3">Total spendings the last 30 days</h1>
 
           <p>
             There was a total of{" "}
-            <strong>
+            <span className="font-mono font-medium">
               {currency}
-              {totalSpentLast30Days}
-            </strong>{" "}
+              {totalSpentLast30Days?.toFixed(2)}
+            </span>{" "}
             spent this month.
           </p>
         </div>
 
-        <div className="p-4 rounded-sm bg-neutral-200/70 shadow-md">
+        <div className="p-4 rounded-sm bg-secondary shadow-md">
           <h1 className="text-lg font-semibold mb-3">Soon to expire</h1>
 
           <p>{soonToExpireText}</p>
         </div>
 
-        <div className="p-4 rounded-sm bg-neutral-200/70 shadow-md">
+        <div className="p-4 rounded-sm bg-secondary shadow-md">
           <h1 className="text-lg font-semibold mb-3">Low on quantity</h1>
 
           <p>{lowOnQuantityText}</p>
         </div>
       </div>
 
-      <p className="text-neutral-700 mt-10">More info soon...</p>
+      <p className="text-neutral-400 mt-10">More info soon...</p>
 
       <Modal isOpen={isOpen} onOpenChange={() => setIsOpen(false)}>
         <Modal.Title>Edit House</Modal.Title>

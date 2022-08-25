@@ -11,13 +11,13 @@ export default function LoginPage() {
     <div className="p-10">
       <header>
         <h1 className="text-4xl font-serif">Sign In</h1>
-        <p className="mt-3 text-neutral-700">
+        <p className="mt-3 text-neutral-400">
           Sign in to continue. Once authenticated, you can manage your houses, products and more.
         </p>
       </header>
 
-      <div className="mt-4">
-        <Button onClick={handleLoginClick} className="flex items-center gap-2">
+      <div className="mt-6">
+        <Button variant="accent" onClick={handleLoginClick} className="flex items-center gap-2">
           <Google />
           Sign in with Google
         </Button>
