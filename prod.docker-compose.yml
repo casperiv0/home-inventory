@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   postgres:
-    container_name: "@home-inventory/postgres"
+    container_name: "home-inventory-postgres"
     image: postgres
     env_file:
       - .env
@@ -14,7 +14,7 @@ services:
       - ./.data:/var/lib/postgresql/data
 
   web:
-    container_name: "@home-inventory/web"
+    container_name: "home-inventory-web"
     image: node:16
     command: "npm run start"
     ports:

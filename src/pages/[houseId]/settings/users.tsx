@@ -59,7 +59,7 @@ export default function ManageUsersPage() {
       <header className="flex items-center justify-between mt-4 mb-5">
         <div>
           <h1 className="text-3xl md:text-4xl font-bold font-serif">Users</h1>
-          <p className="mt-3 font-medium text-neutral-400">
+          <p className="mt-3 font-medium text-neutral-300">
             A list of users that are connected with the current house.
           </p>
         </div>
@@ -68,7 +68,7 @@ export default function ManageUsersPage() {
       </header>
 
       {usersQuery.data.items.length <= 0 ? (
-        <p className="text-neutral-400">This house does not have any users connected yet.</p>
+        <p className="text-neutral-300">This house does not have any users connected yet.</p>
       ) : (
         <Table
           query={usersQuery}

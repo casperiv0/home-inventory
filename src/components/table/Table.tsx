@@ -86,7 +86,7 @@ export function Table<TData extends RowData>({
       ) : null}
 
       {(options.filters?.length ?? 0) >= 1 && data.length <= 0 ? (
-        <p className="text-neutral-400">
+        <p className="text-neutral-300">
           No results found with the selected filters. Please use a different query.
         </p>
       ) : (

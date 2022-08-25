@@ -32,12 +32,12 @@ export default function HomePage() {
       <header className="flex flex-col md:flex-row md:items-center justify-between mt-4">
         <div>
           <h1 className="text-3xl md:text-4xl font-bold font-serif">Houses</h1>
-          <p className="mt-2 text-neutral-400">
+          <p className="mt-2 text-neutral-300">
             Below you can find all the houses you are a part of.
           </p>
         </div>
 
-        <Button variant="accent" className="mt-3 md:mt-0 w-fit" onClick={() => setIsOpen(true)}>
+        <Button className="mt-3 md:mt-0 w-fit" onClick={() => setIsOpen(true)}>
           Add house
         </Button>
       </header>

@@ -8,7 +8,6 @@ export type ButtonProps = JSX.IntrinsicElements["button"] & {
 };
 
 export const buttonVariants = {
-  accent: "bg-accent enabled:hover:brightness-110 transition shadow-sm text-black",
   default: "bg-secondary enabled:hover:brightness-110 transition shadow-sm text-white",
   dropdown: "bg-tertiary enabled:hover:bg-secondary transition shadow-sm text-white",
   danger: "bg-red-800 enabled:hover:bg-red-700 transition shadow-sm text-white",

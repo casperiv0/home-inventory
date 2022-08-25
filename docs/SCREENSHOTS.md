@@ -6,6 +6,10 @@
 
 ![houses](./screenshots/houses.png)
 
+## Add house
+
+![add-house](./screenshots/add-house.png)
+
 ## Home page
 
 ![home-index](./screenshots/home-index.png)
@@ -18,14 +22,14 @@
 
 ![add-product](./screenshots/add-product.png)
 
-## Manage product modal
-
-![manage-product](./screenshots/manage-product.png)
-
 ## Sign In
 
 ![login](./screenshots/login.png)
 
-## Register
+## Manage Users
 
-![register](./screenshots/register.png)
+![manage-users](./screenshots/users.png)
+
+## Manage Categories
+
+![manage-categories](./screenshots/categories.png)

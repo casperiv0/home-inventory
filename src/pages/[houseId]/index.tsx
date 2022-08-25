@@ -93,7 +93,7 @@ export default function HousePage() {
         </div>
       </div>
 
-      <p className="text-neutral-400 mt-10">More info soon...</p>
+      <p className="text-neutral-700 mt-10">More info soon...</p>
 
       <Modal isOpen={isOpen} onOpenChange={() => setIsOpen(false)}>
         <Modal.Title>Edit House</Modal.Title>
