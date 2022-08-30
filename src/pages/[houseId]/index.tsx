@@ -8,12 +8,13 @@ import { Modal } from "components/modal/Modal";
 import { Button } from "components/ui/Button";
 import { useHasRole } from "hooks/useHasRole";
 import { UserRole } from "@prisma/client";
+import { Loader } from "components/ui/Loader";
 
 export default function HousePage() {
   const router = useRouter();
   const houseId = router.query.houseId as string;
 
-  const { house } = useHouseById();
+  const { house, isLoading } = useHouseById();
   const statsQuery = trpc.useQuery(["houses.getHouseStats", { id: houseId }]);
   const { hasAccess } = useHasRole(UserRole.ADMIN);
 
@@ -49,6 +50,18 @@ export default function HousePage() {
         are low on quantity.
       </>
     );
+
+  if (isLoading) {
+    return (
+      <div className="mt-3">
+        <Head>
+          <title>{`${house.name} - Home Inventory`}</title>
+        </Head>
+
+        <Loader fixed size="md" />
+      </div>
+    );
+  }
 
   return (
     <div className="mt-3">

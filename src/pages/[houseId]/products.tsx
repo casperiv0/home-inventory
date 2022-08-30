@@ -16,6 +16,7 @@ import { Dropdown } from "components/dropdown/Dropdown";
 import { ThreeDotsVertical } from "react-bootstrap-icons";
 import { useDownload } from "@casper124578/useful";
 import { ImportProductsForm } from "components/forms/ImportProductsForm";
+import { Loader } from "components/ui/Loader";
 
 export default function HousePage() {
   const [page, setPage] = React.useState<number>(0);
@@ -29,13 +30,14 @@ export default function HousePage() {
   const router = useRouter();
   const houseId = router.query.houseId as string;
 
-  const { house } = useHouseById();
+  const { house, isLoading: houseLoading } = useHouseById();
   const productsQuery = trpc.useQuery(
     ["products.getProductsByHouseId", { houseId, page, sorting, filters }],
     { keepPreviousData: true },
   );
   const products = productsQuery.data?.items ?? [];
   const [tempProduct, productState] = useTemporaryItem(products);
+  const isLoading = houseLoading || productsQuery.isLoading;
 
   const allProductsQuery = trpc.useQuery(["products.getAllProducts", { houseId }], {
     enabled: false,
@@ -66,6 +68,18 @@ export default function HousePage() {
 
   if (!house || !productsQuery.data) {
     return null;
+  }
+
+  if (isLoading) {
+    return (
+      <div className="mt-3">
+        <Head>
+          <title>{`Products for ${house.name} - Home Inventory`}</title>
+        </Head>
+
+        <Loader fixed size="md" />
+      </div>
+    );
   }
 
   return (
