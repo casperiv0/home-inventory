@@ -15,9 +15,9 @@
     "start": "npx prisma migrate deploy && npx prisma generate && next start"
   },
   "devDependencies": {
-    "@casper124578/eslint-config": "^4.4.0",
-    "@casper124578/eslint-config-next": "^4.4.0",
-    "@casper124578/eslint-config-react": "^4.4.0",
+    "@casper124578/eslint-config": "^5.0.1",
+    "@casper124578/eslint-config-next": "^5.0.0",
+    "@casper124578/eslint-config-react": "^5.0.0",
     "@types/node": "^18.7.14",
     "@types/react": "^18.0.18",
     "@types/react-dom": "^18.0.6",
@@ -32,9 +32,9 @@
     "typescript": "^4.8.2"
   },
   "dependencies": {
-    "@casper124578/useful": "^2.0.3",
+    "@casper124578/useful": "^2.0.4",
     "@hookform/resolvers": "^2.9.7",
-    "@prisma/client": "^4.2.1",
+    "@prisma/client": "^4.3.0",
     "@radix-ui/react-dialog": "^1.0.0",
     "@radix-ui/react-dropdown-menu": "^1.0.0",
     "@react-aria/label": "^3.4.1",
