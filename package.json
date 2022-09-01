@@ -38,7 +38,7 @@
     "@radix-ui/react-dialog": "^1.0.0",
     "@radix-ui/react-dropdown-menu": "^1.0.0",
     "@react-aria/label": "^3.4.1",
-    "@tanstack/react-table": "^8.5.11",
+    "@tanstack/react-table": "^8.5.13",
     "@trpc/client": "^9.27.2",
     "@trpc/next": "^9.27.2",
     "@trpc/react": "^9.27.2",
