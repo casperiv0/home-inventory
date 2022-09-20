@@ -33,25 +33,22 @@ interface Props {
 export function ProductForm({ houseId, product, onSubmit }: Props) {
   const [isDeleteOpen, setDeleteOpen] = React.useState(false);
 
-  const categoriesQuery = trpc.useQuery([
-    "categories.getCategoriesByHouseId",
-    { houseId, page: 0 },
-  ]);
+  const categoriesQuery = trpc.categories.getCategoriesByHouseId.useQuery({ houseId, page: 0 });
 
   const context = trpc.useContext();
-  const addProduct = trpc.useMutation(["products.addProduct"], {
+  const addProduct = trpc.products.addProduct.useMutation({
     onSuccess: () => {
-      context.invalidateQueries(["products.getProductsByHouseId"]);
+      context.products.getProductsByHouseId.invalidate();
     },
   });
-  const editProduct = trpc.useMutation(["products.editProduct"], {
+  const editProduct = trpc.products.editProduct.useMutation({
     onSuccess: () => {
-      context.invalidateQueries(["products.getProductsByHouseId"]);
+      context.products.getProductsByHouseId.invalidate();
     },
   });
-  const deleteProduct = trpc.useMutation(["products.deleteProduct"], {
+  const deleteProduct = trpc.products.deleteProduct.useMutation({
     onSuccess: () => {
-      context.invalidateQueries(["products.getProductsByHouseId"]);
+      context.products.getProductsByHouseId.invalidate();
     },
   });
 

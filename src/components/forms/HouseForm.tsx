@@ -21,22 +21,24 @@ export function HouseForm({ house, onSubmit }: Props) {
   const [isDeleteOpen, setDeleteOpen] = React.useState(false);
 
   const context = trpc.useContext();
-  const addHouse = trpc.useMutation(["houses.addHouse"], {
+  const addHouse = trpc.houses.addHouse.useMutation({
     onSuccess: () => {
-      context.invalidateQueries(["houses.getUserHouses"]);
-      context.invalidateQueries(["houses.getHouseById"]);
+      context.houses.getUserHouses.invalidate();
+      context.houses.getHouseById.invalidate();
     },
   });
-  const editHouse = trpc.useMutation(["houses.editHouse"], {
+
+  const editHouse = trpc.houses.editHouse.useMutation({
     onSuccess: () => {
-      context.invalidateQueries(["houses.getUserHouses"]);
-      context.invalidateQueries(["houses.getHouseById"]);
+      context.houses.getUserHouses.invalidate();
+      context.houses.getHouseById.invalidate();
     },
   });
-  const deleteHouse = trpc.useMutation(["houses.deleteHouse"], {
+
+  const deleteHouse = trpc.houses.deleteHouse.useMutation({
     onSuccess: () => {
-      context.invalidateQueries(["houses.getUserHouses"]);
-      context.invalidateQueries(["houses.getHouseById"]);
+      context.houses.getUserHouses.invalidate();
+      context.houses.getHouseById.invalidate();
     },
   });
 

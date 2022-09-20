@@ -15,7 +15,7 @@ export default function HousePage() {
   const houseId = router.query.houseId as string;
 
   const { house, isLoading } = useHouseById();
-  const statsQuery = trpc.useQuery(["houses.getHouseStats", { id: houseId }]);
+  const statsQuery = trpc.houses.getHouseStats.useQuery({ id: houseId });
   const { hasAccess } = useHasRole(UserRole.ADMIN);
 
   const [isOpen, setIsOpen] = React.useState(false);

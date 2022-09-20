@@ -1,46 +1,20 @@
 import { TRPCError } from "@trpc/server";
-import { createRouter } from "server/createRouter";
+import { t } from "server/trpc";
 import { getOrderByFromInput } from "utils/db-utils";
 import { prisma } from "utils/prisma";
+import { isInHouse } from "utils/trpc";
 import { z } from "zod";
 
-export const categoriesRouter = createRouter()
-  .middleware(async ({ ctx, next }) => {
-    if (!ctx.session || !ctx.dbUser) {
-      throw new TRPCError({ code: "UNAUTHORIZED" });
-    }
-
-    return next();
-  })
-  .middleware(async ({ ctx, next, rawInput }) => {
-    // todo: make this a separate function
-    const houseId =
-      rawInput &&
-      typeof rawInput === "object" &&
-      "houseId" in rawInput &&
-      (rawInput as Record<string, string>).houseId;
-
-    if (!houseId) {
-      throw new TRPCError({ code: "BAD_REQUEST", message: "Must include `houseId`" });
-    }
-
-    const house = await prisma.house.findFirst({
-      where: { id: (rawInput as any).houseId, users: { some: { id: ctx.dbUser!.id } } },
-    });
-
-    if (!house) {
-      throw new TRPCError({ code: "NOT_FOUND" });
-    }
-
-    return next();
-  })
-  .query("getCategoriesByHouseId", {
-    input: z.object({
-      houseId: z.string(),
-      page: z.number(),
-      sorting: z.array(z.object({ id: z.string(), desc: z.boolean() })).optional(),
-    }),
-    async resolve({ input }) {
+export const categoriesRouter = t.router({
+  getCategoriesByHouseId: isInHouse
+    .input(
+      z.object({
+        houseId: z.string(),
+        page: z.number(),
+        sorting: z.array(z.object({ id: z.string(), desc: z.boolean() })).optional(),
+      }),
+    )
+    .query(async ({ input }) => {
       const skip = input.page * 25;
 
       const [totalCount, items] = await Promise.all([
@@ -56,14 +30,15 @@ export const categoriesRouter = createRouter()
       ]);
 
       return { maxPages: Math.floor(totalCount / 25), items };
-    },
-  })
-  .mutation("addCategory", {
-    input: z.object({
-      houseId: z.string(),
-      name: z.string(),
     }),
-    async resolve({ input }) {
+  addCategory: isInHouse
+    .input(
+      z.object({
+        houseId: z.string(),
+        name: z.string(),
+      }),
+    )
+    .mutation(async ({ input }) => {
       const existing = await prisma.category.findUnique({
         where: { name_houseId: { houseId: input.houseId, name: input.name } },
       });
@@ -80,29 +55,31 @@ export const categoriesRouter = createRouter()
       });
 
       return category;
-    },
-  })
-  .mutation("editCategory", {
-    input: z.object({
-      houseId: z.string(),
-      name: z.string(),
-      id: z.string(),
     }),
-    async resolve({ input }) {
+  editCategory: isInHouse
+    .input(
+      z.object({
+        houseId: z.string(),
+        name: z.string(),
+        id: z.string(),
+      }),
+    )
+    .mutation(async ({ input }) => {
       const category = await prisma.category.update({
         where: { id: input.id },
         data: { houseId: input.houseId, name: input.name },
       });
 
       return category;
-    },
-  })
-  .mutation("deleteCategory", {
-    input: z.object({
-      houseId: z.string(),
-      name: z.string(),
     }),
-    async resolve({ input }) {
+  deleteCategory: isInHouse
+    .input(
+      z.object({
+        houseId: z.string(),
+        name: z.string(),
+      }),
+    )
+    .mutation(async ({ input }) => {
       const category = await prisma.category.findUnique({
         where: { name_houseId: { houseId: input.houseId, name: input.name } },
       });
@@ -116,5 +93,5 @@ export const categoriesRouter = createRouter()
       });
 
       return true;
-    },
-  });
+    }),
+});

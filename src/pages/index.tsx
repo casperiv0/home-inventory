@@ -12,7 +12,7 @@ import { useUser } from "hooks/queries/useUser";
 
 export default function HomePage() {
   const { user } = useUser();
-  const housesQuery = trpc.useQuery(["houses.getUserHouses"]);
+  const housesQuery = trpc.houses.getUserHouses.useQuery();
   const houses = housesQuery.data ?? [];
 
   const [isOpen, setIsOpen] = React.useState(false);

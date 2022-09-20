@@ -2,7 +2,7 @@ import { Button } from "components/ui/Button";
 import { Dropdown } from "components/dropdown/Dropdown";
 import * as React from "react";
 import { ChevronDown, ChevronRight, Plus } from "react-bootstrap-icons";
-import type { UseQueryResult } from "react-query";
+import type { UseQueryResult } from "@tanstack/react-query";
 import { classNames } from "utils/classNames";
 import type { TableFiltersStateProps } from "../Table";
 import { TableFilterForms } from "./Forms";

@@ -22,9 +22,11 @@ export default function ManageCategoriesPage() {
   const houseId = router.query.houseId as string;
   const { house } = useHouseById();
 
-  const categoriesQuery = trpc.useQuery(["categories.getCategoriesByHouseId", { houseId, page }], {
-    keepPreviousData: true,
-  });
+  const categoriesQuery = trpc.categories.getCategoriesByHouseId.useQuery(
+    { houseId, page },
+    { keepPreviousData: true },
+  );
+
   const categories = categoriesQuery.data?.items ?? [];
   const [tempCategory, categoriesState] = useTemporaryItem(categories);
 
