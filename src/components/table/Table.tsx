@@ -15,7 +15,7 @@ import { TablePagination } from "./TablePagination";
 import type { TablePaginationOptions } from "src/hooks/useTablePagination";
 import { makeCheckboxHeader } from "./IndeterminateCheckbox";
 import { TableFilter, TableFilters } from "./filters/TableFilters";
-import type { UseQueryResult } from "react-query";
+import type { UseQueryResult } from "@tanstack/react-query";
 
 export interface TableFiltersStateProps {
   filters: TableFilter[];

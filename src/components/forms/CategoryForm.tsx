@@ -22,19 +22,22 @@ export function CategoryForm({ houseId, category, onSubmit }: Props) {
   const [isDeleteOpen, setDeleteOpen] = React.useState(false);
 
   const context = trpc.useContext();
-  const addCategory = trpc.useMutation(["categories.addCategory"], {
+
+  const addCategory = trpc.categories.addCategory.useMutation({
     onSuccess: () => {
-      context.invalidateQueries(["categories.getCategoriesByHouseId"]);
+      context.categories.getCategoriesByHouseId.invalidate();
     },
   });
-  const editCategory = trpc.useMutation(["categories.editCategory"], {
+
+  const editCategory = trpc.categories.editCategory.useMutation({
     onSuccess: () => {
-      context.invalidateQueries(["categories.getCategoriesByHouseId"]);
+      context.categories.getCategoriesByHouseId.invalidate();
     },
   });
-  const deleteCategory = trpc.useMutation(["categories.deleteCategory"], {
+
+  const deleteCategory = trpc.categories.deleteCategory.useMutation({
     onSuccess: () => {
-      context.invalidateQueries(["categories.getCategoriesByHouseId"]);
+      context.categories.getCategoriesByHouseId.invalidate();
     },
   });
 

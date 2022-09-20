@@ -31,17 +31,15 @@ export default function HousePage() {
   const houseId = router.query.houseId as string;
 
   const { house, isLoading: houseLoading } = useHouseById();
-  const productsQuery = trpc.useQuery(
-    ["products.getProductsByHouseId", { houseId, page, sorting, filters }],
+  const productsQuery = trpc.products.getProductsByHouseId.useQuery(
+    { houseId, page, sorting, filters },
     { keepPreviousData: true },
   );
   const products = productsQuery.data?.items ?? [];
   const [tempProduct, productState] = useTemporaryItem(products);
   const isLoading = houseLoading || productsQuery.isLoading;
 
-  const allProductsQuery = trpc.useQuery(["products.getAllProducts", { houseId }], {
-    enabled: false,
-  });
+  const allProductsQuery = trpc.products.getAllProducts.useQuery({ houseId }, { enabled: false });
 
   const pagination = useTablePagination({
     isLoading: productsQuery.isLoading,

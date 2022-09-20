@@ -24,9 +24,11 @@ export default function ManageUsersPage() {
   const houseId = router.query.houseId as string;
   const { house } = useHouseById();
 
-  const usersQuery = trpc.useQuery(["users.getUsersByHouseId", { houseId, page }], {
-    keepPreviousData: true,
-  });
+  const usersQuery = trpc.users.getUsersByHouseId.useQuery(
+    { houseId, page },
+    { keepPreviousData: true },
+  );
+
   const users = usersQuery.data?.items ?? [];
   const [tempUser, usersState] = useTemporaryItem(users);
 

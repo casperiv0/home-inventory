@@ -8,8 +8,8 @@ import { trpc } from "utils/trpc";
 export function ImportProductsForm() {
   const { house } = useHouseById();
   const context = trpc.useContext();
-  const importProductsMutation = trpc.useMutation("products.importProductsFromFile", {
-    onSuccess: () => context.invalidateQueries(["products.getProductsByHouseId"]),
+  const importProductsMutation = trpc.products.importProductsFromFile.useMutation({
+    onSuccess: () => context.products.getProductsByHouseId.invalidate(),
   });
 
   if (!house) {

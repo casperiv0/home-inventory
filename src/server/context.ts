@@ -10,7 +10,10 @@ export async function createContext(options: trpcNext.CreateNextContextOptions) 
 
   let dbUser;
   if (session?.user?.email) {
-    dbUser = await prisma.user.findUnique({ where: { email: session.user.email } });
+    dbUser = await prisma.user.findUnique({
+      where: { email: session.user.email },
+      include: { houseRoles: true },
+    });
   }
 
   return {

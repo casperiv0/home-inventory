@@ -1,27 +1,21 @@
 import { UserRole } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
-import { createRouter } from "server/createRouter";
+import { t } from "server/trpc";
 import { getOrderByFromInput } from "utils/db-utils";
-import { isValidHouse } from "utils/isValidHouse";
 import { prisma } from "utils/prisma";
+import { isInHouse } from "utils/trpc";
 import { z } from "zod";
 
-export const usersRouter = createRouter()
-  .middleware(async ({ ctx, next }) => {
-    if (!ctx.session || !ctx.dbUser) {
-      throw new TRPCError({ code: "UNAUTHORIZED" });
-    }
-
-    return next();
-  })
-  .middleware(isValidHouse)
-  .query("getUsersByHouseId", {
-    input: z.object({
-      houseId: z.string(),
-      page: z.number(),
-      sorting: z.array(z.object({ id: z.string(), desc: z.boolean() })).optional(),
-    }),
-    async resolve({ input }) {
+export const usersRouter = t.router({
+  getUsersByHouseId: isInHouse
+    .input(
+      z.object({
+        houseId: z.string(),
+        page: z.number(),
+        sorting: z.array(z.object({ id: z.string(), desc: z.boolean() })).optional(),
+      }),
+    )
+    .query(async ({ input }) => {
       const skip = input.page * 25;
 
       const [totalCount, items] = await Promise.all([
@@ -38,16 +32,17 @@ export const usersRouter = createRouter()
       ]);
 
       return { maxPages: Math.floor(totalCount / 25), items };
-    },
-  })
-  .mutation("addUser", {
-    input: z.object({
-      houseId: z.string(),
-      name: z.string(),
-      email: z.string().email(),
-      role: z.nativeEnum(UserRole),
     }),
-    async resolve({ input }) {
+  addUser: isInHouse
+    .input(
+      z.object({
+        houseId: z.string(),
+        name: z.string(),
+        email: z.string().email(),
+        role: z.nativeEnum(UserRole),
+      }),
+    )
+    .mutation(async ({ input }) => {
       const existing = await prisma.user.findUnique({
         where: { email: input.email },
       });
@@ -85,17 +80,18 @@ export const usersRouter = createRouter()
       });
 
       return user;
-    },
-  })
-  .mutation("editUser", {
-    input: z.object({
-      houseId: z.string(),
-      id: z.string(),
-      name: z.string(),
-      email: z.string().email(),
-      role: z.nativeEnum(UserRole),
     }),
-    async resolve({ input }) {
+  editUser: isInHouse
+    .input(
+      z.object({
+        houseId: z.string(),
+        id: z.string(),
+        name: z.string(),
+        email: z.string().email(),
+        role: z.nativeEnum(UserRole),
+      }),
+    )
+    .mutation(async ({ input }) => {
       const existing = await prisma.user.findFirst({
         where: { email: input.email, NOT: { id: input.id } },
       });
@@ -134,14 +130,15 @@ export const usersRouter = createRouter()
       });
 
       return updatedUser;
-    },
-  })
-  .mutation("deleteUser", {
-    input: z.object({
-      houseId: z.string(),
-      id: z.string(),
     }),
-    async resolve({ input }) {
+  deleteUser: isInHouse
+    .input(
+      z.object({
+        houseId: z.string(),
+        id: z.string(),
+      }),
+    )
+    .mutation(async ({ input }) => {
       const user = await prisma.user.findUnique({
         where: { id: input.id },
       });
@@ -167,5 +164,5 @@ export const usersRouter = createRouter()
       });
 
       return true;
-    },
-  });
+    }),
+});

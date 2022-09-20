@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { UseQueryResult } from "react-query";
+import type { UseQueryResult } from "@tanstack/react-query";
 
 interface Options<T extends { maxPages: number }> {
   isLoading: boolean;

@@ -16,7 +16,6 @@ module.exports = {
   experimental: {
     browsersListForSwc: true,
     legacyBrowsers: false,
-    images: { allowFutureImage: true },
   },
   images: {
     domains: ["lh3.googleusercontent.com"],
