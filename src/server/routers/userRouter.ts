@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { t } from "server/trpc";
 import { prisma } from "utils/prisma";
-import { isAuth } from "utils/trpc";
+import { isAuth } from "utils/middlewares";
 
 export const userRouter = t.router({
   getSession: isAuth.query(async ({ ctx }) => {

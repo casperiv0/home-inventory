@@ -2,7 +2,7 @@ import { UserRole } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { t } from "server/trpc";
 import { prisma } from "utils/prisma";
-import { isAuth } from "utils/trpc";
+import { isAuth } from "utils/middlewares";
 import { z } from "zod";
 
 const housesInclude = {

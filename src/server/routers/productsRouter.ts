@@ -1,7 +1,7 @@
 import { t } from "server/trpc";
 import { createPrismaWhereFromFilters, getOrderByFromInput } from "utils/db-utils";
 import { prisma } from "utils/prisma";
-import { isInHouse } from "utils/trpc";
+import { isInHouse } from "utils/middlewares";
 import { z } from "zod";
 
 export const TABLE_FILTER = z.object({

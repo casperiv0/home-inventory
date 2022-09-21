@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { t } from "server/trpc";
 import { getOrderByFromInput } from "utils/db-utils";
 import { prisma } from "utils/prisma";
-import { isInHouse } from "utils/trpc";
+import { isInHouse } from "utils/middlewares";
 import { z } from "zod";
 
 export const categoriesRouter = t.router({
