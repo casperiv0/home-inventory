@@ -6,20 +6,7 @@ import type { AppRouter } from "server/routers/_app";
 export const trpc = createTRPCNext<AppRouter>({
   config({ ctx }) {
     return {
-      headers() {
-        return {
-          cookie: ctx?.req?.headers.cookie,
-          "accept-language": ctx?.req?.headers["accept-language"],
-          ssr: "true",
-        };
-      },
-      url: getBaseUrl(),
-      fetch(url: RequestInfo | URL, options?: RequestInit | undefined) {
-        return fetch(url, {
-          ...options,
-          credentials: "include",
-        });
-      },
+      transformer: superjson,
       links: [
         // adds pretty logs to your console in development and logs errors in production
         loggerLink({
@@ -29,9 +16,15 @@ export const trpc = createTRPCNext<AppRouter>({
         }),
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
+          headers() {
+            if (ctx?.req) {
+              return { cookie: ctx.req.headers.cookie };
+            }
+
+            return {};
+          },
         }),
       ],
-      transformer: superjson,
     };
   },
   ssr: true,
