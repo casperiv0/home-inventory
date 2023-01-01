@@ -4,7 +4,7 @@ import { useHouseById } from "hooks/queries/useHouse";
 import { useUser } from "hooks/queries/useUser";
 import { useHasRole } from "hooks/useHasRole";
 import { signOut } from "next-auth/react";
-import Image from "next/future/image";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { classNames } from "utils/classNames";

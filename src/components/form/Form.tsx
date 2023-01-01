@@ -16,21 +16,22 @@ interface Form<Values extends FieldValues> extends UseFormReturn<Values> {
   errors: FieldErrorsImpl<DeepRequired<Values>>;
 }
 
-interface Props<Values extends FieldValues> extends Omit<UseFormProps, "defaultValues"> {
-  children(form: Form<Values>): React.ReactNode;
+interface Props<FormValues extends FieldValues>
+  extends Omit<UseFormProps, "defaultValues" | "values"> {
+  children(form: Form<FormValues>): React.ReactNode;
   schema?: z.Schema<any, any>;
-  defaultValues: DeepPartial<Values>;
-  onSubmit: SubmitHandler<Values>;
+  defaultValues: DeepPartial<FormValues>;
+  onSubmit: SubmitHandler<FormValues>;
 }
 
-export function Form<Values extends FieldValues>({
+export function Form<FormValues extends FieldValues>({
   children,
   schema,
   defaultValues,
   onSubmit,
   ...rest
-}: Props<Values>) {
-  const form = useForm<Values>({
+}: Props<FormValues>) {
+  const form = useForm<FormValues>({
     ...rest,
     defaultValues,
     resolver: schema ? zodResolver(schema) : undefined,

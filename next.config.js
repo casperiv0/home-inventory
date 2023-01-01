@@ -13,10 +13,6 @@ module.exports = {
       },
     ];
   },
-  experimental: {
-    browsersListForSwc: true,
-    legacyBrowsers: false,
-  },
   images: {
     domains: ["lh3.googleusercontent.com"],
   },
