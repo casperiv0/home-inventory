@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@casper124578/eslint-config": "^5.0.1",
-    "@casper124578/eslint-config-next": "^5.0.0",
+    "@casper124578/eslint-config-next": "^6.0.0-alpha.0",
     "@casper124578/eslint-config-react": "^5.0.0",
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.26",
