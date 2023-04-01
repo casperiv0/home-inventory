@@ -41,7 +41,7 @@
     "@tanstack/react-query": "^4.20.4",
     "@tanstack/react-table": "^8.7.4",
     "@trpc/client": "^10.7.0",
-    "@trpc/next": "^10.7.0",
+    "@trpc/next": "^10.18.0",
     "@trpc/react-query": "^10.7.0",
     "@trpc/server": "^10.7.0",
     "next": "^13.1.1",
