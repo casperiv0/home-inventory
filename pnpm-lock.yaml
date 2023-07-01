@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@casper124578/useful':
     specifier: ^2.0.6
@@ -76,8 +80,8 @@ devDependencies:
     specifier: ^6.0.0
     version: 6.0.0(eslint@8.39.0)
   '@types/node':
-    specifier: ^18.16.3
-    version: 18.16.3
+    specifier: ^20.3.3
+    version: 20.3.3
   '@types/react':
     specifier: ^18.2.0
     version: 18.2.0
@@ -982,8 +986,8 @@ packages:
     resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
     dev: true
 
-  /@types/node@18.16.3:
-    resolution: {integrity: sha512-OPs5WnnT1xkCBiuQrZA4+YAV4HEJejmHneyraIaxsbev5yCEr6KMwINNFP9wQeFIw8FWcoTqF3vQsa5CDaI+8Q==}
+  /@types/node@20.3.3:
+    resolution: {integrity: sha512-wheIYdr4NYML61AjC8MKj/2jrR/kDQri/CIpVoZwldwhnIrD/j9jIU5bJ8yBKuB2VhpFV7Ab6G2XkBjv9r9Zzw==}
     dev: true
 
   /@types/normalize-package-data@2.4.1:
