@@ -16,7 +16,7 @@ services:
   client-web:
     container_name: "home-inventory-web"
     user: node
-    image: node:16
+    image: node:18
     command: "npm run dev"
     ports:
       - "3000:3000"

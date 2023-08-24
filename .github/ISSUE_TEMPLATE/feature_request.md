@@ -3,7 +3,7 @@ name: Feature request
 about: Suggest an idea for this project
 title: ""
 labels: enhancement
-assignees: Dev-CasperTheGhost
+assignees: casperiv0
 ---
 
 **Please describe your wanted feature**

@@ -15,7 +15,7 @@ services:
 
   web:
     container_name: "home-inventory-web"
-    image: node:16
+    image: node:18
     command: "npm run start"
     ports:
       - "3000:3000"

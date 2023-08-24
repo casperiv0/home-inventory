@@ -6,13 +6,13 @@ This is a simple README to show how you can setup this project locally
 
 ### Requirements
 
-- [node +v14](https://nodejs.org/en/)
+- [node +v18](https://nodejs.org/en/)
 - [Docker](https://www.docker.com/)
 - [docker-compose](https://docs.docker.com/compose/) (should come with Docker)
 
 ### Getting started
 
-1. Clone the repo: `git clone git@github.com:Dev-CasperTheGhost/home-inventory.git`
+1. Clone the repo: `git clone git@github.com:casperiv0/home-inventory.git`
 2. Install the dependencies: `npm install`
 3. move the `.env.example` to `.env`: `cp .env.example .env`
 
